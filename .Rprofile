@@ -1,4 +1,4 @@
-# source("renv/activate.R")
+source("renv/activate.R")
 # 
 # tidy_code <- function() {
 #   install.packages("styler")
