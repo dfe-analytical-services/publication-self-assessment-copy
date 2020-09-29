@@ -288,7 +288,7 @@ shinyServer(function(input, output, session){
   ### can download the table in csv
   output$Trich_csv<- downloadHandler(
     filename = function() {
-      paste("Trich Project-Progress", Sys.Date(), ".csv", sep="")
+      paste("All data", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
       write.csv(data.frame(all_data$Data), file, row.names = F)
