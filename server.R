@@ -52,23 +52,35 @@ shinyServer(function(input, output, session){
   })
   
   #### render DataTable part ####
-  output$Main_table_trich<-renderDataTable({
-    DT=all_data$Data %>% dplyr::filter(Publication == input$publication_choice)
+  output$Main_table_trich <- renderDataTable({
     
-    datatable(t(DT),selection = 'single',
-              escape=F,
+    DT = all_data$Data %>% dplyr::filter(Publication == input$publication_choice)
+    
+    datatable(t(DT),
+              selection = 'single',
+              escape = F,
               class = list(stripe = FALSE),
-              options = list(dom = 't', # simple table output (add other letters for search, filter etc)
-                             headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                             pageLength = 25
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                pageLength = 25
               )
-    ) %>% formatStyle(
-      ' ', #rownames col (replace with V1, V2 etc for others)
-      backgroundColor = 'lightgray',
-      fontWeight = 'bold'
-    )
-              
-    })
+    ) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40',
+                  fontWeight = 'bold')  %>% 
+      formatStyle(#columns=colnames(t(DT)),
+                  1:20,
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:20,
+                  backgroundColor = styleEqual(c('Red', 'Green', 'Amber'),
+                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
+      formatStyle(1:20, `text-align` = 'center') %>%
+      formatStyle(1:20, border = '1px solid #4d5154')
+    
+  })
   
   
   observeEvent(input$Add_row_head, {
@@ -140,7 +152,7 @@ shinyServer(function(input, output, session){
     new_row=data.frame(
       #Date=as.character( input[[paste0("Date_add", input$Add_row_head)]] ),
       
-      ï..Date = Sys.Date(), #input[["T1_add"]],
+      ï..Date = as.character( input[["T1_add"]] ), #Sys.Date(), #input[["T1_add"]],
       G6 = input[["T2_add"]],
       TL = input[["T3_add"]],                                           
       Publication = input$publication_choice, #input[["T4_add"]],

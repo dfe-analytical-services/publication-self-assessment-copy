@@ -1,6 +1,6 @@
 shinyUI(
   fluidPage(
-  #theme = "acalat_theme.css",
+  theme = "acalat_theme.css",
   
   useShinyalert(),
   
@@ -8,6 +8,8 @@ shinyUI(
   #   tags$style(type="text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row;}")
   # ),
   # 
+  
+  #tags$head(tags$style(HTML("#Main_table_trich tr.selected {background-color:red}"))),
   
   titlePanel("Publication tracker"),
   
