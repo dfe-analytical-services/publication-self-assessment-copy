@@ -1,5 +1,5 @@
 #shinyUI(
-  fluidPage(
+fluidPage(
   theme = "acalat_theme.css",
   
   useShinyalert(),
@@ -26,44 +26,44 @@
   shinyjs::hidden(div(
     id = "home_page",
     
-
-             br(),
-              "Some intro stuff for what the app is and why it exists",
-br(),
-             "Action button for updating a publication's progress",
-br(),
-             actionButton("progresspage", "Update a publication", width = "30%"),
-br(),
-             "Action button for seeing latest for all publications",
     
-    )),
+    br(),
+    "Some intro stuff for what the app is and why it exists",
+    br(),
+    "Action button for updating a publication's progress",
+    br(),
+    actionButton("progresspage", "Update a publication", width = "30%"),
+    br(),
+    "Action button for seeing latest for all publications",
+    
+  )),
   
   shinyjs::hidden(div(
     id = "progress_page",
-  
-  fluidRow(
-    column(8,
-             
-           selectInput("publication_choice",
-                       label = p(strong("Choose a publication")),
-                       choices = unique(start_data$Publication),
-                       width = "80%")
-    ),
-    column(4,
-           
-           downloadButton("Trich_csv", "Download in CSV", class="butt"),
-           br(),
-           actionButton(inputId = "Updated_trich",label = "Save"))),
     
-  ### tags$head() is to customize the download button
-  tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
+    fluidRow(
+      column(8,
+             
+             selectInput("publication_choice",
+                         label = p(strong("Choose a publication")),
+                         choices = unique(start_data$Publication),
+                         width = "80%")
+      ),
+      column(4,
+             
+             downloadButton("Trich_csv", "Download in CSV", class="butt"),
+             br(),
+             actionButton(inputId = "Updated_trich",label = "Save"))),
+    
+    ### tags$head() is to customize the download button
+    tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
+    
+    #  useShinyalert(), # Set up shinyalert
+    
+    uiOutput("MainBody_trich")
+    
+  ))
   
-#  useShinyalert(), # Set up shinyalert
-  
-  uiOutput("MainBody_trich")
-
-))
-
 )
 
 
