@@ -11,7 +11,7 @@ start_data <- readRDS("new_tracker_data.rds")
 
 
 
-rag_it <- function(label_text, input_id){
+rag_it <- function(label_text, input_id, row_num, data_t){
   
   div(
     class = "row",
@@ -25,7 +25,7 @@ rag_it <- function(label_text, input_id){
         inputId = input_id,
         label = NULL,
         choices = c("Red", "Amber", "Green"),
-        selected = "Amber",
+        selected = t(data_t)[row_num,ncol(t(data_t))], #"Amber",
         status = "primary",
         shape = "curve",
         animation = "pulse",

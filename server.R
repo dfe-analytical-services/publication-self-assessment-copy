@@ -84,6 +84,10 @@ server <- function(input, output, session){
   
   
   observeEvent(input$Add_row_head, {
+    
+    DT = all_data$Data %>% dplyr::filter(Publication == input$publication_choice)
+    
+    
     ### This is the pop up board for input a new row
     showModal(modalDialog(title = "Add a new row",
                           div(class = "row",
@@ -94,57 +98,58 @@ server <- function(input, output, session){
                           
                           div(class = "row",
                               div(class = "col-sm-6","G6"),
-                              div(class = "col-sm-6", textInput("T2_add",label = NULL))),
+                              div(class = "col-sm-6", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))]))),
                           div(class = "row",
                               div(class = "col-sm-6","TL"),
-                              div(class = "col-sm-6", textInput("T3_add",label = NULL))),
+                              div(class = "col-sm-6", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))]))),
                           div(class = "row",
                               div(class = "col-sm-6","Publication"),
                               div(class = "col-sm-6", textInput("T4_add",label = NULL, value=input$publication_choice))),
                           hr(),
                           div(class = "row",
                               div(class = "col-sm-6","Published.on.EES"),
-                              div(class = "col-sm-6", textInput("T5_add",label = NULL))),
+                              div(class = "col-sm-6", textInput("T5_add",label = NULL, value = t(DT)[5,ncol(t(DT))]))),
                           div(class = "row",
                               div(class = "col-sm-6","Time.series.length"),
-                              div(class = "col-sm-6", textInput("T6_add",label = NULL))),
+                              div(class = "col-sm-6", textInput("T6_add",label = NULL, value = t(DT)[6,ncol(t(DT))]))),
                           hr(),
                           strong("RAP levels - Good"),
                           br(),
                           br(),
-                          rag_it("Processing is done with code","T7_add"),
-                          rag_it("Sensible folder /  file structure","T8_add"),
-                          rag_it("Documentation","T9_add"),
-                          rag_it("All source data stored in single database","T10_add"),
-                          rag_it("Files meet data standards","T11_add"),
-                          rag_it("Basic automated QA","T12_add"),
-                          rag_it("Use approporiate tools","T13_add"),
+                          rag_it("Processing is done with code","T7_add",7,DT),
+                          rag_it("Sensible folder /  file structure","T8_add",8,DT),
+                          rag_it("Documentation","T9_add",9,DT),
+                          rag_it("All source data stored in single database","T10_add",10,DT),
+                          rag_it("Files meet data standards","T11_add",11,DT),
+                          rag_it("Basic automated QA","T12_add",12,DT),
+                          rag_it("Use approporiate tools","T13_add",13,DT),
                           hr(),
                           strong("RAP levels - Great"),
                           br(),
                           br(),
-                          rag_it("Recyclable code for future use","T14_add"),
-                          rag_it("Publication specifc automated QA","T15_add"),
-                          rag_it("Version controlled final versions of code","T16_add"),
-                          rag_it("Single production script(s)","T17_add"),
-                          rag_it("Automated summaries generated for insight","T18_add"),
-                          rag_it("Peer review of code within team","T19_add"),
+                          rag_it("Recyclable code for future use","T14_add",14,DT),
+                          rag_it("Publication specifc automated QA","T15_add",15,DT),
+                          rag_it("Version controlled final versions of code","T16_add",16,DT),
+                          rag_it("Single production script(s)","T17_add",17,DT),
+                          rag_it("Automated summaries generated for insight","T18_add",18,DT),
+                          rag_it("Peer review of code within team","T19_add",19,DT),
                           hr(),
                           strong("RAP levels - Best"),
                           br(),
                           br(),
-                          rag_it("Collab and develop code using git","T20_add"),
-                          rag_it("Subject specific automated insights", "T21_add"),
-                          rag_it("Single production script s  with integrated QA", "T22_add"),
-                          rag_it("Clean final code", "T23_add"),
-                          rag_it("Peer review of code from outside the team", "T24_add"),
+                          rag_it("Collab and develop code using git","T20_add",20,DT),
+                          rag_it("Subject specific automated insights", "T21_add",21,DT),
+                          rag_it("Single production script s  with integrated QA", "T22_add",22,DT),
+                          rag_it("Clean final code", "T23_add",23,DT),
+                          rag_it("Peer review of code from outside the team", "T24_add",24,DT),
                           div(class = "row",
                               div(class = "col-sm-6","Any.L.D.requests.or.needs"),
-                              div(class = "col-sm-6", textInput("T25_add",label = NULL,))),
+                              div(class = "col-sm-6", textInput("T25_add",label = NULL, value = t(DT)[25,ncol(t(DT))]))),
                           actionButton("go", "Add item"),
                           easyClose = TRUE, footer = NULL
                           , size = "m" 
                           ))
+    
     
   })
   ### Add a new row to DT  
