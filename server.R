@@ -3,7 +3,7 @@
 rm(list = ls())
 #useShinyalert()
 
-shinyServer(function(input, output, session){
+server <- function(input, output, session){
   
   #start_data <- readRDS("new_tracker_data.rds")
   
@@ -194,6 +194,13 @@ shinyServer(function(input, output, session){
   })
   
   
+  shinyjs::showElement(id = "home_page")
+  
+  observeEvent(input$progresspage, {
+    shinyjs::hideElement(id = "home_page")
+    shinyjs::showElement(id = "progress_page")
+  })
+  
   
   ### delete selected rows part
   ### this is warning messge for deleting
@@ -307,4 +314,10 @@ shinyServer(function(input, output, session){
     }
   )
   
-})
+  # Stop app ---------------------------------------------------------------------------------
+  
+  session$onSessionEnded(function() {
+    stopApp()
+  })
+  
+}
