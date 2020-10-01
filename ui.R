@@ -5,19 +5,7 @@ fluidPage(
   useShinyalert(),
   useShinyjs(),
   
-  # tags$head(
-  #   tags$style(type="text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row;}")
-  # ),
-  # 
-  
-  #tags$head(tags$style(HTML("#Main_table_trich tr.selected {background-color:red}"))),
-  
   titlePanel("Publication tracker"),
-  
-  ### This is to adjust the width of pop up "showmodal()" for DT modify table 
-  tags$head(tags$style(HTML('.modal-lg {width: 1400px;}'))),
-  
-  #helpText("Note: Remember to save any updates!"),
   
   HTML("<a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a>"),
   
@@ -25,89 +13,54 @@ fluidPage(
   
   shinyjs::hidden(div(
     id = "home_page",
-    
-    
     br(),
     "Some intro stuff for what the app is and why it exists",
     br(),
+    br(),
     "Action button for updating a publication's progress",
     br(),
-    actionButton("progresspage", "Update a publication", width = "30%"),
+    br(),
+    actionButton("add_pub_status_page", "Update a publication", width = "30%"),
+    br(),
     br(),
     "Action button for seeing latest for all publications",
-    
+    br(),
+    br(),
+    actionButton("see_overview_page", "Publication overview", width = "30%"),
   )),
   
   shinyjs::hidden(div(
     id = "progress_page",
-    
     fluidRow(
       column(8,
-             
              selectInput("publication_choice",
                          label = p(strong("Choose a publication")),
-                         choices = unique(start_data$Publication),
-                         width = "80%")
+                         choices = unique(start_data$publication),
+                         width = "80%"),
+             fluidRow(
+               column(4,uiOutput("add_g6")),
+               column(4,uiOutput("add_g7")))
       ),
       column(4,
-             
-             downloadButton("Trich_csv", "Download in CSV", class="butt"),
+             downloadButton("all_data_csv", "Download in CSV"),#, class="butt"),
              br(),
-             actionButton(inputId = "Updated_trich",label = "Save"))),
+             actionButton(inputId = "Updated_trich",label = "Save"),
+             actionButton("go_to_homepage", "Homepage", width = "30%"),
+             uiOutput("add_button"))),
+    hr(),
     
-    ### tags$head() is to customize the download button
-    tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
+    uiOutput("publication_table")
     
-    #  useShinyalert(), # Set up shinyalert
-    
-    uiOutput("MainBody_trich")
+  )),
+  
+  shinyjs::hidden(div(
+    id = "overview_page",
+    "This is where we'll show a high level summary of the latest info on each publication",
+    br(),
+    actionButton("go_to_homepage2", "Homepage", width = "30%"),
+    column(12,dataTableOutput("overview_table"))
     
   ))
   
 )
 
-
-#)
-
-
-
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
-# install.packages("remotes")
-# devtools::install_github("AnalytixWare/ShinySky")
-#library(shinysky)
-
-# library(shiny)
-# library(shinyjs)
-# #library(shinysky)
-# library(DT)
-# library(data.table)
-# library(lubridate)
-# library(shinyalert)
-# useShinyalert()
-# Define UI for application that draws a histogram
-# shinyUI(fluidPage(
-#   
-#   # Application title
-#   titlePanel("DT Editor Minimal Example"),
-#   ### This is to adjust the width of pop up "showmodal()" for DT modify table 
-#   tags$head(tags$style(HTML('
-#                             .modal-lg {
-#                             width: 1200px;
-#                             }
-#                             '))),
-#   helpText("Note: Remember to save any updates!"),
-#   br(),
-#   ### tags$head() is to customize the download button
-#   tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
-#   downloadButton("Trich_csv", "Download in CSV", class="butt"),
-#   useShinyalert(), # Set up shinyalert
-#   uiOutput("MainBody_trich"),actionButton(inputId = "Updated_trich",label = "Save")
-# ))
