@@ -7,6 +7,12 @@ server <- function(input, output, session){
   
   # Publication progress table ---- 
   
+  
+  output$test_table <- renderDataTable({
+    
+    DT = all_data$Data
+  })  
+    
   output$main_pub_table1 <- renderDataTable({
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
