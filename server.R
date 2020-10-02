@@ -216,8 +216,8 @@ server <- function(input, output, session){
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
-        #div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
-        div(class = "col-sm-11", textInput("T2_add",label = NULL, width = "100%")))
+        div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(all_data$Data %>% dplyr::filter(publication == input$publication_choice))[2,ncol(t(all_data$Data %>% dplyr::filter(publication == input$publication_choice)))], width = "100%")))
+        #div(class = "col-sm-11", textInput("T2_add",label = NULL, width = "100%")))
     
   })
   

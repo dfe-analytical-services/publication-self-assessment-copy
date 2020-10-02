@@ -47,6 +47,10 @@ fluidPage(
     br(),
     "Information gathered through this app will be used to inform training events and further guidance as needed",
     
+
+    #output$test_table
+    
+    
     
     
     dataTableOutput("test_table")
