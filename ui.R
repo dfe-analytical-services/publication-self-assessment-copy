@@ -1,86 +1,119 @@
-shinyUI(
-  fluidPage(
+#shinyUI(
+fluidPage(
   theme = "acalat_theme.css",
   
   useShinyalert(),
+  useShinyjs(),
   
-  # tags$head(
-  #   tags$style(type="text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row;}")
-  # ),
-  # 
-  
-  #tags$head(tags$style(HTML("#Main_table_trich tr.selected {background-color:red}"))),
+  # Title ----
   
   titlePanel("Publication tracker"),
   
-  ### This is to adjust the width of pop up "showmodal()" for DT modify table 
-  tags$head(tags$style(HTML('.modal-lg {width: 1400px;}'))),
-  
-  helpText("Note: Remember to save any updates!"),
+  HTML("<a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a>"),
   
   br(),
   
+  # Homepage ----
   
-  selectInput("publication_choice",
-              label = p(strong("Choose a publication")),
-              choices = unique(start_data$Publication)),
+  shinyjs::hidden(div(
+    id = "home_page",
+    br(),
+    h3("What is this app for?"),
+    "Supporting improvement of statistics products",
+    br(),
+    "Navigation tool for finding relevant guidance",
+    h3("How it might be useful"),
+    "To self-assess against best practice",
+    br(),
+    "To help guide improvement work",
+    br(),
+    "Directs to relevant guidance",
+    br(),
+    h3("How to use the app"),
+    "Production teams should come to the app to self assess their publications against each of the [criteria] and then use any gaps highlighted to structure their improvement work.",
+    br(),
+    "Teams should come back to update their publications regularly so they can see how far they've come and how well work is progressing over time.", 
+    br(),
+    br(),
+    actionButton("add_pub_status_page", "View information for a specific publication and/or add a new update", width = "30%"),
+    br(),
+    br(),
+    actionButton("see_overview_page", "View an overview of all publications", width = "30%"),
+    br(),
+    h3("Support available"),
+    "CSSU and the Statistics Production Team are available to support on meeting the [criteria] via email or through the Partnership Programmme.",
+    br(),
+    "Guidance is available at the guidance link",
+    br(),
+    "Information gathered through this app will be used to inform training events and further guidance as needed"
+  )),
   
+  # Publication progress page ----
   
-  ### tags$head() is to customize the download button
-  tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
+  tags$head(tags$style(HTML('
+                            .modal-lg {
+                            width: 1200px;
+                            }
+                            '))),
   
-  downloadButton("Trich_csv", "Download in CSV", class="butt"),
+  shinyjs::hidden(div(
+    id = "progress_page",
+    fluidRow(
+      hr(),
+      column(7,
+             div(class = "row",
+                 div(class = "col-sm-2", style = "margin-top: 10px", "Choose a publication"),
+                 div(class = "col-sm-10", selectInput("publication_choice",
+                                                      label = NULL,
+                                                      choices = unique(start_data$publication),
+                                                      width = "100%"))),
+             fluidRow(
+               column(6,uiOutput("add_g6")),
+               column(6,uiOutput("add_g7")))
+      ),
+      column(4, offset = 1,
+             
+             actionButton("go_to_homepage", "Homepage", width = "74%"),
+             br(),
+             div(class = "row",
+                 div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add", width = "100%")), #  uiOutput("add_button")),
+                 div(class = "col-sm-1",""),
+                 div(class = "col-sm-4", actionButton(inputId = "save_data",label = "Save", width = "100%")),
+                 div(class = "col-sm-3",""))
+             
+            )
+      ),
+    hr(),
+    
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
+    h3("RAP levels - Good"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table2", width = "100%")),
+    h3("RAP levels - Great"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table3", width = "100%")),
+    h3("RAP levels - Best"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table4", width = "100%")),
+    h3("Continuous improvement"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
+    
+    #uiOutput("publication_table"),
+    br(),
+    fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
+    
+  )),
   
-#  useShinyalert(), # Set up shinyalert
+  # Publication overview page ----
   
-  uiOutput("MainBody_trich"),
-
-  br(),
-
-  actionButton(inputId = "Updated_trich",label = "Save")
+  shinyjs::hidden(div(
+    id = "overview_page",
+    "This is where we'll show a high level summary of the latest info on each publication",
+    br(),
+    br(),
+    actionButton("go_to_homepage2", "Homepage", width = "30%"),
+    hr(),
+    br(),
+    column(12,dataTableOutput("overview_table"))
+    
+  ))
   
 )
-)
 
-
-
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
-# install.packages("remotes")
-# devtools::install_github("AnalytixWare/ShinySky")
-#library(shinysky)
-
-# library(shiny)
-# library(shinyjs)
-# #library(shinysky)
-# library(DT)
-# library(data.table)
-# library(lubridate)
-# library(shinyalert)
-# useShinyalert()
-# Define UI for application that draws a histogram
-# shinyUI(fluidPage(
-#   
-#   # Application title
-#   titlePanel("DT Editor Minimal Example"),
-#   ### This is to adjust the width of pop up "showmodal()" for DT modify table 
-#   tags$head(tags$style(HTML('
-#                             .modal-lg {
-#                             width: 1200px;
-#                             }
-#                             '))),
-#   helpText("Note: Remember to save any updates!"),
-#   br(),
-#   ### tags$head() is to customize the download button
-#   tags$head(tags$style(".butt{background-color:#230682;} .butt{color: #e6ebef;}")),
-#   downloadButton("Trich_csv", "Download in CSV", class="butt"),
-#   useShinyalert(), # Set up shinyalert
-#   uiOutput("MainBody_trich"),actionButton(inputId = "Updated_trich",label = "Save")
-# ))
