@@ -622,7 +622,7 @@ server <- function(input, output, session){
       paste("All data", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.csv(data.frame(all_data$Data), file, row.names = F)
+      write.csv(data.frame(all_data), file, row.names = F)
     }
   )
   
