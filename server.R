@@ -5,43 +5,6 @@ server <- function(input, output, session){
   all_data<-reactiveValues()
   all_data$Data<-readRDS("new_tracker_data.rds") 
   
-  # Publication progress table ---- 
-  
-  # output$main_pub_table <- renderDataTable({
-  #   
-  #   DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
-  #   
-  #   format_table_output(data.frame(t(DT)[c(1,5:28),]))
-  #   
-  #   # datatable(data.frame(t(DT)[c(1,5:28),]),
-  #   #           selection = 'single',
-  #   #           escape = F,
-  #   #           class = list(stripe = FALSE),
-  #   #           options = list(
-  #   #             dom = 't', # simple table output (add other letters for search, filter etc)
-  #   #             headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-  #   #             # autoWidth = TRUE,
-  #   #             # columnDefs = list(list(width = '200px', targets = "_all")),
-  #   #             pageLength = 25
-  #   #           )) %>% 
-  #   #   formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-  #   #               backgroundColor = '#363b40')  %>% 
-  #   #   formatStyle(1:ncol(t(DT)), 
-  #   #               color = '#c8c8c8',
-  #   #               background = '#363b40', # background colour for app is '#363b40'
-  #   #               target = 'row') %>%
-  #   #   formatStyle(1:ncol(t(DT))-1,
-  #   #               backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-  #   #                                            c('#b05353', '#5e8742', '#c96c28'))) %>% 
-  #   #   formatStyle(ncol(t(DT)):ncol(t(DT)),
-  #   #               backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-  #   #                                            c('#d45859', '#70ad47', '#e87421'))) %>% 
-  #   #   formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-  #   #   formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-  #   #   formatStyle(1:ncol(t(DT)), width='200px')
-  #   
-  # })
-  
   # Split publication progress tables ---- 
   
   output$main_pub_table1 <- renderDataTable({
@@ -140,7 +103,7 @@ server <- function(input, output, session){
     
   })
   
-  # Add latest progress modal 
+  # Add latest publication progress form 
   
   observeEvent(input$Add_row_head, {
     

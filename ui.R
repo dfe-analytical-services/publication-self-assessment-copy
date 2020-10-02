@@ -46,24 +46,12 @@ fluidPage(
     "Guidance is available at the guidance link",
     br(),
     "Information gathered through this app will be used to inform training events and further guidance as needed",
-    
-
-    #output$test_table
-    
-    
-    
-    
-    #dataTableOutput("test_table")
-    
   )),
 
   # Publication progress page ----
 
-  tags$head(tags$style(HTML('
-                            .modal-lg {
-                            width: 1200px;
-                            }
-                            '))),
+  ## Modal width
+  tags$head(tags$style(HTML('.modal-lg {width: 1200px;}'))),
 
   shinyjs::hidden(div(
     id = "progress_page",
@@ -81,7 +69,6 @@ fluidPage(
                column(6,uiOutput("add_g7")))
       ),
       column(4, offset = 1,
-
              actionButton("go_to_homepage", "Homepage", width = "74%"),
              br(),
              div(class = "row",
@@ -89,15 +76,11 @@ fluidPage(
                  div(class = "col-sm-1",""),
                  div(class = "col-sm-4", actionButton(inputId = "save_data",label = "Save", width = "100%")),
                  div(class = "col-sm-3",""))
-
             )
       ),
     hr(),
 
-    
-    
     #div(style = "margin-left: 15px", dataTableOutput("main_pub_table", width = "100%")),
-    
     
     div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
     h3("RAP levels - Good"),
@@ -109,7 +92,6 @@ fluidPage(
     h3("Continuous improvement"),
     div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
 
-    #uiOutput("publication_table"),
     br(),
     fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
 
