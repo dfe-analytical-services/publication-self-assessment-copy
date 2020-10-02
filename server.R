@@ -5,51 +5,173 @@ server <- function(input, output, session){
   all_data<-reactiveValues()
   all_data$Data<-readRDS("new_tracker_data.rds") 
   
-  # Publication table ----
-  
-  output$publication_table <- renderUI({
-    
-    dataTableOutput("main_pub_table")
-
-  })
-  
-  # Add new data button ----
-  
-  # output$add_button<-renderUI({
-  #  
-  #   actionButton(inputId = "Add_row_head",label = "Add")
-  #   
-  # })
-  
   # Publication progress table ---- 
   
-  output$main_pub_table <- renderDataTable({
+  output$main_pub_table1 <- renderDataTable({
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(1,5:28),]),
+    datatable(data.frame(t(DT)[c(1,5:6),]),
               selection = 'single',
               escape = F,
               class = list(stripe = FALSE),
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                # autoWidth = TRUE,
+                # columnDefs = list(list(width = '200px', targets = "_all")),
                 pageLength = 25
               )) %>% 
       formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40',
-                  fontWeight = 'bold')  %>% 
+                  backgroundColor = '#363b40')  %>% 
       formatStyle(1:ncol(t(DT)), 
                   color = '#c8c8c8',
                   background = '#363b40', # background colour for app is '#363b40'
                   target = 'row') %>%
-      formatStyle(1:ncol(t(DT)),
+      formatStyle(1:ncol(t(DT))-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
+      formatStyle(ncol(t(DT)):ncol(t(DT)),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#d45859', '#70ad47', '#e87421'))) %>% 
       formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154')
+      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(t(DT)), width='200px')
     
   })
+  
+  output$main_pub_table2 <- renderDataTable({
+    
+    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    datatable(data.frame(t(DT)[c(7:13),]),
+              selection = 'single',
+              escape = F,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                # autoWidth = TRUE,
+                # columnDefs = list(list(width = '200px', targets = "_all")),
+                pageLength = 25
+              )) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40')  %>% 
+      formatStyle(1:ncol(t(DT)), 
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:ncol(t(DT))-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
+      formatStyle(ncol(t(DT)):ncol(t(DT)),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
+      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
+      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(t(DT)), width='200px')
+    
+  })
+  
+  output$main_pub_table3 <- renderDataTable({
+    
+    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    datatable(data.frame(t(DT)[c(14:19),]),
+              selection = 'single',
+              escape = F,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                # autoWidth = TRUE,
+                # columnDefs = list(list(width = '200px', targets = "_all")),
+                pageLength = 25
+              )) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40')  %>% 
+      formatStyle(1:ncol(t(DT)), 
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:ncol(t(DT))-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
+      formatStyle(ncol(t(DT)):ncol(t(DT)),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
+      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
+      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(t(DT)), width='200px')
+    
+  })
+  
+  output$main_pub_table4 <- renderDataTable({
+    
+    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    datatable(data.frame(t(DT)[c(20:25),]),
+              selection = 'single',
+              escape = F,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                # autoWidth = TRUE,
+                # columnDefs = list(list(width = '200px', targets = "_all")),
+                pageLength = 25
+              )) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40')  %>% 
+      formatStyle(1:ncol(t(DT)), 
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:ncol(t(DT))-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
+      formatStyle(ncol(t(DT)):ncol(t(DT)),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
+      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
+      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(t(DT)), width='200px')
+    
+  })
+  
+  output$main_pub_table5 <- renderDataTable({
+    
+    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    datatable(data.frame(t(DT)[c(26:28),]),
+              selection = 'single',
+              escape = F,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                # autoWidth = TRUE,
+                # columnDefs = list(list(width = '200px', targets = "_all")),
+                pageLength = 25
+              )) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40')  %>% 
+      formatStyle(1:ncol(t(DT)), 
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:ncol(t(DT))-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
+      formatStyle(ncol(t(DT)):ncol(t(DT)),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
+      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
+      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(t(DT)), width='200px')
+    
+  })
+  
   
   # Overview table ----
   
@@ -112,13 +234,21 @@ server <- function(input, output, session){
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     showModal(modalDialog(title = "Add a new row",
-                          hr(),
+                          rag_it(
+                            "Is the publication published on Explore Education Statistics??",
+                            "T5_add",
+                            5,
+                            DT,
+                            a(
+                              href = "https://rsconnect/rsc/stats-production-guidance/ees.html",
+                              "How to publish on EES",
+                              target = "_blank"
+                            )
+                          ),   #Publishing on EES
                           div(class = "row",
-                              div(class = "col-sm-6","Published.on.EES"),
-                              div(class = "col-sm-6", textInput("T5_add",label = NULL, value = t(DT)[5,ncol(t(DT))]))),
-                          div(class = "row",
-                              div(class = "col-sm-6","Time.series.length"),
-                              div(class = "col-sm-6", textInput("T6_add",label = NULL, value = t(DT)[6,ncol(t(DT))]))),
+                              div(class = "col-sm-4","Average time series length"),
+                              div(class = "col-sm-3", textInput("T6_add",label = NULL, value = t(DT)[6,ncol(t(DT))])),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","How much data should be published",target = "_blank" ))),
                           hr(),
                           strong("RAP levels - Good"),
                           br(),
@@ -346,15 +476,20 @@ server <- function(input, output, session){
                           br(),
                           # Content peer review
                           div(class = "row",
-                              div(class = "col-sm-6","Has the latest publication content been peer reviewed?"),
-                              div(class = "col-sm-6", textInput("T26_add",label = NULL, value = t(DT)[26,ncol(t(DT))]))),
+                              div(class = "col-sm-4","Has the latest publication content been peer reviewed?"),
+                              div(class = "col-sm-3", textInput("T26_add",label = NULL, value = t(DT)[26,ncol(t(DT))])),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","Where to go to request an external peer review",target = "_blank" ))),
                           # Targetted user research activities
                           div(class = "row",
-                              div(class = "col-sm-6","What targetted user research activites are taking place?"),
-                              div(class = "col-sm-6", textInput("T27_add",label = NULL, value = t(DT)[27,ncol(t(DT))]))),
+                              div(class = "col-sm-4","What targetted user research activites are taking place?"),
+                              div(class = "col-sm-3", textInput("T27_add",label = NULL, value = t(DT)[27,ncol(t(DT))])),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","What targetted user research looks like",target = "_blank" ))),
+                          # L&D
                           div(class = "row",
-                              div(class = "col-sm-6","Any L&D requests or needs"),
-                              div(class = "col-sm-6", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))]))),
+                              div(class = "col-sm-4","Any L&D requests or needs"),
+                              div(class = "col-sm-3", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))])),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/l+d.html","L&D resources",target = "_blank" ))),
+
                           actionButton("go", "Add item"),
                           
                           easyClose = TRUE, footer = NULL

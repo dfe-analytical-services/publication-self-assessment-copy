@@ -38,7 +38,7 @@ fluidPage(
     actionButton("add_pub_status_page", "View information for a specific publication and/or add a new update", width = "30%"),
     br(),
     br(),
-    actionButton("see_overview_page", "View an overview on all publications", width = "30%"),
+    actionButton("see_overview_page", "View an overview of all publications", width = "30%"),
     br(),
     h3("Support available"),
     "CSSU and the Statistics Production Team are available to support on meeting the [criteria] via email or through the Partnership Programmme.",
@@ -85,7 +85,17 @@ fluidPage(
       ),
     hr(),
     
-    uiOutput("publication_table"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
+    h3("RAP levels - Good"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table2", width = "100%")),
+    h3("RAP levels - Great"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table3", width = "100%")),
+    h3("RAP levels - Best"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table4", width = "100%")),
+    h3("Continuous improvement"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
+    
+    #uiOutput("publication_table"),
     br(),
     fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
     
