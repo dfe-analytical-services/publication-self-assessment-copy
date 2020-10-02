@@ -17,7 +17,7 @@ server <- function(input, output, session){
   
   output$main_pub_table2 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     format_split_table(DT,c(7:13))
     
@@ -25,7 +25,7 @@ server <- function(input, output, session){
   
   output$main_pub_table3 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     format_split_table(DT,c(14:19))
     
@@ -33,7 +33,7 @@ server <- function(input, output, session){
   
   output$main_pub_table4 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     format_split_table(DT,c(20:25))
     
@@ -41,7 +41,7 @@ server <- function(input, output, session){
   
   output$main_pub_table5 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     format_split_table(DT,c(26:28))
     
@@ -107,7 +107,7 @@ server <- function(input, output, session){
   
   observeEvent(input$Add_row_head, {
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     showModal(modalDialog(title = "Add a new row",
                           rag_it(
@@ -379,7 +379,7 @@ server <- function(input, output, session){
   
   observeEvent(input$go, {
     
-    new_row=data.frame(
+    new_row <- data.frame(
       
       ï..date = as.character(Sys.Date()), 
       g6 = input[["T2_add"]],
@@ -411,7 +411,7 @@ server <- function(input, output, session){
       l_and_d_requests = input[["T28_add"]]
     )
     
-    all_data$Data<-rbind(all_data$Data,new_row )
+    all_data$Data <- rbind(all_data$Data,new_row )
     removeModal()
   })
    
@@ -453,10 +453,10 @@ server <- function(input, output, session){
   # Download data ----
   
   output$all_data_csv<- downloadHandler(
-    filename = function() {
+    filename <- function() {
       paste("All data", Sys.Date(), ".csv", sep="")
     },
-    content = function(file) {
+    content <- function(file) {
       write.csv(data.frame(all_data$Data), file, row.names = F)
     }
   )
