@@ -212,11 +212,12 @@ server <- function(input, output, session){
   
   output$add_g6<-renderUI({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
-        div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
+        #div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
+        div(class = "col-sm-11", textInput("T2_add",label = NULL, width = "100%")))
     
   })
   
@@ -224,7 +225,7 @@ server <- function(input, output, session){
   
   output$add_g7<-renderUI({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px","G7:"),

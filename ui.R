@@ -52,73 +52,73 @@ fluidPage(
     dataTableOutput("test_table")
     
   )),
-  
+
   # Publication progress page ----
-  
-  # tags$head(tags$style(HTML('
-  #                           .modal-lg {
-  #                           width: 1200px;
-  #                           }
-  #                           '))),
-  # 
-  # shinyjs::hidden(div(
-  #   id = "progress_page",
-  #   fluidRow(
-  #     hr(),
-  #     column(7,
-  #            div(class = "row",
-  #                div(class = "col-sm-2", style = "margin-top: 10px", "Choose a publication"),
-  #                div(class = "col-sm-10", selectInput("publication_choice",
-  #                                                     label = NULL,
-  #                                                     choices = unique(start_data$publication),
-  #                                                     width = "100%"))),
-  #            fluidRow(
-  #              column(6,uiOutput("add_g6")),
-  #              column(6,uiOutput("add_g7")))
-  #     ),
-  #     column(4, offset = 1,
-  #            
-  #            actionButton("go_to_homepage", "Homepage", width = "74%"),
-  #            br(),
-  #            div(class = "row",
-  #                div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add", width = "100%")), #  uiOutput("add_button")),
-  #                div(class = "col-sm-1",""),
-  #                div(class = "col-sm-4", actionButton(inputId = "save_data",label = "Save", width = "100%")),
-  #                div(class = "col-sm-3",""))
-  #            
-  #           )
-  #     ),
-  #   hr(),
-  #   
-  #   div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
-  #   h3("RAP levels - Good"),
-  #   div(style = "margin-left: 15px", dataTableOutput("main_pub_table2", width = "100%")),
-  #   h3("RAP levels - Great"),
-  #   div(style = "margin-left: 15px", dataTableOutput("main_pub_table3", width = "100%")),
-  #   h3("RAP levels - Best"),
-  #   div(style = "margin-left: 15px", dataTableOutput("main_pub_table4", width = "100%")),
-  #   h3("Continuous improvement"),
-  #   div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
-  #   
-  #   #uiOutput("publication_table"),
-  #   br(),
-  #   fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
-  #   
-  # )),
-  # 
-  # # Publication overview page ----
-  # 
-  # shinyjs::hidden(div(
-  #   id = "overview_page",
-  #   "This is where we'll show a high level summary of the latest info on each publication",
-  #   br(),
-  #   br(),
-  #   actionButton("go_to_homepage2", "Homepage", width = "30%"),
-  #   hr(),
-  #   br(),
-  #   column(12,dataTableOutput("overview_table"))
-  #   
-  # ))
+
+  tags$head(tags$style(HTML('
+                            .modal-lg {
+                            width: 1200px;
+                            }
+                            '))),
+
+  shinyjs::hidden(div(
+    id = "progress_page",
+    fluidRow(
+      hr(),
+      column(7,
+             div(class = "row",
+                 div(class = "col-sm-2", style = "margin-top: 10px", "Choose a publication"),
+                 div(class = "col-sm-10", selectInput("publication_choice",
+                                                      label = NULL,
+                                                      choices = unique(start_data$publication),
+                                                      width = "100%"))),
+             fluidRow(
+               column(6,uiOutput("add_g6")),
+               column(6,uiOutput("add_g7")))
+      ),
+      column(4, offset = 1,
+
+             actionButton("go_to_homepage", "Homepage", width = "74%"),
+             br(),
+             div(class = "row",
+                 div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add", width = "100%")), #  uiOutput("add_button")),
+                 div(class = "col-sm-1",""),
+                 div(class = "col-sm-4", actionButton(inputId = "save_data",label = "Save", width = "100%")),
+                 div(class = "col-sm-3",""))
+
+            )
+      ),
+    hr(),
+
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
+    h3("RAP levels - Good"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table2", width = "100%")),
+    h3("RAP levels - Great"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table3", width = "100%")),
+    h3("RAP levels - Best"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table4", width = "100%")),
+    h3("Continuous improvement"),
+    div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
+
+    #uiOutput("publication_table"),
+    br(),
+    fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
+
+  )),
+
+  # Publication overview page ----
+
+  shinyjs::hidden(div(
+    id = "overview_page",
+    "This is where we'll show a high level summary of the latest info on each publication",
+    br(),
+    br(),
+    actionButton("go_to_homepage2", "Homepage", width = "30%"),
+    hr(),
+    br(),
+    column(12,dataTableOutput("overview_table"))
+
+  ))
   
 )
 
