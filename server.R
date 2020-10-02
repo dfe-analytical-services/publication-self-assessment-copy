@@ -15,11 +15,11 @@ server <- function(input, output, session){
   
   # Add new data button ----
   
-  output$add_button<-renderUI({
-   
-    actionButton(inputId = "Add_row_head",label = "Add")
-    
-  })
+  # output$add_button<-renderUI({
+  #  
+  #   actionButton(inputId = "Add_row_head",label = "Add")
+  #   
+  # })
   
   # Publication progress table ---- 
   
@@ -88,8 +88,8 @@ server <- function(input, output, session){
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
-        div(class = "col-sm-2","G6:"),
-        div(class = "col-sm-10", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))])))
+        div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
+        div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
     
   })
   
@@ -100,8 +100,8 @@ server <- function(input, output, session){
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
-        div(class = "col-sm-2","G7:"),
-        div(class = "col-sm-10", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))])))
+        div(class = "col-sm-1", style = "margin-top: 10px","G7:"),
+        div(class = "col-sm-11", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))], width = "100%")))
     
   })
   
@@ -406,7 +406,7 @@ server <- function(input, output, session){
    
   # Update rds file ----
    
-  observeEvent(input$Updated_trich,{
+  observeEvent(input$save_data,{
     saveRDS(all_data$Data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
