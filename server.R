@@ -3,19 +3,19 @@ server <- function(input, output, session){
   # Main dataset ----
   
   all_data<-reactiveValues()
-  all_data$Data<-readRDS("new_tracker_data.rds") 
+  all_data<-readRDS("new_tracker_data.rds") 
   
   # Publication progress table ---- 
   
   
   output$test_table <- renderDataTable({
     
-    DT = all_data$Data
+    DT = all_data
   })  
     
   output$main_pub_table1 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(1,5:6),]),
               selection = 'single',
@@ -48,7 +48,7 @@ server <- function(input, output, session){
   
   output$main_pub_table2 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(7:13),]),
               selection = 'single',
@@ -81,7 +81,7 @@ server <- function(input, output, session){
   
   output$main_pub_table3 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(14:19),]),
               selection = 'single',
@@ -114,7 +114,7 @@ server <- function(input, output, session){
   
   output$main_pub_table4 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(20:25),]),
               selection = 'single',
@@ -147,7 +147,7 @@ server <- function(input, output, session){
   
   output$main_pub_table5 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(26:28),]),
               selection = 'single',
@@ -182,7 +182,7 @@ server <- function(input, output, session){
   
   output$overview_table <- renderDataTable({
   
-    table <- all_data$Data %>%
+    table <- all_data %>%
       group_by(publication ) %>% 
       summarise_all(last)
     
@@ -212,11 +212,11 @@ server <- function(input, output, session){
   
   output$add_g6<-renderUI({
     
-    #DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    #DT <- all_data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
-        #div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(all_data$Data %>% dplyr::filter(publication == input$publication_choice))[2,ncol(t(all_data$Data %>% dplyr::filter(publication == input$publication_choice)))], width = "100%")))
+        #div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(all_data %>% dplyr::filter(publication == input$publication_choice))[2,ncol(t(all_data %>% dplyr::filter(publication == input$publication_choice)))], width = "100%")))
         div(class = "col-sm-11", textInput("T2_add",label = NULL, width = "100%")))
     
   })
@@ -225,7 +225,7 @@ server <- function(input, output, session){
   
   output$add_g7<-renderUI({
     
-    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    #DT <- all_data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px","G7:"),
@@ -239,7 +239,7 @@ server <- function(input, output, session){
   
   observeEvent(input$Add_row_head, {
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
     
     showModal(modalDialog(title = "Add a new row",
                           rag_it(
@@ -543,14 +543,14 @@ server <- function(input, output, session){
       l_and_d_requests = input[["T28_add"]]
     )
     
-    all_data$Data<-rbind(all_data$Data,new_row )
+    all_data<-rbind(all_data,new_row )
     removeModal()
   })
    
   # Update rds file ----
    
   observeEvent(input$save_data,{
-    saveRDS(all_data$Data, "new_tracker_data.rds")
+    saveRDS(all_data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
   
@@ -589,7 +589,7 @@ server <- function(input, output, session){
       paste("All data", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.csv(data.frame(all_data$Data), file, row.names = F)
+      write.csv(data.frame(all_data), file, row.names = F)
     }
   )
   
