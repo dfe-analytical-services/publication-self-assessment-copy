@@ -38,3 +38,37 @@ rag_it <- function(label_text, input_id, row_num, data_t, help_text){
   )
   
 }
+
+
+
+format_split_table <- function(dataframe, which_rows) {
+
+  
+  datatable(data.frame(t(dataframe)[which_rows,]),
+            selection = 'single',
+            escape = F,
+            class = list(stripe = FALSE),
+            options = list(
+              dom = 't', # simple table output (add other letters for search, filter etc)
+              headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+              # autoWidth = TRUE,
+              # columnDefs = list(list(width = '200px', targets = "_all")),
+              pageLength = 25
+            )) %>% 
+    formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                backgroundColor = '#363b40')  %>% 
+    formatStyle(1:ncol(t(dataframe)), 
+                color = '#c8c8c8',
+                background = '#363b40', # background colour for app is '#363b40'
+                target = 'row') %>%
+    formatStyle(1:ncol(t(dataframe))-1,
+                backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                             c('#b05353', '#5e8742', '#c96c28'))) %>% 
+    formatStyle(ncol(t(dataframe)):ncol(t(dataframe)),
+                backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                             c('#d45859', '#70ad47', '#e87421'))) %>% 
+    formatStyle(1:ncol(t(dataframe)), `text-align` = 'center') %>%
+    formatStyle(1:ncol(t(dataframe)), border = '1px solid #4d5154') %>% 
+    formatStyle(1:ncol(t(dataframe)), width='200px')
+  
+}
