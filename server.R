@@ -212,7 +212,7 @@ server <- function(input, output, session){
   
   output$add_g6<-renderUI({
     
-    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    #DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     div(class = "row",
         div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
