@@ -23,7 +23,7 @@ rag_it <- function(label_text, input_id, row_num, data_t, help_text){
         inputId = input_id,
         label = NULL,
         choices = c("Yes", "No", "Working on it"),
-        selected = t(data_t)[row_num,ncol(t(data_t))], 
+        #selected = t(data_t)[row_num,ncol(t(data_t))], 
         status = "primary",
         shape = "curve",
         animation = "pulse",
