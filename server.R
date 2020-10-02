@@ -7,12 +7,6 @@ server <- function(input, output, session){
   
   # Publication progress table ---- 
   
-  
-  output$test_table <- renderDataTable({
-    
-    all_data$Data
-  })  
-    
   # output$main_pub_table <- renderDataTable({
   #   
   #   DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
@@ -48,72 +42,21 @@ server <- function(input, output, session){
   #   
   # })
   
+  # Split publication progress tables ---- 
   
   output$main_pub_table1 <- renderDataTable({
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     format_split_table(DT,c(1,5:6))
-    
-    # datatable(data.frame(t(DT)[c(1,5:6),]),
-    #           selection = 'single',
-    #           escape = F,
-    #           class = list(stripe = FALSE),
-    #           options = list(
-    #             dom = 't', # simple table output (add other letters for search, filter etc)
-    #             headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-    #             # autoWidth = TRUE,
-    #             # columnDefs = list(list(width = '200px', targets = "_all")),
-    #             pageLength = 25
-    #           )) %>% 
-    #   formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-    #               backgroundColor = '#363b40')  %>% 
-    #   formatStyle(1:ncol(t(DT)), 
-    #               color = '#c8c8c8',
-    #               background = '#363b40', # background colour for app is '#363b40'
-    #               target = 'row') %>%
-    #   formatStyle(1:ncol(t(DT))-1,
-    #               backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-    #                                            c('#b05353', '#5e8742', '#c96c28'))) %>% 
-    #   formatStyle(ncol(t(DT)):ncol(t(DT)),
-    #               backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-    #                                            c('#d45859', '#70ad47', '#e87421'))) %>% 
-    #   formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-    #   formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-    #   formatStyle(1:ncol(t(DT)), width='200px')
-    
+
   })
   
   output$main_pub_table2 <- renderDataTable({
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(7:13),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(7:13))
     
   })
   
@@ -121,32 +64,7 @@ server <- function(input, output, session){
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(14:19),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(14:19))
     
   })
   
@@ -154,32 +72,7 @@ server <- function(input, output, session){
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(20:25),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(20:25))
     
   })
   
@@ -187,32 +80,7 @@ server <- function(input, output, session){
     
     DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(26:28),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(26:28))
     
   })
   
