@@ -9,6 +9,8 @@ library(dplyr)
 
 start_data <- readRDS("new_tracker_data.rds")
 
+# Formatting radio button inputs for form ----
+
 rag_it <- function(label_text, input_id, row_num, data_t, help_text){
   
   div(
@@ -39,11 +41,10 @@ rag_it <- function(label_text, input_id, row_num, data_t, help_text){
   
 }
 
-
+# Formatting the split tables for publication progress page ----
 
 format_split_table <- function(dataframe, which_rows) {
 
-  
   datatable(data.frame(t(dataframe)[which_rows,]),
             selection = 'single',
             escape = F,
