@@ -172,7 +172,6 @@ server <- function(input, output, session){
     
   })
   
-  
   # Overview table ----
   
   output$overview_table <- renderDataTable({
