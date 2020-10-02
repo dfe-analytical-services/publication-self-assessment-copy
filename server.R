@@ -10,12 +10,12 @@ server <- function(input, output, session){
   
   output$test_table <- renderDataTable({
     
-    DT = all_data
+    all_data
   })  
     
   output$main_pub_table1 <- renderDataTable({
     
-    DT = all_data %>% dplyr::filter(publication == input$publication_choice)
+    DT = all_data #%>% dplyr::filter(publication == input$publication_choice)
     
     datatable(data.frame(t(DT)[c(1,5:6),]),
               selection = 'single',
