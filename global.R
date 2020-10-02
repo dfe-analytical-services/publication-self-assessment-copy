@@ -5,6 +5,7 @@ library(data.table)
 library(lubridate)
 library(shinyalert)
 library(shinyWidgets)
+library(dplyr)
 
 start_data <- readRDS("new_tracker_data.rds")
 
