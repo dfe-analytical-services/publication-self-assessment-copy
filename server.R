@@ -77,32 +77,6 @@ server <- function(input, output, session){
     
   })
   
-  # G6 text box ----
-  
-  output$add_g6<-renderUI({
-    
-    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
-    
-    div(class = "row",
-        div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
-        div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
-    
-  })
-  
-  # G7 text box ----
-  
-  output$add_g7<-renderUI({
-    
-    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
-    
-    div(class = "row",
-        div(class = "col-sm-1", style = "margin-top: 10px","G7:"),
-        div(class = "col-sm-11", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))], width = "100%")))
-        #div(class = "col-sm-11", textInput("T3_add",label = NULL, width = "100%")))
-  
-    
-  })
-  
   # Add latest publication progress form 
   
   observeEvent(input$Add_row_head, {
@@ -110,6 +84,15 @@ server <- function(input, output, session){
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     showModal(modalDialog(title = "Add a new row",
+                          div(class = "row",
+                              div(class = "col-sm-4","G6:"),
+                              div(class = "col-sm-3", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))])),
+                              div(class = "col-sm-5", "")),
+                          div(class = "row",
+                              div(class = "col-sm-4","G7:"),
+                              div(class = "col-sm-3", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))])),
+                              div(class = "col-sm-5", "")),
+                          hr(),
                           rag_it(
                             "Is the publication published on Explore Education Statistics??",
                             "T5_add",

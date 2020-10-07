@@ -63,10 +63,7 @@ fluidPage(
                  div(class = "col-sm-10", selectInput("publication_choice",
                                                       label = NULL,
                                                       choices = unique(start_data$publication),
-                                                      width = "100%"))),
-             fluidRow(
-               column(6,uiOutput("add_g6")),
-               column(6,uiOutput("add_g7")))
+                                                      width = "100%")))
       ),
       column(4, offset = 1,
              actionButton("go_to_homepage", "Homepage", width = "74%"),
