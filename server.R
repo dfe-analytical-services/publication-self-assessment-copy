@@ -396,14 +396,13 @@ server <- function(input, output, session){
     
     all_data$Data <- rbind(all_data$Data,new_row )
     removeModal()
-  })
-   
-  # Update rds file ----
-   
-  observeEvent(input$save_data,{
+    
+    # Update rds file
+    
     saveRDS(all_data$Data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
+   
   
   # UI shenanigans ----
   

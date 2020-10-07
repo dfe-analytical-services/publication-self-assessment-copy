@@ -71,7 +71,7 @@ fluidPage(
              div(class = "row",
                  div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add", width = "100%")), #  uiOutput("add_button")),
                  div(class = "col-sm-1",""),
-                 div(class = "col-sm-4", actionButton(inputId = "save_data",label = "Save", width = "100%")),
+                 div(class = "col-sm-4", ""),
                  div(class = "col-sm-3",""))
             )
       ),
