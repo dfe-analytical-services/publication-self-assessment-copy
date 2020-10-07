@@ -64,10 +64,10 @@ format_split_table <- function(dataframe, which_rows) {
                 target = 'row') %>%
     formatStyle(1:ncol(t(dataframe))-1,
                 backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                             c('#b05353', '#5e8742', '#c96c28'))) %>% 
+                                             c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
     formatStyle(ncol(t(dataframe)):ncol(t(dataframe)),
                 backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                             c('#d45859', '#70ad47', '#e87421'))) %>% 
+                                             c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
     formatStyle(1:ncol(t(dataframe)), `text-align` = 'center') %>%
     formatStyle(1:ncol(t(dataframe)), border = '1px solid #4d5154') %>% 
     formatStyle(1:ncol(t(dataframe)), width='200px')
