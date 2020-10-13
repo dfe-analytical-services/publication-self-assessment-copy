@@ -6,8 +6,12 @@ library(lubridate)
 library(shinyalert)
 library(shinyWidgets)
 library(dplyr)
+library(janitor)
+library(googlesheets4)
 
-start_data <- readRDS("new_tracker_data.rds")
+
+#start_data <- readRDS("new_tracker_data.rds")
+
 
 # Formatting radio button inputs for form ----
 
@@ -44,18 +48,59 @@ rag_it <- function(label_text, input_id, row_num, data_t, help_text){
 # Formatting the split tables for publication progress page ----
 
 format_split_table <- function(dataframe, which_rows) {
-
+  
   datatable(data.frame(t(dataframe)[which_rows,]),
             selection = 'single',
             escape = F,
             class = list(stripe = FALSE),
+            
+            
+            extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
             options = list(
-              dom = 't', # simple table output (add other letters for search, filter etc)
-              headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-              # autoWidth = TRUE,
-              # columnDefs = list(list(width = '200px', targets = "_all")),
-              pageLength = 25
-            )) %>% 
+              dom = 't',
+              #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+              # deferRender = TRUE,
+              searching = TRUE,
+              autoWidth = TRUE,
+              columnDefs = list(list(width = '200px', targets = "_all")),
+              # scrollCollapse = TRUE,
+              rownames = FALSE,
+              scroller = TRUE,
+              scrollX = TRUE,
+              fixedHeader = TRUE,
+              class = 'cell-border stripe',
+              fixedColumns = list(leftColumns = 1),
+              pageLength = 30
+            )
+            
+            
+            
+            
+    # options = list(
+    #   dom = 't', # simple table output (add other letters for search, filter etc)
+    #   headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+    #   
+    #   searching = TRUE,
+    #   scroller = TRUE,
+    #   
+    #   #extensions = c('Buttons', 'Scroller'),
+    #   scrollX = TRUE,
+    #   # fixedColumns = list(leftColumns = 2),
+    #   fixedHeader=TRUE,
+    #   fixedColumns = TRUE,
+    #   fixedColumns = list(leftColumns = 1, heightMatch = 'none'),
+    #   # buttons = list('excel',
+    #   #                list(extend = 'colvis', targets = 0, visible = FALSE)),
+    #   autoWidth = TRUE,
+    #   columnDefs = list(list(width = '200px', targets = "_all")),
+    #   #columnDefs = list(list(width = '200px', targets = "_all")),
+    #   pageLength = 25
+    # )
+    
+    ) %>%
+  
+  
+  
     formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
                 backgroundColor = '#363b40')  %>% 
     formatStyle(1:ncol(t(dataframe)), 
@@ -73,3 +118,6 @@ format_split_table <- function(dataframe, which_rows) {
     formatStyle(1:ncol(t(dataframe)), width='200px')
   
 }
+
+
+

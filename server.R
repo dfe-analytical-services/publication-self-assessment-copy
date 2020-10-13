@@ -1,17 +1,109 @@
 server <- function(input, output, session){
-  
+
   # Main dataset ----
   
   all_data<-reactiveValues()
-  all_data$Data<-readRDS("new_tracker_data.rds") 
+  
+  all_data$Data <- read_sheet("https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0")
+  
+  #all_data$Data<-readRDS("new_tracker_data.rds") 
   
   # Split publication progress tables ---- 
+  
+  
+  output$main_pub_table <- renderDataTable({ 
+  
+    dataframe <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    x <- data.frame(t(dataframe))
+    
+    #x <- x %>% row_to_names(row_number = 1)
+    
+    #names(x) <- x[1,]
+    
+    datatable(data.frame(x[5:28,]),
+              selection = 'single',
+              escape = F,
+              class = list(stripe = FALSE),
+              
+             # extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
+              
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                
+                colnames = FALSE,
+                
+                # Fix width of columns
+                scrollX = TRUE,
+                autoWidth = TRUE,
+                columnDefs = list(list(width = '200px', targets = "_all")),
+                
+               # fixedHeader = TRUE,
+                #fixedColumns = list(leftColumns = 1),
+                
+                
+                pageLength = 30
+              )
+              
+              
+              
+              
+              ) %>% 
+      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+                  backgroundColor = '#363b40')  %>% 
+      formatStyle(1:ncol(x), 
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(1:ncol(x)-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
+      formatStyle(ncol(x):ncol(x),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
+      formatStyle(1:ncol(x), `text-align` = 'center') %>%
+      formatStyle(1:ncol(x), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(x), width='200px')
+    
+    
+  
+
+            
+            # 
+            # extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
+            # options = list(
+            #   dom = 't',
+            #   #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+            #   # deferRender = TRUE,
+            #   searching = TRUE,
+            #   autoWidth = TRUE,
+            #   columnDefs = list(list(width = '200px', targets = "_all")),
+            #   # scrollCollapse = TRUE,
+            #   rownames = FALSE,
+            #   scroller = TRUE,
+            #   scrollX = TRUE,
+            #   fixedHeader = TRUE,
+            #   #class = 'cell-border stripe',
+            #   fixedColumns = list(leftColumns = 1),
+            #   pageLength = 30
+            # )
+            # 
+            # 
+
+
+  
+})
+  
+  
+  
+  
   
   output$main_pub_table1 <- renderDataTable({
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    format_split_table(DT,c(1,5:6))
+    format_split_table(DT,c(1:28))
 
   })
   
@@ -364,7 +456,7 @@ server <- function(input, output, session){
     
     new_row <- data.frame(
       
-      ï..date = as.character(Sys.Date()), 
+      date = as.character(Sys.Date()), 
       g6 = input[["T2_add"]],
       tl = input[["T3_add"]],                                           
       publication = input$publication_choice, 
@@ -399,7 +491,8 @@ server <- function(input, output, session){
     
     # Update rds file
     
-    saveRDS(all_data$Data, "new_tracker_data.rds")
+    sheet_write(all_data$Data, ss = "https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0", "Sheet1") 
+    #saveRDS(all_data$Data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
    
