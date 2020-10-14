@@ -10,8 +10,34 @@ library(janitor)
 library(googlesheets4)
 
 
-#start_data <- readRDS("new_tracker_data.rds")
+start_data <- readRDS("new_tracker_data.rds")
 
+
+#install.packages('rdrop2')
+
+library(rdrop2)
+
+
+# token <- drop_auth()
+# saveRDS(token, "droptoken.rds")
+# # Upload droptoken to your server
+# # ******** WARNING ********
+# # Losing this file will give anyone 
+# # complete control of your Dropbox account
+# # You can then revoke the rdrop2 app from your
+# # dropbox account and start over.
+# # ******** WARNING ********
+# # read it back with readRDS
+# token <- readRDS("droptoken.rds")
+# # Then pass the token to each drop_ function
+# drop_acc(dtoken = token)
+# 
+# 
+# 
+# new_iris <- drop_read_csv("iris.csv")
+# 
+# write.csv(iris, file = "iris.csv")
+# drop_upload("iris.csv")
 
 # Formatting radio button inputs for form ----
 
