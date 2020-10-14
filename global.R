@@ -11,6 +11,8 @@ library(googlesheets4)
 library(rdrop2)
 
 
+Sys.setenv(no_proxy="*")
+
 start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
 
 
