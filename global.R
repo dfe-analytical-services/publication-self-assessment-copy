@@ -13,7 +13,7 @@ library(rdrop2)
 
 Sys.setenv(no_proxy="*")
 
-start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
+#start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
 
 
 #install.packages('rdrop2')
