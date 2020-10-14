@@ -8,6 +8,7 @@ library(shinyWidgets)
 library(dplyr)
 library(janitor)
 library(googlesheets4)
+library(rdrop2)
 
 
 start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
@@ -15,7 +16,7 @@ start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
 
 #install.packages('rdrop2')
 
-library(rdrop2)
+
 
 
 # token <- drop_auth()
