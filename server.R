@@ -489,6 +489,9 @@ server <- function(input, output, session){
       l_and_d_requests = input[["T28_add"]]
     )
     
+    #refresh the data again
+    all_data$Data <- drop_read_csv("csv-data.csv")
+    
     all_data$Data <- rbind(all_data$Data,new_row )
     removeModal()
     
