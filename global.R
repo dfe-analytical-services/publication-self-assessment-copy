@@ -7,7 +7,7 @@ library(shinyalert)
 library(shinyWidgets)
 library(dplyr)
 library(janitor)
-library(googlesheets4)
+#library(googlesheets4)
 library(rdrop2)
 
 
