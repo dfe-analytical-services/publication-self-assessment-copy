@@ -1,177 +1,146 @@
 server <- function(input, output, session){
-  
+
   # Main dataset ----
   
   all_data<-reactiveValues()
-  all_data$Data<-readRDS("new_tracker_data.rds") 
   
-  # Publication progress table ---- 
   
-  output$main_pub_table1 <- renderDataTable({
+  all_data$Data <- drop_read_csv("csv-data.csv")
+  
+  #all_data$Data <- read_sheet("https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0")
+  
+  #all_data$Data<-readRDS("new_tracker_data.rds") 
+  
+  # Split publication progress tables ---- 
+  
+  
+  output$main_pub_table <- renderDataTable({ 
+  
+    dataframe <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    x <- data.frame(t(dataframe))
     
-    datatable(data.frame(t(DT)[c(1,5:6),]),
+    #x <- x %>% row_to_names(row_number = 1)
+    
+    #names(x) <- x[1,]
+    
+    datatable(data.frame(x[5:28,]),
               selection = 'single',
               escape = F,
               class = list(stripe = FALSE),
+              
+             # extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
+              
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
+                
+                colnames = FALSE,
+                
+                # Fix width of columns
+                scrollX = TRUE,
+                autoWidth = TRUE,
+                columnDefs = list(list(width = '200px', targets = "_all")),
+                
+               # fixedHeader = TRUE,
+                #fixedColumns = list(leftColumns = 1),
+                
+                
+                pageLength = 30
+              )
+              
+              
+              
+              
+              ) %>% 
       formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
                   backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
+      formatStyle(1:ncol(x), 
                   color = '#c8c8c8',
                   background = '#363b40', # background colour for app is '#363b40'
                   target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
+      formatStyle(1:ncol(x)-1,
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
+                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
+      formatStyle(ncol(x):ncol(x),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
+      formatStyle(1:ncol(x), `text-align` = 'center') %>%
+      formatStyle(1:ncol(x), border = '1px solid #4d5154') %>% 
+      formatStyle(1:ncol(x), width='200px')
     
+    
+  
+
+            
+            # 
+            # extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
+            # options = list(
+            #   dom = 't',
+            #   #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+            #   # deferRender = TRUE,
+            #   searching = TRUE,
+            #   autoWidth = TRUE,
+            #   columnDefs = list(list(width = '200px', targets = "_all")),
+            #   # scrollCollapse = TRUE,
+            #   rownames = FALSE,
+            #   scroller = TRUE,
+            #   scrollX = TRUE,
+            #   fixedHeader = TRUE,
+            #   #class = 'cell-border stripe',
+            #   fixedColumns = list(leftColumns = 1),
+            #   pageLength = 30
+            # )
+            # 
+            # 
+
+
+  
+})
+  
+  
+  
+  
+  
+  output$main_pub_table1 <- renderDataTable({
+    
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    format_split_table(DT,c(1:28))
+
   })
   
   output$main_pub_table2 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(7:13),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(7:13))
     
   })
   
   output$main_pub_table3 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(14:19),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(14:19))
     
   })
   
   output$main_pub_table4 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(20:25),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(20:25))
     
   })
   
   output$main_pub_table5 <- renderDataTable({
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    datatable(data.frame(t(DT)[c(26:28),]),
-              selection = 'single',
-              escape = F,
-              class = list(stripe = FALSE),
-              options = list(
-                dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                # autoWidth = TRUE,
-                # columnDefs = list(list(width = '200px', targets = "_all")),
-                pageLength = 25
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(t(DT)), 
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(1:ncol(t(DT))-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#b05353', '#5e8742', '#c96c28'))) %>% 
-      formatStyle(ncol(t(DT)):ncol(t(DT)),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#d45859', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(t(DT)), `text-align` = 'center') %>%
-      formatStyle(1:ncol(t(DT)), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(t(DT)), width='200px')
+    format_split_table(DT,c(26:28))
     
   })
-  
   
   # Overview table ----
   
@@ -203,37 +172,22 @@ server <- function(input, output, session){
     
   })
   
-  # G6 text box ----
-  
-  output$add_g6<-renderUI({
-    
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
-    
-    div(class = "row",
-        div(class = "col-sm-1", style = "margin-top: 10px", "G6:"),
-        div(class = "col-sm-11", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))], width = "100%")))
-    
-  })
-  
-  # G7 text box ----
-  
-  output$add_g7<-renderUI({
-    
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
-    
-    div(class = "row",
-        div(class = "col-sm-1", style = "margin-top: 10px","G7:"),
-        div(class = "col-sm-11", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))], width = "100%")))
-    
-  })
-  
-  # Add latest progress modal 
+  # Add latest publication progress form 
   
   observeEvent(input$Add_row_head, {
     
-    DT = all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     showModal(modalDialog(title = "Add a new row",
+                          div(class = "row",
+                              div(class = "col-sm-4","G6:"),
+                              div(class = "col-sm-3", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))])),
+                              div(class = "col-sm-5", "")),
+                          div(class = "row",
+                              div(class = "col-sm-4","G7:"),
+                              div(class = "col-sm-3", textInput("T3_add",label = NULL, value = t(DT)[3,ncol(t(DT))])),
+                              div(class = "col-sm-5", "")),
+                          hr(),
                           rag_it(
                             "Is the publication published on Explore Education Statistics??",
                             "T5_add",
@@ -503,7 +457,7 @@ server <- function(input, output, session){
   
   observeEvent(input$go, {
     
-    new_row=data.frame(
+    new_row <- data.frame(
       
       ï..date = as.character(Sys.Date()), 
       g6 = input[["T2_add"]],
@@ -535,16 +489,19 @@ server <- function(input, output, session){
       l_and_d_requests = input[["T28_add"]]
     )
     
-    all_data$Data<-rbind(all_data$Data,new_row )
+    all_data$Data <- rbind(all_data$Data,new_row )
     removeModal()
-  })
-   
-  # Update rds file ----
-   
-  observeEvent(input$save_data,{
-    saveRDS(all_data$Data, "new_tracker_data.rds")
+    
+    # Update rds file
+    
+    write.csv(all_data$Data, file = "csv-data.csv")
+    drop_upload("csv-data.csv")
+    
+    #sheet_write(all_data$Data, ss = "https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0", "Sheet1") 
+    #saveRDS(all_data$Data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
+   
   
   # UI shenanigans ----
   
@@ -577,10 +534,10 @@ server <- function(input, output, session){
   # Download data ----
   
   output$all_data_csv<- downloadHandler(
-    filename = function() {
+    filename <- function() {
       paste("All data", Sys.Date(), ".csv", sep="")
     },
-    content = function(file) {
+    content <- function(file) {
       write.csv(data.frame(all_data$Data), file, row.names = F)
     }
   )
