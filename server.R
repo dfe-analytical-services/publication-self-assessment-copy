@@ -5,11 +5,11 @@ server <- function(input, output, session){
   all_data<-reactiveValues()
   
   
-  #all_data$Data <- drop_read_csv("csv-data.csv")
+  all_data$Data <- drop_read_csv("csv-data.csv")
   
   #all_data$Data <- read_sheet("https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0")
   
-  all_data$Data<-readRDS("new_tracker_data.rds") 
+  #all_data$Data<-readRDS("new_tracker_data.rds") 
   
   # Split publication progress tables ---- 
   
@@ -490,18 +490,18 @@ server <- function(input, output, session){
     )
     
     #refresh the data again
-    #all_data$Data <- drop_read_csv("csv-data.csv")
+    all_data$Data <- drop_read_csv("csv-data.csv")
     
     all_data$Data <- rbind(all_data$Data,new_row )
     removeModal()
     
     # Update rds file
     
-    #write.csv(all_data$Data, file = "csv-data.csv")
-    #drop_upload("csv-data.csv")
+    write.csv(all_data$Data, file = "csv-data.csv")
+    drop_upload("csv-data.csv")
     
     #sheet_write(all_data$Data, ss = "https://docs.google.com/spreadsheets/d/1Fjr43xmPaXnL05INdbF8EuTt2G2sNl1TynjCS7--q1E/edit#gid=0", "Sheet1") 
-    saveRDS(all_data$Data, "new_tracker_data.rds")
+    #saveRDS(all_data$Data, "new_tracker_data.rds")
     shinyalert(title = "Saved!", type = "success")
   })
    
