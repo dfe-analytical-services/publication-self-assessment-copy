@@ -78,16 +78,6 @@ fluidPage(
     hr(),
 
     div(style = "margin-left: 15px", dataTableOutput("main_pub_table", width = "100%")),
-    
-    #div(style = "margin-left: 15px", dataTableOutput("main_pub_table1", width = "100%")),
-    # h3("RAP levels - Good"),
-    # div(style = "margin-left: 15px", dataTableOutput("main_pub_table2", width = "100%")),
-    # h3("RAP levels - Great"),
-    # div(style = "margin-left: 15px", dataTableOutput("main_pub_table3", width = "100%")),
-    # h3("RAP levels - Best"),
-    # div(style = "margin-left: 15px", dataTableOutput("main_pub_table4", width = "100%")),
-    # h3("Continuous improvement"),
-    # div(style = "margin-left: 15px", dataTableOutput("main_pub_table5", width = "100%")),
 
     br(),
     fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
