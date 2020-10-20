@@ -6,35 +6,63 @@ server <- function(input, output, session){
   
   all_data$Data<-readRDS("new_tracker_data.rds") 
   
+  table_data <- reactive({
+    
+    all_data$Data %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
+   # start_data %>% dplyr::filter(publication == "Test")
+    
+  })
   # Publication progress table ---- 
   
   output$main_pub_table <- renderDataTable({ 
     
-    x <-  all_data$Data  %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
     
-    datatable(x,
-              
+    
+   # y <-  table_data() %>% t(.) %>% row_to_names(row_number = 1)
+    
+    x <- tibble::rownames_to_column(as.data.frame(table_data()))
+    
+    
+    
+    
+    
+   # x <-  start_data  %>% dplyr::filter(publication == "30 hours free childcare") %>% t(.) %>% data.frame(.) %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column(.)
+    
+    #y <- tibble::rownames_to_column(x)
+    
+
+    
+   
+
+    datatable(x[4:28,],
+              rownames = FALSE,
+              class = list(stripe = FALSE),
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                pageLength = 30
-              ) ) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(x), 
+                pageLength = 30,
+                initComplete = JS(
+                  "function(settings, json) {",
+                  "$(this.api().table().header()).css({'color': '#c8c8c8'});",
+                  "}")#,
+                #columnDefs = list(list(className = 'dt-center', targets = 2:ncol(x)))
+              ) )  %>%
+      # formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
+      #             backgroundColor = '#363b40')  %>%
+      formatStyle(2:ncol(x),
                   color = '#c8c8c8',
                   background = '#363b40', # background colour for app is '#363b40'
                   target = 'row') %>%
-      formatStyle(1:ncol(x)-1,
+      formatStyle(2:ncol(x)-1,
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
       formatStyle(ncol(x):ncol(x),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(1:ncol(x), `text-align` = 'center') %>%
-      formatStyle(1:ncol(x), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(x), width='200px')
-              
-  })
+      formatStyle(2:ncol(x), `text-align` = 'center') %>%
+      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
+      formatStyle(2:ncol(x), width='200px')
+  #             
+   })
   
   
   
