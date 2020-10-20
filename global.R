@@ -7,40 +7,9 @@ library(shinyalert)
 library(shinyWidgets)
 library(dplyr)
 library(janitor)
-#library(googlesheets4)
-library(rdrop2)
+library(tidyr)
 
-
-Sys.setenv(no_proxy="*")
-
-#start_data <- drop_read_csv("csv-data.csv") #readRDS("new_tracker_data.rds")
-
-
-#install.packages('rdrop2')
-
-
-
-
-# token <- drop_auth()
-# saveRDS(token, "droptoken.rds")
-# # Upload droptoken to your server
-# # ******** WARNING ********
-# # Losing this file will give anyone 
-# # complete control of your Dropbox account
-# # You can then revoke the rdrop2 app from your
-# # dropbox account and start over.
-# # ******** WARNING ********
-# # read it back with readRDS
-# token <- readRDS("droptoken.rds")
-# # Then pass the token to each drop_ function
-# drop_acc(dtoken = token)
-# 
-# 
-# 
-# new_iris <- drop_read_csv("iris.csv")
-# 
-# write.csv(iris, file = "iris.csv")
-# drop_upload("iris.csv")
+start_data <- readRDS("new_tracker_data.rds")
 
 # Formatting radio button inputs for form ----
 
@@ -101,35 +70,7 @@ format_split_table <- function(dataframe, which_rows) {
               fixedColumns = list(leftColumns = 1),
               pageLength = 30
             )
-            
-            
-            
-            
-    # options = list(
-    #   dom = 't', # simple table output (add other letters for search, filter etc)
-    #   headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-    #   
-    #   searching = TRUE,
-    #   scroller = TRUE,
-    #   
-    #   #extensions = c('Buttons', 'Scroller'),
-    #   scrollX = TRUE,
-    #   # fixedColumns = list(leftColumns = 2),
-    #   fixedHeader=TRUE,
-    #   fixedColumns = TRUE,
-    #   fixedColumns = list(leftColumns = 1, heightMatch = 'none'),
-    #   # buttons = list('excel',
-    #   #                list(extend = 'colvis', targets = 0, visible = FALSE)),
-    #   autoWidth = TRUE,
-    #   columnDefs = list(list(width = '200px', targets = "_all")),
-    #   #columnDefs = list(list(width = '200px', targets = "_all")),
-    #   pageLength = 25
-    # )
-    
     ) %>%
-  
-  
-  
     formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
                 backgroundColor = '#363b40')  %>% 
     formatStyle(1:ncol(t(dataframe)), 

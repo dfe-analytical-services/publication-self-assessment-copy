@@ -1,71 +1,71 @@
-"","ï..date","g6","tl","publication","published_on_ees","time_series_length","processing_with_code","sensible_folder_file_structure","approporiate_tools","single_database","documentation","files_meet_data_standards","basic_automated_qa","recyclable_code","single_data_production_scripts","final_code_in_repo","automated_insight_summaries","peer_review_within_team","publication_specifc_automated_qa","collab_develop_using_git","pub_specific_automated_insight_summaries","single_data_production_scripts_with_qa","single_publication_script","clean_final_code","peer_review_outside_team","content_peer_review","targetted_user_research","l_and_d_requests"
-"1","28/09/2019","Test","Test","Test","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"2","28/09/2019","Test","Test","16 to 18 school and college performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"3","28/09/2019","Test","Test","30 hours free childcare","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"4","28/09/2019","Test","Test","A level and other 16 to 18 results","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"5","28/09/2019","Test","Test","Admission appeals in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"6","28/09/2019","Test","Test","Advanced learner loans applications","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"7","28/09/2019","Test","Test","Apprenticeship and levy statistics","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"8","28/09/2019","Test","Test","Apprenticeships and traineeships","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"9","28/09/2019","Test","Test","Characteristics of children in need","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"10","28/09/2019","Test","Test","Childcare and early years provider survey","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"11","28/09/2019","Test","Test","Childcare and early years survey of parents","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"12","28/09/2019","Test","Test","Children accommodated in secure children's homes","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"13","28/09/2019","Test","Test","Children looked after in England including adoptions","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"14","28/09/2019","Test","Test","Children's social work workforce","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"15","28/09/2019","Test","Test","Destinations of key stage 4 and key stage 5 pupils","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"16","28/09/2019","Test","Test","Early years foundation stage profile results","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"17","28/09/2019","Test","Test","Education and training statistics for the UK","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"18","28/09/2019","Test","Test","Education provision: children under 5 years of age","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"19","28/09/2019","Test","Test","Education, health and care plans","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"20","28/09/2019","Test","Test","FE choices employer satisfaction survey","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"21","28/09/2019","Test","Test","FE choices learner satisfaction survey","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"22","28/09/2019","Test","Test","Further education and benefits claimants","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"23","28/09/2019","Test","Test","Further education and skills","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"24","28/09/2019","Test","Test","Further education outcome-based success measures","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"25","28/09/2019","Test","Test","GCSE and equivalent results","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"26","28/09/2019","Test","Test","Graduate labour market statistics","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"27","28/09/2019","Test","Test","Graduate outcomes (LEO): postgraduate outcomes","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"28","28/09/2019","Test","Test","Higher education enrolments and qualifications","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"29","28/09/2019","Test","Test","Higher education: destinations of leavers","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"30","28/09/2019","Test","Test","Income and expenditure in academies in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"31","28/09/2019","Test","Test","Initial teacher training performance profiles","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"32","28/09/2019","Test","Test","Initial teacher training: trainee number census","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"33","28/09/2019","Test","Test","Key stage 2 national curriculum test:review outcomes","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"34","28/09/2019","Test","Test","LA and school expenditure","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"35","28/09/2019","Test","Test","Level 2 and 3 attainment by young people aged 19","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"36","28/09/2019","Test","Test","Multi-academy trust performance measures","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"37","28/09/2019","Test","Test","Multi-academy trust performance measures","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"38","28/09/2019","Test","Test","National achievement rates tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"39","28/09/2019","Test","Test","National curriculum assessments at key stage 2","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"40","28/09/2019","Test","Test","National pupil projections","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"41","28/09/2019","Test","Test","NEET statistics annual brief","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"42","28/09/2019","Test","Test","Outcomes for children looked after by LAs","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"43","28/09/2019","Test","Test","Parental responsibility measures","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"44","28/09/2019","Test","Test","Participation in education and training and employment","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"45","28/09/2019","Test","Test","Participation rates in higher education","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"46","28/09/2019","Test","Test","Performance indicators in higher education","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"47","28/09/2019","Test","Test","Permanent and fixed-period exclusions in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"48","28/09/2019","Test","Test","Phonics screening check and key stage 1 assessments","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"49","28/09/2019","Test","Test","Planned LA and school expenditure","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"50","28/09/2019","Test","Test","Primary school performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"51","28/09/2019","Test","Test","Primary school performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"52","28/09/2019","Test","Test","Pupil absence in schools in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"53","28/09/2019","Test","Test","Pupil absence in schools in England: autumn and spring","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"54","28/09/2019","Test","Test","Pupil absence in schools in England: autumn term","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"55","28/09/2019","Test","Test","Revised GCSE and equivalent results in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"56","28/09/2019","Test","Test","School and college performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"57","28/09/2019","Test","Test","School capacity","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"58","28/09/2019","Test","Test","School workforce in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"59","28/09/2019","Test","Test","Schools, pupils and their characteristics","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"60","28/09/2019","Test","Test","Secondary and primary schools applications and offers","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"61","28/09/2019","Test","Test","Secondary school performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"62","28/09/2019","Test","Test","Secondary school performance tables","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"63","28/09/2019","Test","Test","Special educational needs in England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"64","28/09/2019","Test","Test","Special educational needs: analysis and summary of data sources","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"65","28/09/2019","Test","Test","Staff at higher education providers in the UK","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"66","28/09/2019","Test","Test","Student loan forecasts for England","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"67","28/09/2019","Test","Test","Teacher analysis compendium","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"68","28/09/2019","Test","Test","TSM and initial teacher training allocations","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"69","28/09/2019","Test","Test","Widening participation in higher education","No","0","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
-"70","2020-10-14","Test","Test","Test","No","0","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","None","None","None"
+date,g6,tl,publication,published_on_ees,time_series_length,processing_with_code,sensible_folder_file_structure,approporiate_tools,single_database,documentation,files_meet_data_standards,basic_automated_qa,recyclable_code,single_data_production_scripts,final_code_in_repo,automated_insight_summaries,peer_review_within_team,publication_specifc_automated_qa,collab_develop_using_git,pub_specific_automated_insight_summaries,single_data_production_scripts_with_qa,single_publication_script,clean_final_code,peer_review_outside_team,content_checklist,content_peer_review,targetted_user_research,l_and_d_requests
+28/09/2019,Test,Test,Test,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,16 to 18 school and college performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,30 hours free childcare,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,A level and other 16 to 18 results,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Admission appeals in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Advanced learner loans applications,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Apprenticeship and levy statistics,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Apprenticeships and traineeships,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Characteristics of children in need,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Childcare and early years provider survey,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Childcare and early years survey of parents,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Children accommodated in secure children's homes,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Children looked after in England including adoptions,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Children's social work workforce,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Destinations of key stage 4 and key stage 5 pupils,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Early years foundation stage profile results,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Education and training statistics for the UK,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Education provision: children under 5 years of age,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,"Education, health and care plans",No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,FE choices employer satisfaction survey,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,FE choices learner satisfaction survey,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Further education and benefits claimants,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Further education and skills,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Further education outcome-based success measures,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,GCSE and equivalent results,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Graduate labour market statistics,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Graduate outcomes (LEO): postgraduate outcomes,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Higher education enrolments and qualifications,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Higher education: destinations of leavers,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Income and expenditure in academies in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Initial teacher training performance profiles,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Initial teacher training: trainee number census,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Key stage 2 national curriculum test:review outcomes,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,LA and school expenditure,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Level 2 and 3 attainment by young people aged 19,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Multi-academy trust performance measures,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Multi-academy trust performance measures,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,National achievement rates tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,National curriculum assessments at key stage 2,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,National pupil projections,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,NEET statistics annual brief,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Outcomes for children looked after by LAs,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Parental responsibility measures,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Participation in education and training and employment,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Participation rates in higher education,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Performance indicators in higher education,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Permanent and fixed-period exclusions in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Phonics screening check and key stage 1 assessments,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Planned LA and school expenditure,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Primary school performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Primary school performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Pupil absence in schools in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Pupil absence in schools in England: autumn and spring,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Pupil absence in schools in England: autumn term,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Revised GCSE and equivalent results in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,School and college performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,School capacity,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,School workforce in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,"Schools, pupils and their characteristics",No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Secondary and primary schools applications and offers,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Secondary school performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Secondary school performance tables,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Special educational needs in England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Special educational needs: analysis and summary of data sources,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Staff at higher education providers in the UK,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Student loan forecasts for England,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Teacher analysis compendium,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,TSM and initial teacher training allocations,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+28/09/2019,Test,Test,Widening participation in higher education,No,0,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
+14/10/2020,Test,Test,Test,No,0,Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,None,None
