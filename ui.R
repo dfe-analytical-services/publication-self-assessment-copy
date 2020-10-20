@@ -12,9 +12,7 @@ fluidPage(
              tabPanel("How to use the app",
                       
                       fluidRow(
-                        
                         column(7,
-                               
                                h3("What is this app for?"),
                                "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
                                br(),
@@ -62,9 +60,6 @@ fluidPage(
                                  ))
                         )
                       )
-                      
-                      
-                      
              ),
              
              # Publication progress page ----
@@ -73,6 +68,12 @@ fluidPage(
                       
                       ## Modal width
                       tags$head(tags$style(HTML('.modal-lg {width: 1200px;}'))),
+                      
+                      # center col headers
+                      tags$head(
+                        tags$style(type = "text/css",
+                                   HTML("th { text-align: center; }")
+                        )),
                       
                       fluidRow(
                         column(7,
@@ -94,7 +95,6 @@ fluidPage(
                         )
                       ),
                       hr(),
-                      
                       dataTableOutput("main_pub_table1"),
                       h4(strong("RAP levels - Good")),
                       dataTableOutput("main_pub_table2"),
@@ -104,28 +104,25 @@ fluidPage(
                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
                       h4(strong("Continuous improvement")),
                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
-                      
                       br(),
                       fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
-                      
              ),
              
              # Overview page ----
              
              tabPanel("Overview page",
-                      
-                      "This is where we'll show a high level summary of the latest info on each publication",
-                      hr(),
                       br(),
+                      h4(strong("The latest status for each publication:")),
                       column(12,dataTableOutput("overview_table")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
-             ),
+             )
              
-             tags$script(HTML("var header = $('.navbar> .container-fluid');
+             
+             
+  ),
+  
+  tags$script(HTML("var header = $('.navbar> .container-fluid');
                        header.append('<div style=\"float:right\"><h4>explore.statistics@education.gov.uk</h4></div>');
                        console.log(header)"))
-             
-  )
-  
 )
 
