@@ -13,8 +13,11 @@ server <- function(input, output, session){
     x <- tibble::rownames_to_column(as.data.frame(y))
     
     x$rowname <- case_when(
+      x$rowname == "g6" ~ "G6",
+      x$rowname == "tl" ~ "G7",
+      x$rowname == "publication" ~ "Publication",
       x$rowname == "published_on_ees" ~ "Publication is published on EES",
-      x$rowname == "time_series_length" ~ "Average time series length within publication",
+      x$rowname == "time_series_length" ~ "Maximum time series published",
       x$rowname == "processing_with_code" ~ "Processing is done with code",
       x$rowname == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
       x$rowname == "approporiate_tools" ~ "Use approporiate tools",
@@ -55,6 +58,7 @@ server <- function(input, output, session){
     datatable(x[4:5,],
               rownames = FALSE,
               class = list(stripe = FALSE),
+              selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 bSort=FALSE,
@@ -88,6 +92,7 @@ server <- function(input, output, session){
     datatable(x[6:12,],
               rownames = FALSE,
               class = list(stripe = FALSE),
+              selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
@@ -118,6 +123,7 @@ server <- function(input, output, session){
     datatable(x[13:18,],
               rownames = FALSE,
               class = list(stripe = FALSE),
+              selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
@@ -148,6 +154,7 @@ server <- function(input, output, session){
     datatable(x[19:24,],
               rownames = FALSE,
               class = list(stripe = FALSE),
+              selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
@@ -179,6 +186,7 @@ server <- function(input, output, session){
     datatable(x[25:29,],
               rownames = FALSE,
               class = list(stripe = FALSE),
+              selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
@@ -208,13 +216,14 @@ server <- function(input, output, session){
   output$overview_table <- renderDataTable({
   
     table <- all_data$Data %>%
-      group_by(publication ) %>% 
+      group_by(publication) %>% 
       summarise_all(last)
     
-    datatable(table,
-              selection = 'single',
+    datatable(table[,c(1,5:29)],
+              selection = 'none',
               escape = F,
               class = list(stripe = FALSE),
+              rownames = FALSE,
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
@@ -227,7 +236,7 @@ server <- function(input, output, session){
       formatStyle(1:ncol(table),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#454b51', '#70ad47', '#e87421'))) %>% 
-      formatStyle(1:ncol(table), `text-align` = 'center') %>%
+      formatStyle(2:ncol(table), `text-align` = 'center') %>%
       formatStyle(1:ncol(table), border = '1px solid #4d5154')
     
   })
@@ -238,7 +247,7 @@ server <- function(input, output, session){
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    showModal(modalDialog(title = "Add a new row",
+    showModal(modalDialog(title = NULL,#"Add a new row",
                           div(class = "row",
                               div(class = "col-sm-4","G6:"),
                               div(class = "col-sm-3", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))])),
@@ -249,7 +258,7 @@ server <- function(input, output, session){
                               div(class = "col-sm-5", "")),
                           hr(),
                           rag_it(
-                            "Is the publication published on Explore Education Statistics??",
+                            "Is the publication published on Explore Education Statistics?",
                             "T5_add",
                             5,
                             DT,
@@ -259,10 +268,18 @@ server <- function(input, output, session){
                               target = "_blank"
                             )
                           ),   #Publishing on EES
-                          div(class = "row",
-                              div(class = "col-sm-4","Average time series length"),
-                              div(class = "col-sm-3", textInput("T6_add",label = NULL, value = t(DT)[6,ncol(t(DT))])),
-                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/ud.html#how-much-data-to-publish","How much data should be published",target = "_blank" ))),
+                          
+                          rag_it(
+                            "Is the maximum time series published?",
+                            "T6_add",
+                            6,
+                            DT,
+                            a(
+                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html#how-much-data-to-publish",
+                              "How much data should be published",
+                              target = "_blank"
+                            )
+                          ),   #Time series length
                           hr(),
                           strong("RAP levels - Good"),
                           br(),
@@ -582,35 +599,16 @@ server <- function(input, output, session){
   })
    
   
-  # UI shenanigans ----
-  
-  shinyjs::showElement(id = "home_page")
-  
-  observeEvent(input$add_pub_status_page, {
-    shinyjs::hideElement(id = "home_page")
-    shinyjs::showElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
-  observeEvent(input$go_to_homepage, {
-    shinyjs::showElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
-  observeEvent(input$see_overview_page, {
-    shinyjs::showElement(id = "overview_page")
-    shinyjs::hideElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-  })
-  
-  observeEvent(input$go_to_homepage2, {
-    shinyjs::showElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
   # Download data ----
+  
+  output$publication_data_csv<- downloadHandler(
+    filename <- function() {
+      paste("Publication data", Sys.Date(), ".csv", sep="")
+    },
+    content <- function(file) {
+      write.csv(table_data(), file, row.names = F)
+    }
+  )
   
   output$all_data_csv<- downloadHandler(
     filename <- function() {
