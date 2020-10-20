@@ -8,15 +8,9 @@ server <- function(input, output, session){
   
   table_data <- reactive({
     
-    all_data$Data %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
-
-  })
-
-  # Publication progress table ---- 
-  
-  output$main_pub_table <- renderDataTable({ 
+    y <- all_data$Data %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
     
-    x <- tibble::rownames_to_column(as.data.frame(table_data()))
+    x <- tibble::rownames_to_column(as.data.frame(y))
     
     x$rowname <- case_when(
       x$rowname == "published_on_ees" ~ "Publication is published on EES",
@@ -44,24 +38,33 @@ server <- function(input, output, session){
       x$rowname == "content_peer_review" ~ "Content peer review",
       x$rowname == "targetted_user_research" ~ "Targetted user research activities",
       x$rowname == "l_and_d_requests" ~ "L&D requests"
-   )
-
+    )
+    
     names(x)[names(x) == 'rowname'] <- ''
     
-    datatable(x[4:28,],
+    return(x)
+
+  })
+
+  # Publication progress tables ---- 
+  
+  output$main_pub_table1 <- renderDataTable({ 
+    
+    x <- table_data()
+    
+    datatable(x[4:5,],
               rownames = FALSE,
               class = list(stripe = FALSE),
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
+                bSort=FALSE,
                 pageLength = 30,
                 initComplete = JS(
                   "function(settings, json) {",
                   "$(this.api().table().header()).css({'color': '#c8c8c8'});",
-                  "}")#,
-                #columnDefs = list(list(className = 'dt-center', targets = 2:ncol(x)))
-              ) )  %>%
-      # formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-      #             backgroundColor = '#363b40')  %>%
+                  "}")
+              ) 
+    )  %>%
       formatStyle(2:ncol(x),
                   color = '#c8c8c8',
                   background = '#363b40', # background colour for app is '#363b40'
@@ -75,58 +78,128 @@ server <- function(input, output, session){
       formatStyle(2:ncol(x), `text-align` = 'center') %>%
       formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
       formatStyle(2:ncol(x), width='200px')
-  #             
-   })
+    #             
+  })
   
-  
-  
-  
-  output$main_pub_table131241 <- renderDataTable({ 
-  
-    dataframe <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+  output$main_pub_table2 <- renderDataTable({ 
     
-    x <- data.frame(t(dataframe))
+    x <- table_data()
     
-    datatable(data.frame(x[2:28,]),
-              selection = 'single',
-              escape = F,
+    datatable(x[6:12,],
+              rownames = FALSE,
               class = list(stripe = FALSE),
-              
-             # extensions = c("FixedColumns", "FixedHeader", "Scroller"), 
-              
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
-                
-                colnames = FALSE,
-                
-                # Fix width of columns
-                scrollX = TRUE,
-                autoWidth = TRUE,
-                columnDefs = list(list(width = '200px', targets = "_all")),
-                
-               # fixedHeader = TRUE,
-                #fixedColumns = list(leftColumns = 1),
-                
-                
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                bSort=FALSE,
                 pageLength = 30
-              )) %>% 
-      formatStyle(' ', #rownames col (replace with V1, V2 etc for others)
-                  backgroundColor = '#363b40')  %>% 
-      formatStyle(1:ncol(x), 
+              ) 
+    )  %>%
+      formatStyle(2:ncol(x),
                   color = '#c8c8c8',
                   background = '#363b40', # background colour for app is '#363b40'
                   target = 'row') %>%
-      formatStyle(1:ncol(x)-1,
+      formatStyle(2:ncol(x)-1,
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
       formatStyle(ncol(x):ncol(x),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(1:ncol(x), `text-align` = 'center') %>%
-      formatStyle(1:ncol(x), border = '1px solid #4d5154') %>% 
-      formatStyle(1:ncol(x), width='200px')
+      formatStyle(2:ncol(x), `text-align` = 'center') %>%
+      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
+      formatStyle(2:ncol(x), width='200px')
+    #             
+  })
+  
+  output$main_pub_table3 <- renderDataTable({ 
     
+    x <- table_data()
+    
+    datatable(x[13:18,],
+              rownames = FALSE,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                bSort=FALSE,
+                pageLength = 30
+              ) 
+    )  %>%
+      formatStyle(2:ncol(x),
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(2:ncol(x)-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
+      formatStyle(ncol(x):ncol(x),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
+      formatStyle(2:ncol(x), `text-align` = 'center') %>%
+      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
+      formatStyle(2:ncol(x), width='200px')
+    #             
+  })
+  
+  output$main_pub_table4 <- renderDataTable({ 
+    
+    x <- table_data()
+    
+    datatable(x[19:24,],
+              rownames = FALSE,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                bSort=FALSE,
+                pageLength = 30
+              ) 
+    )  %>%
+      formatStyle(2:ncol(x),
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(2:ncol(x)-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
+      formatStyle(ncol(x):ncol(x),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
+      formatStyle(2:ncol(x), `text-align` = 'center') %>%
+      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
+      formatStyle(2:ncol(x), width='200px')
+    #             
+  })
+  
+  
+  output$main_pub_table5 <- renderDataTable({ 
+    
+    x <- table_data()
+    
+    datatable(x[25:29,],
+              rownames = FALSE,
+              class = list(stripe = FALSE),
+              options = list(
+                dom = 't', # simple table output (add other letters for search, filter etc)
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                bSort=FALSE,
+                pageLength = 30
+              ) 
+    )  %>%
+      formatStyle(2:ncol(x),
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
+      formatStyle(2:ncol(x)-1,
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
+      formatStyle(ncol(x):ncol(x),
+                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
+      formatStyle(2:ncol(x), `text-align` = 'center') %>%
+      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
+      formatStyle(2:ncol(x), width='200px')
+    #             
   })
   
   

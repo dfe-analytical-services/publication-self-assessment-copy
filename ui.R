@@ -45,7 +45,7 @@ fluidPage(
     br(),
     "Guidance is available at the guidance link",
     br(),
-    "Information gathered through this app will be used to inform training events and further guidance as needed",
+    "Information gathered through this app will be used to inform training events and further guidance as needed"
   )),
 
   # Publication progress page ----
@@ -66,19 +66,36 @@ fluidPage(
                                                       width = "100%")))
       ),
       column(4, offset = 1,
-             actionButton("go_to_homepage", "Homepage", width = "74%"),
-             br(),
-             div(class = "row",
-                 div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add", width = "100%")), #  uiOutput("add_button")),
-                 div(class = "col-sm-1",""),
-                 div(class = "col-sm-4", ""),
-                 div(class = "col-sm-3",""))
+             fluidRow(
+             column(4, 
+                    actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
+             column(4,
+             actionButton("go_to_homepage", "Back to homepage", width = "100%"))
+             )
+            
+             #br(),
+             # div(class = "row",
+             #     div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")), #  uiOutput("add_button")),
+             #     div(class = "col-sm-1",""),
+             #     div(class = "col-sm-4", ""),
+             #     div(class = "col-sm-3",""))
             )
       ),
     hr(),
 
-    div(style = "margin-left: 15px", dataTableOutput("main_pub_table", width = "100%")),
+    #div(style = "margin-left: 15px", dataTableOutput("main_pub_table", width = "100%")),
+    
 
+    dataTableOutput("main_pub_table1"),
+    h4(strong("RAP levels - Good")),
+    dataTableOutput("main_pub_table2"),
+    h4(strong("RAP levels - Great")),
+    div(style = "margin-left: 0px", dataTableOutput("main_pub_table3", width = "100%")),
+    h4(strong("RAP levels - Best")),
+    div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
+    h4(strong("Continuous improvement")),
+    div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
+    
     br(),
     fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
 
