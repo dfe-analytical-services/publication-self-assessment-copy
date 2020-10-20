@@ -5,115 +5,127 @@ fluidPage(
   useShinyalert(),
   useShinyjs(),
   
-  # Title ----
-  
-  titlePanel("Publication tracker"),
-  
-  HTML("<a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a>"),
-  
-  br(),
-  
-  # Homepage ----
-  
-  shinyjs::hidden(div(
-    id = "home_page",
-    br(),
-    h3("What is this app for?"),
-    "Supporting improvement of statistics products",
-    br(),
-    "Navigation tool for finding relevant guidance",
-    h3("How it might be useful"),
-    "To self-assess against best practice",
-    br(),
-    "To help guide improvement work",
-    br(),
-    "Directs to relevant guidance",
-    br(),
-    h3("How to use the app"),
-    "Production teams should come to the app to self assess their publications against each of the [criteria] and then use any gaps highlighted to structure their improvement work.",
-    br(),
-    "Teams should come back to update their publications regularly so they can see how far they've come and how well work is progressing over time.", 
-    br(),
-    br(),
-    actionButton("add_pub_status_page", "View information for a specific publication and/or add a new update", width = "30%"),
-    br(),
-    br(),
-    actionButton("see_overview_page", "View an overview of all publications", width = "30%"),
-    br(),
-    h3("Support available"),
-    "CSSU and the Statistics Production Team are available to support on meeting the [criteria] via email or through the Partnership Programmme.",
-    br(),
-    "Guidance is available at the guidance link",
-    br(),
-    "Information gathered through this app will be used to inform training events and further guidance as needed"
-  )),
-
-  # Publication progress page ----
-
-  ## Modal width
-  tags$head(tags$style(HTML('.modal-lg {width: 1200px;}'))),
-
-  shinyjs::hidden(div(
-    id = "progress_page",
-    fluidRow(
-      hr(),
-      column(7,
-             div(class = "row",
-                 div(class = "col-sm-2", style = "margin-top: 10px", "Choose a publication"),
-                 div(class = "col-sm-10", selectInput("publication_choice",
-                                                      label = NULL,
-                                                      choices = unique(start_data$publication),
-                                                      width = "100%")))
-      ),
-      column(4, offset = 1,
-             fluidRow(
-             column(4, 
-                    actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
-             column(4,
-             actionButton("go_to_homepage", "Back to homepage", width = "100%"))
-             )
-            
-             #br(),
-             # div(class = "row",
-             #     div(class = "col-sm-4", actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")), #  uiOutput("add_button")),
-             #     div(class = "col-sm-1",""),
-             #     div(class = "col-sm-4", ""),
-             #     div(class = "col-sm-3",""))
-            )
-      ),
-    hr(),
-
-    #div(style = "margin-left: 15px", dataTableOutput("main_pub_table", width = "100%")),
-    
-
-    dataTableOutput("main_pub_table1"),
-    h4(strong("RAP levels - Good")),
-    dataTableOutput("main_pub_table2"),
-    h4(strong("RAP levels - Great")),
-    div(style = "margin-left: 0px", dataTableOutput("main_pub_table3", width = "100%")),
-    h4(strong("RAP levels - Best")),
-    div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
-    h4(strong("Continuous improvement")),
-    div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
-    
-    br(),
-    fluidRow(align = "right", downloadButton("all_data_csv", "Download in CSV", width = "80%"))
-
-  )),
-
-  # Publication overview page ----
-
-  shinyjs::hidden(div(
-    id = "overview_page",
-    "This is where we'll show a high level summary of the latest info on each publication",
-    br(),
-    br(),
-    actionButton("go_to_homepage2", "Homepage", width = "30%"),
-    hr(),
-    br(),
-    column(12,dataTableOutput("overview_table"))
-
-  ))
+  navbarPage("DfE publication self assessment tool",
+             
+             # Homepage ----
+             
+             tabPanel("How to use the app",
+                      
+                      fluidRow(
+                        
+                        column(7,
+                               
+                               h3("What is this app for?"),
+                               "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
+                               br(),
+                               br(),
+                               "You can use the app to –",
+                               br(),
+                               "- Self-assess against best practice for producing and publishing statistics",
+                               br(),
+                               "- Help direct your own improvement work",
+                               br(),
+                               "- Find the relevant guidance relating to each bit of best practice",
+                               br(),
+                               "- View how improvements have been implemented over time",
+                               br(),
+                               h3("How to use the app"),
+                               "You should self assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
+                               br(),
+                               "If you fill it in regularly, you will be able to use the tool to see how work is progressing over time.", 
+                               h3("Support available"),
+                               "CSSU and the Statistics Development Team are available to support on meeting the best practice described within the tool via email or through the Partnership Programmme.",
+                               br(),
+                               "Further guidance is also available at the ", a(href = "https://rsconnect/rsc/stats-production-guidance","guidance website.",target = "_blank"),
+                               br(),
+                               "Information gathered through this app will be used to inform training events and further guidance as needed.",
+                               br(),
+                               "For any questions or feedback please contact us - ",
+                               a(href = "mailto:explore.statistics@education.gov.uk", "explore.statistics@education.gov.uk.", target = "_blank")
+                        ),
+                        column(5,
+                               br(),
+                               wellPanel(
+                                 verticalLayout(
+                                   h3("What is best practice?"),
+                                   "Best practice for Official Statistics publications includes:",
+                                   br(),
+                                   "1. Are published on Explore Education Statistics",
+                                   "2. Include the maximum time series possible",
+                                   "3. Are produced in line with Reproducible Analytical Pipeline (RAP) principles:",
+                                   br(),
+                                   img(src='hex-diagram.PNG', align = "left", width="100%"),
+                                   br(),
+                                   "4. Have content produced in line with the content checklist",
+                                   "5. Have content that is peer reviewed regularly and feedback acted upon",
+                                   "6. Have active user engagement activities taking place"
+                                 ))
+                        )
+                      )
+                      
+                      
+                      
+             ),
+             
+             # Publication progress page ----
+             
+             tabPanel("Publication page",
+                      
+                      ## Modal width
+                      tags$head(tags$style(HTML('.modal-lg {width: 1200px;}'))),
+                      
+                      fluidRow(
+                        column(7,
+                               div(class = "row",
+                                   div(class = "col-sm-3", style = "margin-top: 10px", "Choose publication:"),
+                                   div(class = "col-sm-9", selectInput("publication_choice",
+                                                                       label = NULL,
+                                                                       choices = unique(start_data$publication),
+                                                                       width = "100%")))
+                        ),
+                        column(4, offset = 1,
+                               fluidRow(
+                                 column(5, 
+                                        actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
+                                 column(5,
+                                        ''
+                                 )
+                               )
+                        )
+                      ),
+                      hr(),
+                      
+                      dataTableOutput("main_pub_table1"),
+                      h4(strong("RAP levels - Good")),
+                      dataTableOutput("main_pub_table2"),
+                      h4(strong("RAP levels - Great")),
+                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table3", width = "100%")),
+                      h4(strong("RAP levels - Best")),
+                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
+                      h4(strong("Continuous improvement")),
+                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
+                      
+                      br(),
+                      fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
+                      
+             ),
+             
+             # Overview page ----
+             
+             tabPanel("Overview page",
+                      
+                      "This is where we'll show a high level summary of the latest info on each publication",
+                      hr(),
+                      br(),
+                      column(12,dataTableOutput("overview_table")),
+                      fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
+             ),
+             
+             tags$script(HTML("var header = $('.navbar> .container-fluid');
+                       header.append('<div style=\"float:right\"><h4>explore.statistics@education.gov.uk</h4></div>');
+                       console.log(header)"))
+             
+  )
   
 )
 

@@ -13,6 +13,9 @@ server <- function(input, output, session){
     x <- tibble::rownames_to_column(as.data.frame(y))
     
     x$rowname <- case_when(
+      x$rowname == "g6" ~ "G6",
+      x$rowname == "tl" ~ "G7",
+      x$rowname == "publication" ~ "Publication",
       x$rowname == "published_on_ees" ~ "Publication is published on EES",
       x$rowname == "time_series_length" ~ "Average time series length within publication",
       x$rowname == "processing_with_code" ~ "Processing is done with code",
@@ -238,7 +241,7 @@ server <- function(input, output, session){
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    showModal(modalDialog(title = "Add a new row",
+    showModal(modalDialog(title = NULL,#"Add a new row",
                           div(class = "row",
                               div(class = "col-sm-4","G6:"),
                               div(class = "col-sm-3", textInput("T2_add",label = NULL, value = t(DT)[2,ncol(t(DT))])),
@@ -579,35 +582,16 @@ server <- function(input, output, session){
   })
    
   
-  # UI shenanigans ----
-  
-  shinyjs::showElement(id = "home_page")
-  
-  observeEvent(input$add_pub_status_page, {
-    shinyjs::hideElement(id = "home_page")
-    shinyjs::showElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
-  observeEvent(input$go_to_homepage, {
-    shinyjs::showElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
-  observeEvent(input$see_overview_page, {
-    shinyjs::showElement(id = "overview_page")
-    shinyjs::hideElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-  })
-  
-  observeEvent(input$go_to_homepage2, {
-    shinyjs::showElement(id = "home_page")
-    shinyjs::hideElement(id = "progress_page")
-    shinyjs::hideElement(id = "overview_page")
-  })
-  
   # Download data ----
+  
+  output$publication_data_csv<- downloadHandler(
+    filename <- function() {
+      paste("Publication data", Sys.Date(), ".csv", sep="")
+    },
+    content <- function(file) {
+      write.csv(table_data(), file, row.names = F)
+    }
+  )
   
   output$all_data_csv<- downloadHandler(
     filename <- function() {
