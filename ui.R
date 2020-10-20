@@ -52,7 +52,7 @@ fluidPage(
                                    "2. Include the maximum time series possible",
                                    "3. Are produced in line with Reproducible Analytical Pipeline (RAP) principles:",
                                    br(),
-                                   img(src='hex-diagram.PNG', align = "left", width="100%"),
+                                   img(src='hex-diagram.png', align = "left", width="100%"),
                                    br(),
                                    "4. Have content produced in line with the content checklist",
                                    "5. Have content that is peer reviewed regularly and feedback acted upon",
