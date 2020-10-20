@@ -9,31 +9,45 @@ server <- function(input, output, session){
   table_data <- reactive({
     
     all_data$Data %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
-   # start_data %>% dplyr::filter(publication == "Test")
-    
+
   })
+
   # Publication progress table ---- 
   
   output$main_pub_table <- renderDataTable({ 
     
-    
-    
-   # y <-  table_data() %>% t(.) %>% row_to_names(row_number = 1)
-    
     x <- tibble::rownames_to_column(as.data.frame(table_data()))
     
-    
-    
-    
-    
-   # x <-  start_data  %>% dplyr::filter(publication == "30 hours free childcare") %>% t(.) %>% data.frame(.) %>% row_to_names(row_number = 1) %>% tibble::rownames_to_column(.)
-    
-    #y <- tibble::rownames_to_column(x)
-    
+    x$rowname <- case_when(
+      x$rowname == "published_on_ees" ~ "Publication is published on EES",
+      x$rowname == "time_series_length" ~ "Average time series length within publication",
+      x$rowname == "processing_with_code" ~ "Processing is done with code",
+      x$rowname == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
+      x$rowname == "approporiate_tools" ~ "Use approporiate tools",
+      x$rowname == "single_database" ~ "All source data stored in single database",
+      x$rowname == "documentation" ~ "Documentation",
+      x$rowname == "files_meet_data_standards" ~ "Files meet data standards",
+      x$rowname == "basic_automated_qa" ~ "Basic automated QA",
+      x$rowname == "recyclable_code" ~ "Recyclable code for future use",
+      x$rowname == "single_data_production_scripts" ~ "Single production scripts",
+      x$rowname == "final_code_in_repo" ~ "Version controlled final code scripts",
+      x$rowname == "automated_insight_summaries" ~ "Automated summaries",
+      x$rowname == "peer_review_within_team" ~ "Peer review of code within team",
+      x$rowname == "publication_specifc_automated_qa" ~ "Publication specifc automated QA",
+      x$rowname == "collab_develop_using_git" ~ "Collaboratively develop code using git",
+      x$rowname == "pub_specific_automated_insight_summaries" ~ "Publication specific automated summaries",
+      x$rowname == "single_data_production_scripts_with_qa" ~ "Single production scripts with integrated QA",
+      x$rowname == "single_publication_script" ~ "Single publication production script",
+      x$rowname == "clean_final_code" ~ "Clean final code",
+      x$rowname == "peer_review_outside_team" ~ "Peer review of code from outside the team",
+      x$rowname == "content_checklist" ~ "Content checklist",
+      x$rowname == "content_peer_review" ~ "Content peer review",
+      x$rowname == "targetted_user_research" ~ "Targetted user research activities",
+      x$rowname == "l_and_d_requests" ~ "L&D requests"
+   )
 
+    names(x)[names(x) == 'rowname'] <- ''
     
-   
-
     datatable(x[4:28,],
               rownames = FALSE,
               class = list(stripe = FALSE),
@@ -175,7 +189,7 @@ server <- function(input, output, session){
                           div(class = "row",
                               div(class = "col-sm-4","Average time series length"),
                               div(class = "col-sm-3", textInput("T6_add",label = NULL, value = t(DT)[6,ncol(t(DT))])),
-                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","How much data should be published",target = "_blank" ))),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/ud.html#how-much-data-to-publish","How much data should be published",target = "_blank" ))),
                           hr(),
                           strong("RAP levels - Good"),
                           br(),
@@ -186,7 +200,7 @@ server <- function(input, output, session){
                             7,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#processing-is-done-with-code",
                               "What processing with code scripts looks like",
                               target = "_blank"
                             )
@@ -197,7 +211,7 @@ server <- function(input, output, session){
                             8,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#sensible-folder-and-file-structure",
                               "How to set up a sensible folder/file structure",
                               target = "_blank"
                             )
@@ -208,7 +222,7 @@ server <- function(input, output, session){
                             9,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html#how_to_check_against_the_standards",
+                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html##appropriate-tools",
                               "What the approriate tools look like",
                               target = "_blank"
                             )
@@ -219,7 +233,7 @@ server <- function(input, output, session){
                             10,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#all-source-data-stored-in-single-database",
                               "How to set up and import data into a SQL database",
                               target = "_blank"
                             )
@@ -230,7 +244,7 @@ server <- function(input, output, session){
                             11,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#documentation",
                               "What suitable documentation looks like",
                               target = "_blank"
                             )
@@ -241,7 +255,7 @@ server <- function(input, output, session){
                             12,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html#how_to_check_against_the_standards",
                               "How to check if data files meet the standards",
                               target = "_blank"
                             )
@@ -252,7 +266,7 @@ server <- function(input, output, session){
                             13,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#basic-automated-qa",
                               "What basic automated QA checks look like",
                               target = "_blank"
                             )
@@ -267,7 +281,7 @@ server <- function(input, output, session){
                             14,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#recyclable-code-for-future-use",
                               "How to know if code is recyclable",
                               target = "_blank"
                             )
@@ -278,7 +292,7 @@ server <- function(input, output, session){
                             15,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#single-production-scripts",
                               "What producing a file with a single code script looks like",
                               target = "_blank"
                             )
@@ -289,7 +303,7 @@ server <- function(input, output, session){
                             16,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#version-controlled-final-code-scripts",
                               "How to set up and use a version controlled repository",
                               target = "_blank"
                             )
@@ -300,7 +314,7 @@ server <- function(input, output, session){
                             17,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#automated-summaries",
                               "What generating automated summaries to provide insight looks like",
                               target = "_blank"
                             )
@@ -311,7 +325,7 @@ server <- function(input, output, session){
                             18,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#review-of-code-within-team",
                               "How to peer review code",
                               target = "_blank"
                             )
@@ -322,7 +336,7 @@ server <- function(input, output, session){
                             19,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#publication-specific-automated-qa",
                               "What publication specific automated QA checks look like",
                               target = "_blank"
                             )
@@ -337,7 +351,7 @@ server <- function(input, output, session){
                             20,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#collaboratively-develop-code-using-git",
                               "What using git looks like",
                               target = "_blank"
                             )
@@ -348,7 +362,7 @@ server <- function(input, output, session){
                             21,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#publication-specific-automated-summaries",
                               "How to generate publication specific summaries to provide insight",
                               target = "_blank"
                             )
@@ -359,7 +373,7 @@ server <- function(input, output, session){
                             22,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#single-production-scripts-with-integrated-qa",
                               "What producing a file with integrated QA via a single code script looks like",
                               target = "_blank"
                             )
@@ -370,7 +384,7 @@ server <- function(input, output, session){
                             23,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#single-publication-production-script",
                               "How to produce a publication using a single run script",
                               target = "_blank"
                             )
@@ -381,7 +395,7 @@ server <- function(input, output, session){
                             24,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#clean-final-code",
                               "What cleanly formatted code scripts look like",
                               target = "_blank"
                             )
@@ -392,7 +406,7 @@ server <- function(input, output, session){
                             25,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#review-of-code-from-outside-the-team",
                               "Where to go to request an external peer review",
                               target = "_blank"
                             )
@@ -401,20 +415,39 @@ server <- function(input, output, session){
                           strong("Continuous improvement"),
                           br(),
                           br(),
+                          # Content checklist
+                          rag_it(
+                            "Was the content checklist used for the latest publication?",
+                            "T26_add",
+                            26,
+                            DT,
+                            a(
+                              href = "https://rsconnect/rsc/stats-production-guidance/cd.html#content-checklist ",
+                              "How to use the content checklist when writing a publication",
+                              target = "_blank"
+                            )
+                          ),
                           # Content peer review
-                          div(class = "row",
-                              div(class = "col-sm-4","Has the latest publication content been peer reviewed?"),
-                              div(class = "col-sm-3", textInput("T26_add",label = NULL, value = t(DT)[26,ncol(t(DT))])),
-                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","Where to go to request an external peer review",target = "_blank" ))),
-                          # Targetted user research activities
+                          rag_it(
+                            "Has the latest publication content been peer reviewed?",
+                            "T27_add",
+                            27,
+                            DT,
+                            a(
+                              href = "https://rsconnect/rsc/stats-production-guidance/cd.html#peer-review",
+                              "Where to go to request a content peer review",
+                              target = "_blank"
+                            )
+                          ), 
+                         # # Targetted user research activities
                           div(class = "row",
                               div(class = "col-sm-4","What targetted user research activites are taking place?"),
-                              div(class = "col-sm-3", textInput("T27_add",label = NULL, value = t(DT)[27,ncol(t(DT))])),
-                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html","What targetted user research looks like",target = "_blank" ))),
+                              div(class = "col-sm-3", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))])),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html#user-engagement","What targetted user research looks like",target = "_blank" ))),
                           # L&D
                           div(class = "row",
                               div(class = "col-sm-4","Any L&D requests or needs"),
-                              div(class = "col-sm-3", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))])),
+                              div(class = "col-sm-3", textInput("T29_add",label = NULL, value = t(DT)[29,ncol(t(DT))])),
                               div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/l+d.html","L&D resources",target = "_blank" ))),
 
                           actionButton("go", "Add item"),
@@ -458,9 +491,10 @@ server <- function(input, output, session){
       single_publication_script = input[["T23_add"]],
       clean_final_code = input[["T24_add"]],
       peer_review_outside_team = input[["T25_add"]],
-      content_peer_review = input[["T26_add"]],
-      targetted_user_research = input[["T27_add"]],
-      l_and_d_requests = input[["T28_add"]]
+      content_checklist = input[["T26_add"]],
+      content_peer_review = input[["T27_add"]],
+      targetted_user_research = input[["T28_add"]],
+      l_and_d_requests = input[["T29_add"]]
     )
     
     all_data$Data <- rbind(all_data$Data,new_row )
