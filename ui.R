@@ -25,12 +25,16 @@ fluidPage(
                                tags$li("Find the relevant guidance relating to each bit of best practice"),
                                tags$li("View how improvements have been implemented over time"),
                                br(),
+                               ---
                                h3("How to use the app"),
                                br(),
                                "You should self-assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
                                br(),
                                br(),
                                "If you fill it in regularly, you will be able to use the tool to see how work is progressing over time.", 
+                               br(),
+                               br(),
+                               ---
                                h3("Support available"),
                                br(),
                                "CSSU and the Statistics Development Team are available to support on meeting the best practice described within the tool via email or through the Partnership Programmme.",
