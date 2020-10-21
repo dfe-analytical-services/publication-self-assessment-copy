@@ -14,7 +14,6 @@ fluidPage(
                       fluidRow(
                         column(7,
                                h3("What is this app for?"),
-                               br(),
                                "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
                                br(),
                                br(),
@@ -26,7 +25,6 @@ fluidPage(
                                tags$li("View how improvements have been implemented over time"),
                                br(),
                                h3("How to use the app"),
-                               br(),
                                "You should self-assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
                                br(),
                                br(),
@@ -34,7 +32,6 @@ fluidPage(
                                br(),
                                br(),
                                h3("Support available"),
-                               br(),
                                "CSSU and the Statistics Development Team are available to support on meeting the best practice described within the tool via email or through the Partnership Programmme.",
                                br(),
                                br(),
