@@ -15,7 +15,6 @@ fluidPage(
                         column(7,
                                h3("What is this app for?"),
                                br(),
-                               br(),
                                "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
                                br(),
                                br(),
@@ -28,13 +27,11 @@ fluidPage(
                                br(),
                                h3("How to use the app"),
                                br(),
-                               br(),
                                "You should self-assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
                                br(),
                                br(),
                                "If you fill it in regularly, you will be able to use the tool to see how work is progressing over time.", 
                                h3("Support available"),
-                               br(),
                                br(),
                                "CSSU and the Statistics Development Team are available to support on meeting the best practice described within the tool via email or through the Partnership Programmme.",
                                br(),
@@ -127,9 +124,8 @@ fluidPage(
              
   ),
   
-  tags$script(HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
+HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
 parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a></li></ul>' );</script>")
               
   )
-)
 
