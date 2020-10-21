@@ -127,8 +127,9 @@ fluidPage(
              
   ),
   
-  tags$script(HTML("var header = $('.navbar> .container-fluid');
-                       header.append('<div style=\"float:right\"><h4><a href='mailto:explore.statistics@education.gov.uk'>explore.statistics@education.gov.uk</a></h4></div>');
-                       console.log(header)"))
+  tags$script(HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
+parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a></li></ul>' );</script>")
+              
+  )
 )
 
