@@ -5,11 +5,11 @@ fluidPage(
   useShinyalert(),
   useShinyjs(),
   
-  navbarPage("DfE publication self assessment tool",
+  navbarPage("DfE publication self-assessment tool",
              
              # Homepage ----
              
-             tabPanel("How to use the app",
+             tabPanel("Using the app",
                       
                       fluidRow(
                         column(7,
@@ -17,26 +17,30 @@ fluidPage(
                                "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
                                br(),
                                br(),
-                               "You can use the app to –",
+                               "You can use the app to:",
                                br(),
-                               "- Self-assess against best practice for producing and publishing statistics",
+                               tags$li("Self-assess against best practice for producing and publishing statistics"),
                                br(),
-                               "- Help direct your own improvement work",
+                               tags$li("Help direct your own improvement work"),
                                br(),
-                               "- Find the relevant guidance relating to each bit of best practice",
+                               tags$li("Find the relevant guidance relating to each bit of best practice"),
                                br(),
-                               "- View how improvements have been implemented over time",
+                               tags$li("View how improvements have been implemented over time"),
                                br(),
                                h3("How to use the app"),
-                               "You should self assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
+                               "You should self-assess your publication against each of the criteria within the tool regularly and use the results to help structure your improvement work.",
+                               br(),
                                br(),
                                "If you fill it in regularly, you will be able to use the tool to see how work is progressing over time.", 
                                h3("Support available"),
                                "CSSU and the Statistics Development Team are available to support on meeting the best practice described within the tool via email or through the Partnership Programmme.",
                                br(),
-                               "Further guidance is also available at the ", a(href = "https://rsconnect/rsc/stats-production-guidance","guidance website.",target = "_blank"),
+                               br(),
+                               "Further guidance is also available on the ", a(href = "https://rsconnect/rsc/stats-production-guidance","statistics production guidance website.",target = "_blank"),
+                               br(),
                                br(),
                                "Information gathered through this app will be used to inform training events and further guidance as needed.",
+                               br(),
                                br(),
                                "For any questions or feedback please contact us - ",
                                a(href = "mailto:explore.statistics@education.gov.uk", "explore.statistics@education.gov.uk.", target = "_blank")
@@ -45,18 +49,17 @@ fluidPage(
                                br(),
                                wellPanel(
                                  verticalLayout(
-                                   h3("What is best practice?"),
-                                   "Best practice for Official Statistics publications includes:",
+                                   h3("Best practice for publications includes:"),
                                    br(),
-                                   "1. Are published on Explore Education Statistics",
-                                   "2. Include the maximum time series possible",
-                                   "3. Are produced in line with Reproducible Analytical Pipeline (RAP) principles:",
+                                   "1. Being published via Explore Education Statistics",
+                                   "2. Including the maximum time series possible",
+                                   "3. Being [roduced in line with Reproducible Analytical Pipelines (RAP):",
                                    br(),
                                    img(src='hex-diagram.png', align = "left", width="100%"),
                                    br(),
-                                   "4. Have content produced in line with the content checklist",
-                                   "5. Have content that is peer reviewed regularly and feedback acted upon",
-                                   "6. Have active user engagement activities taking place"
+                                   "4. Written content produced in line with the content guidance",
+                                   "5. Written content is peer reviewed regularly and feedback acted upon",
+                                   "6. Users are actively engaged for feedback"
                                  ))
                         )
                       )
@@ -64,7 +67,7 @@ fluidPage(
              
              # Publication progress page ----
              
-             tabPanel("Publication page",
+             tabPanel("Publication self-assessment",
                       
                       ## Modal width
                       tags$head(tags$style(HTML('.modal-lg {width: 1200px;}'))),
@@ -110,7 +113,7 @@ fluidPage(
              
              # Overview page ----
              
-             tabPanel("Overview page",
+             tabPanel("Overview of latest responses",
                       br(),
                       h4(strong("The latest status for each publication:")),
                       column(12,dataTableOutput("overview_table")),
@@ -122,7 +125,7 @@ fluidPage(
   ),
   
   tags$script(HTML("var header = $('.navbar> .container-fluid');
-                       header.append('<div style=\"float:right\"><h4>explore.statistics@education.gov.uk</h4></div>');
+                       header.append('<div style=\"float:right\"><h4><a href='mailto:explore.statistics@education.gov.uk'>explore.statistics@education.gov.uk</a></h4></div>');
                        console.log(header)"))
 )
 

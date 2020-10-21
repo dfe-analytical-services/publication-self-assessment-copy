@@ -13,8 +13,8 @@ server <- function(input, output, session){
     x <- tibble::rownames_to_column(as.data.frame(y))
     
     x$rowname <- case_when(
-      x$rowname == "g6" ~ "G6",
-      x$rowname == "tl" ~ "G7",
+      x$rowname == "g6" ~ "Grade 6",
+      x$rowname == "tl" ~ "Grade 7",
       x$rowname == "publication" ~ "Publication",
       x$rowname == "published_on_ees" ~ "Publication is published on EES",
       x$rowname == "time_series_length" ~ "Maximum time series published",
