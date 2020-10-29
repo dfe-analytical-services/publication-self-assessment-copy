@@ -83,7 +83,7 @@ fluidPage(
                                    div(class = "col-sm-3", style = "margin-top: 10px", "Choose publication:"),
                                    div(class = "col-sm-9", selectInput("publication_choice",
                                                                        label = NULL,
-                                                                       choices = unique(start_data$publication),
+                                                                       choices = sort(unique(start_data$publication)),
                                                                        width = "100%")))
                         ),
                         column(4, offset = 1,
