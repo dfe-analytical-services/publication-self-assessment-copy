@@ -42,7 +42,7 @@ fluidPage(
                                br(),
                                br(),
                                "For any questions or feedback please contact us - ",
-                               a(href = "mailto:explore.statistics@education.gov.uk", "explore.statistics@education.gov.uk.", target = "_blank")
+                               a(href = "mailto:statistics.development@education.gov.uk", "statistics.development@education.gov.uk.", target = "_blank")
                         ),
                         column(5,
                                br(),
@@ -124,7 +124,7 @@ fluidPage(
   ),
   
 HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
-parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:explore.statistics@education.gov.uk\">explore.statistics@education.gov.uk</a></li></ul>' );</script>")
+parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:statistics.development@education.gov.uk\">statistics.development@education.gov.uk</a></li></ul>' );</script>")
               
   )
 
