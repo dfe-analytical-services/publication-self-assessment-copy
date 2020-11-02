@@ -312,7 +312,7 @@ server <- function(input, output, session){
                             9,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html##appropriate-tools",
+                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html#appropriate-tools",
                               "What the approriate tools look like",
                               target = "_blank"
                             )
