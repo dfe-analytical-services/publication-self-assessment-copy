@@ -1,6 +1,6 @@
 #shinyUI(
 fluidPage(
-  theme = "acalat_theme.css",
+  theme = "acalat_theme.css", 
   
   useShinyalert(),
   useShinyjs(),
