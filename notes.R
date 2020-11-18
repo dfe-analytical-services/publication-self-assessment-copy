@@ -6,6 +6,14 @@ saveRDS(new_data, "new_tracker_data.rds")
 
 # writing data to SQL from R
 
-library()
+# running locally ------------------------------------------------------------------------------------
 
+con <- dbConnect(odbc::odbc(),
+                 driver = "",
+                 server = "",
+                 database = "",
+                 ...)
+
+
+# app connection -------------------------------------------------------------------------------------
 
