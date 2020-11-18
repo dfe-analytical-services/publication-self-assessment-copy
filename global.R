@@ -8,6 +8,8 @@ library(shinyWidgets)
 library(dplyr)
 library(janitor)
 library(tidyr)
+library(dbi)
+library(dbplyr)
 
 start_data <- readRDS("new_tracker_data.rds")
 
