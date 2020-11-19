@@ -11,12 +11,17 @@ saveRDS(new_data, "new_tracker_data.rds")
 con <- dbConnect(odbc::odbc(),
                  Driver = "ODBC Driver 13 for SQL Server",
                  Server = "T1PRANMSQL\\SQLPROD,60125",
-                 Database = "MA-SDT-NS-DATA",
+                 Database = "MA_SDT_NS_DATA",
                  UID = "",
                  PWD = "",
                  Trusted_Connection = "Yes")
 
 
+downloaded_data <- fread("data/All data2020-11-17.csv", encoding = "UTF-8", na.strings = "", strip.white = FALSE)
+
+dbWriteTable(con, "publicationTracking", downloaded_data)
+
+
 # app connection -------------------------------------------------------------------------------------
 
-# use tbl() %>% collect() to pull the data in
+# use tbl() %>% collect() to pull the data in, then dbWriteTable() to write it back out, also something around live updates and invalidating?
