@@ -10,6 +10,23 @@ library(janitor)
 library(tidyr)
 library(DBI)
 library(dbplyr)
+library(config)
+
+# Pulling credentials for server access from config file ----
+
+config <- config::get("db_connection")
+
+connection <- dbConnect(odbc::odbc(),
+                        Driver = config$driver,
+                        Server = config$server,
+                        Database = config$database,
+                        UID = config$uid,
+                        PWD = config$pwd,
+                        Trusted_Connection = config$trusted)
+
+environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", Sys.getenv("SDT_SAT_ENV"))
+
+## start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect # this needs to live elsewhere so that it can get refreshed as needed
 
 start_data <- readRDS("new_tracker_data.rds")
 
