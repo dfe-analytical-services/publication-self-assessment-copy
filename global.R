@@ -16,13 +16,13 @@ library(config)
 
 config <- config::get("db_connection")
 
-connection <- dbConnect(odbc::odbc(),
-                        Driver = config$driver,
-                        Server = config$server,
-                        Database = config$database,
-                        UID = config$uid,
-                        PWD = config$pwd,
-                        Trusted_Connection = config$trusted)
+# connection <- dbConnect(odbc::odbc(),
+#                         Driver = config$driver,
+#                         Server = config$server,
+#                         Database = config$database,
+#                         UID = config$uid,
+#                         PWD = config$pwd,
+#                         Trusted_Connection = config$trusted)
 
 environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", Sys.getenv("SDT_SAT_ENV"))
 
