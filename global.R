@@ -10,6 +10,7 @@ library(janitor)
 library(tidyr)
 library(DBI)
 library(dbplyr)
+library(stringr)
 library(config)
 
 # Pulling credentials for server access from config file ----
@@ -24,7 +25,7 @@ config <- config::get("db_connection")
 #                         PWD = config$pwd,
 #                         Trusted_Connection = config$trusted)
 
-environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", Sys.getenv("SDT_SAT_ENV"))
+environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
 
 ## start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect # this needs to live elsewhere so that it can get refreshed as needed
 
