@@ -27,10 +27,6 @@ connection <- dbConnect(odbc::odbc(),
 
 environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
 
-start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect # this needs to live elsewhere so that it can get refreshed as needed
-
-# start_data <- readRDS("new_tracker_data.rds")
-
 # Formatting radio button inputs for form ----
 
 rag_it <- function(label_text, input_id, row_num, data_t, help_text){
