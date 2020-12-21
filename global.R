@@ -17,19 +17,19 @@ library(config)
 
 config <- config::get("db_connection")
 
-connection <- dbConnect(odbc::odbc(),
-                        Driver = config$driver,
-                        Server = config$server,
-                        Database = config$database,
-                        UID = config$uid,
-                        PWD = config$pwd,
-                        Trusted_Connection = config$trusted)
+# connection <- dbConnect(odbc::odbc(),
+#                         Driver = config$driver,
+#                         Server = config$server,
+#                         Database = config$database,
+#                         UID = config$uid,
+#                         PWD = config$pwd,
+#                         Trusted_Connection = config$trusted)
 
 environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
 
-start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect # this needs to live elsewhere so that it can get refreshed as needed
+#start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect # this needs to live elsewhere so that it can get refreshed as needed
 
-# start_data <- readRDS("new_tracker_data.rds")
+start_data <- readRDS("new_tracker_data.rds")
 
 # Formatting radio button inputs for form ----
 
