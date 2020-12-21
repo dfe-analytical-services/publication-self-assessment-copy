@@ -15,7 +15,7 @@ fluidPage(
                         column(7,
                                paste0("Current environment = ", environment),
                                br(),
-                               paste0("test: ", Sys.getenv("SDT_UID")),
+                               paste0("test: ", Sys.getenv("SDT_PWD")),
                                br(),
                                h3("What is this app for?"),
                                "This app allows you to assess different aspects of your Official Statistics production processes against best practice.",
