@@ -6,7 +6,6 @@ default:
     uid: ""
     pwd: ""
     trusted: "Yes"
-    env: "local"
 
 production:
   db_connection:
@@ -16,4 +15,3 @@ production:
     uid: !expr Sys.getenv("SDT_UID")
     pwd: !expr Sys.getenv("SDT_PWD")
     trusted: "No"
-    env: "server"
