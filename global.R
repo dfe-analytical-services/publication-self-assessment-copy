@@ -8,9 +8,26 @@ library(shinyWidgets)
 library(dplyr)
 library(janitor)
 library(tidyr)
+library(DBI)
+library(dbplyr)
+library(stringr)
+library(config)
 
+# Pulling credentials for server access from config file ----
 
-start_data <- readRDS("new_tracker_data.rds")
+config <- config::get("db_connection")
+
+connection <- dbConnect(odbc::odbc(),
+                        Driver = config$driver,
+                        Server = config$server,
+                        Database = config$database,
+                        UID = config$uid,
+                        PWD = config$pwd,
+                        Trusted_Connection = config$trusted)
+
+environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
+
+start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
 
 # Formatting radio button inputs for form ----
 

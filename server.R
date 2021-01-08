@@ -2,9 +2,11 @@ server <- function(input, output, session){
 
   # Main dataset ----
   
-  all_data<-reactiveValues()
+  all_data <- reactiveValues()
   
-  all_data$Data<-readRDS("new_tracker_data.rds") 
+  # Pulling from SQL ----
+  
+  all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
   
   table_data <- reactive({
     
@@ -586,13 +588,28 @@ server <- function(input, output, session){
       targetted_user_research = input[["T28_add"]],
       l_and_d_requests = input[["T29_add"]]
     )
+    
+    # Update SQL database
+    statement <- paste0("INSERT INTO ", "publicationTracking", environment, 
+                        " ([date], [g6], [tl], [publication], [published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
+                        VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
+
+    dbSendStatement(connection, statement)
   
+    # Remove any test rows
     
-    all_data$Data <- rbind(all_data$Data,new_row )
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    if(any(DT$date == "2019-09-28")) {
+      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", input$publication_choice, "' AND [date] = '2019-09-28';")
+      dbSendStatement(connection, clean_statement)
+    }
+
+    # Update the main data
+    all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+    
     removeModal()
-    
-    # Update rds file
-    saveRDS(all_data$Data, "new_tracker_data.rds")
+  
     shinyalert(title = "Saved!", type = "success")
   })
    
