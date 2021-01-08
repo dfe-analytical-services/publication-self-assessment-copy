@@ -598,11 +598,11 @@ server <- function(input, output, session){
   
     # Remove any test rows
     
-    if(any(DT$published_on_ees == "TBC")) {
-      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", input$publication_choice, "' AND [published_on_ees] = 'TBC';")
+    if(any(DT$date == "28/09/2019")) {
+      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", input$publication_choice, "' AND [date] = '28/09/2019';")
       dbSendStatement(connection, clean_statement)
     }
-    
+
     # Update the main data
     all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
     
