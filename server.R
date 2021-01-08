@@ -598,8 +598,8 @@ server <- function(input, output, session){
   
     # Remove any test rows
     
-    if(any(DT$date == "28/09/2019")) {
-      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", input$publication_choice, "' AND [date] = '28/09/2019';")
+    if(any(DT$date == "28-09-2019")) {
+      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", input$publication_choice, "' AND [date] = '28-09-2019';")
       dbSendStatement(connection, clean_statement)
     }
 
