@@ -6,7 +6,7 @@ server <- function(input, output, session){
   
   # Pulling from SQL ----
   
-  all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+  all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect() %>% arrange(date)
   
   table_data <- reactive({
     
