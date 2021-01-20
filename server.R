@@ -509,7 +509,7 @@ server <- function(input, output, session){
                           br(),
                           # Content checklist
                           rag_it(
-                            "Was the content checklist used for the latest publication?",
+                            "Was the content checklist used during the writing of the latest publication?",
                             "T26_add",
                             26,
                             DT,
