@@ -1,7 +1,13 @@
 
 ## Introduction 
 
-A shiny app to provide a an easy to way to self-assess publications against RAP and other criteria. This is deployed via the DfE visual studio and rsconnect subscriptions. There are three environments, all accessible to DfE AD:
+A shiny app to provide a an easy to way to self-assess publications against RAP and other criteria. 
+
+---
+
+## Environments
+
+This is deployed via the DfE visual studio and rsconnect subscriptions. There are three environments, all accessible to DfE AD:
 
 Production - https://rsconnect/rsc/publication-self-assessment
 
