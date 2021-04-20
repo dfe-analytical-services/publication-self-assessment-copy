@@ -1,6 +1,6 @@
 default:
   db_connection:
-    driver: "ODBC Driver 13 for SQL Server"
+    driver: "ODBC Driver 17 for SQL Server"
     server: "T1PRANMSQL\\SQLPROD,60125"
     database: "MA_SDT_NS_DATA"
     uid: ""
@@ -9,7 +9,7 @@ default:
 
 production:
   db_connection:
-    driver: "ODBC Driver 13 for SQL Server"
+    driver: "ODBC Driver 17 for SQL Server"
     server: "T1PRANMSQL.ad.hq.dept,60125"
     database: "MA_SDT_NS_DATA"
     uid: !expr Sys.getenv("SDT_UID")
