@@ -16,7 +16,7 @@
 ---
 ## Introduction 
 
-A shiny app to provide a an easy to way to self-assess publications against RAP and other criteria and track progress towards our own RAP levels (based on the cross-government RAP MVP). This shiny app is deployed via the DfE visual studio and rsconnect subscriptions, and is connected to our team's internal . 
+A shiny app to provide a an easy to way to self-assess publications against RAP and other criteria and track progress towards our own RAP levels (based on the cross-government RAP MVP). This shiny app is deployed via the DfE visual studio and rsconnect subscriptions, and is connected to our team's internal SQL database. 
 
 ---
 
