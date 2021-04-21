@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.0.4",
+    "Version": "4.0.5",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -298,10 +298,10 @@
     },
     "odbc": {
       "Package": "odbc",
-      "Version": "1.3.1",
+      "Version": "1.3.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "9db09b60bf434031f678425d01f16d3f"
+      "Hash": "efa957aa3ffc6093b8fbe33ff6a0f91c"
     },
     "pillar": {
       "Package": "pillar",
