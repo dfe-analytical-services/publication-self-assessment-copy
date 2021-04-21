@@ -561,7 +561,7 @@ server <- function(input, output, session){
       #ï..date = as.character(Sys.Date()), 
       g6 = input[["T2_add"]],
       tl = input[["T3_add"]],                                           
-      publication = input$publication_choice, 
+      publication = str_replace(input$publication_choice,"'","''"), 
       published_on_ees = input[["T5_add"]],
       time_series_length = input[["T6_add"]],
       processing_with_code = input[["T7_add"]],
