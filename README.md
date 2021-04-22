@@ -14,6 +14,7 @@
 </p>
 
 ---
+
 ## Introduction 
 
 A shiny app to provide a an easy to way to self-assess publications against RAP and other criteria and track progress towards our own RAP levels (based on the cross-government RAP MVP). This shiny app is deployed via the DfE visual studio and rsconnect subscriptions, and is connected to our team's internal SQL database. 
@@ -57,6 +58,26 @@ Development - https://rsconnect-pp/rsc/dev-publication-self-assessment
 ---
 
 ## How to use
+
+### Screenshots
+
+Homepage
+
+
+![](www/SATool_Homepage.png "Homepage")
+
+
+Self-assessing
+
+
+![](www/SATool_Demo_Cropped.gif)
+
+
+Dashboard of responses
+
+
+![](www/SATool_Dashboard.png "Dashboard")
+
 
 ### Packages
 
