@@ -67,13 +67,13 @@ Homepage
 ![](www/SATool_Homepage.png "Homepage")
 
 
-Self-assessing
+Self-assessing a publication and seeing individual progress
 
 
-![](www/SATool_Demo_Cropped.gif)
+![](www/SATool_Assessment.gif)
 
 
-Dashboard of responses
+Dashboard of latest responses across all publications
 
 
 ![](www/SATool_Dashboard.png "Dashboard")
