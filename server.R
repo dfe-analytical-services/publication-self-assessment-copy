@@ -585,8 +585,8 @@ server <- function(input, output, session){
       peer_review_outside_team = input[["T25_add"]],
       content_checklist = input[["T26_add"]],
       content_peer_review = input[["T27_add"]],
-      targetted_user_research = input[["T28_add"]],
-      l_and_d_requests = input[["T29_add"]]
+      targetted_user_research = str_replace_all(input[["T28_add"]],"'","''"),
+      l_and_d_requests = str_replace_all(input[["T29_add"]],"'","''")
     )
     
     # Update SQL database
