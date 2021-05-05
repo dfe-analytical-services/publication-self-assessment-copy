@@ -559,9 +559,9 @@ server <- function(input, output, session){
       
       date = as.character(Sys.Date()), 
       #ï..date = as.character(Sys.Date()), 
-      g6 = input[["T2_add"]],
-      tl = input[["T3_add"]],                                           
-      publication = str_replace(input$publication_choice,"'","''"), 
+      g6 = str_replace_all(input[["T2_add"]],"'","''"),
+      tl = str_replace_all(input[["T3_add"]],"'","''"),                                           
+      publication = str_replace_all(input$publication_choice,"'","''"), 
       published_on_ees = input[["T5_add"]],
       time_series_length = input[["T6_add"]],
       processing_with_code = input[["T7_add"]],
@@ -585,8 +585,8 @@ server <- function(input, output, session){
       peer_review_outside_team = input[["T25_add"]],
       content_checklist = input[["T26_add"]],
       content_peer_review = input[["T27_add"]],
-      targetted_user_research = input[["T28_add"]],
-      l_and_d_requests = input[["T29_add"]]
+      targetted_user_research = str_replace_all(input[["T28_add"]],"'","''"),
+      l_and_d_requests = str_replace_all(input[["T29_add"]],"'","''")
     )
     
     # Update SQL database
@@ -601,7 +601,7 @@ server <- function(input, output, session){
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     if(any(DT$date == "2019-09-28")) {
-      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
+      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
       dbSendStatement(connection, clean_statement)
     }
 
