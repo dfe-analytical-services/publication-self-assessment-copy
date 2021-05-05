@@ -309,18 +309,18 @@ server <- function(input, output, session){
                             )
                           ), #Sensible folder /  file structure
                           rag_it(
-                            "Are approporiate tools being used to create data files?",
+                            "Are appropriate tools being used to create data files?",
                             "T9_add",
                             9,
                             DT,
                             a(
                               href = "https://rsconnect/rsc/stats-production-guidance/ud.html#appropriate-tools",
-                              "What the approriate tools look like",
+                              "What the appropriate tools look like",
                               target = "_blank"
                             )
-                          ), #Use approporiate tools
+                          ), #Use appropriate tools
                           rag_it(
-                            "Is all source data stored in single database?",
+                            "Is all source data stored in a single database?",
                             "T10_add",
                             10,
                             DT,
@@ -412,7 +412,7 @@ server <- function(input, output, session){
                             )
                           ), #Automated summaries generated for insight
                           rag_it(
-                            "Has all code been peer reviewed within team?",
+                            "Has all code been peer reviewed within the team?",
                             "T18_add",
                             18,
                             DT,
@@ -423,7 +423,7 @@ server <- function(input, output, session){
                             )
                           ), #Peer review of code within team
                           rag_it(
-                            "Are there publication specifc automated QA checks?",
+                            "Are there publication specific automated QA checks?",
                             "T19_add",
                             19,
                             DT,
@@ -566,7 +566,7 @@ server <- function(input, output, session){
       time_series_length = input[["T6_add"]],
       processing_with_code = input[["T7_add"]],
       sensible_folder_file_structure = input[["T8_add"]],
-      approporiate_tools = input[["T9_add"]],             
+      approporiate_tools = input[["T9_add"]], # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query)             
       single_database = input[["T10_add"]],
       documentation = input[["T11_add"]],
       files_meet_data_standards = input[["T12_add"]],
