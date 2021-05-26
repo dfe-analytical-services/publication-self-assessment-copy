@@ -90,9 +90,8 @@ fluidPage(
                                fluidRow(
                                  column(5, 
                                         actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
-                                 column(5,
-                                        ''
-                                 )
+                                 column(5, 
+                                        actionButton(inputId = "Delete_row_head",label = "Delete column", width = "100%"))
                                )
                         )
                       ),
