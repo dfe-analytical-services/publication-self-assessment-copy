@@ -636,7 +636,11 @@ server <- function(input, output, session){
     
     removeModal()
 
-    shinyalert(title = "Deleted!", type = "success")
+    sendSweetAlert(
+      session = session,
+      title = "Deleted!",
+      type = "success"
+    )
     
     }
     
