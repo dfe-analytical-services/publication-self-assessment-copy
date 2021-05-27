@@ -97,7 +97,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -128,7 +128,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -159,7 +159,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -191,7 +191,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -221,16 +221,79 @@ server <- function(input, output, session){
       group_by(publication) %>% 
       summarise_all(last)
     
+    
+    #Create table container to populate
+    sketch = htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(rowspan = 1, 'Publication'),
+          th(colspan = 2, 'EES checks'),
+          th(colspan = 7, 'Good'),
+          th(colspan = 6, 'Great'),
+          th(colspan = 6, 'Best'),
+          th(colspan = 4, 'Continuous improvement')
+        ),
+        tr(
+          lapply(rep(c(''), 26), th)
+        )
+      )
+    ))
+    
+    # Using JS for adding CSS, i.e., coloring your heading
+    # Get the corresponding table header (th) from a table cell (td) and apply color to it
+    headjs <- "function(thead, data, start, end, display) {
+  $(thead).closest('thead').find('th').eq(0).css({'background-color': '#363b40', 'color': '#c8c8c8'}); 
+   $(thead).closest('thead').find('th').eq(1).css({'background-color': '#363b40', 'color': '#c8c8c8'});
+    $(thead).closest('thead').find('th').eq(2).css({'background-color': '#4472c4', 'color': '#c8c8c8'});
+     $(thead).closest('thead').find('th').eq(3).css({'background-color': '#70ad47', 'color': '#c8c8c8'});
+      $(thead).closest('thead').find('th').eq(4).css({'background-color': '#ec7d37', 'color': '#c8c8c8'});
+       $(thead).closest('thead').find('th').eq(5).css({'background-color': '#363b40', 'color': '#c8c8c8'});
+         $(thead).closest('thead').find('th').eq(6).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(7).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(8).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(9).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(10).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(11).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(12).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(13).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(14).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(15).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(16).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(17).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(18).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(19).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(20).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(21).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(22).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(23).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(24).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(25).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(26).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(27).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(28).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(29).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(30).css({'background-color': '#363b40'});
+    
+}" #this is really ugly! Must be a way to iterate this but works for now
+    
+    
     datatable(table[,c(1,5:29)],
+              container = sketch,
               selection = 'none',
               escape = F,
-              class = list(stripe = FALSE),
+              class = "compact cell-border",#list(stripe = FALSE),
               rownames = FALSE,
+              colnames = NULL,
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                headerCallback = JS(headjs),
+                #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                fixedHeader = TRUE,
+                ordering=F,
                 pageLength = 100
-              )) %>% 
+              ),
+              extensions = "FixedHeader") %>% 
       formatStyle(1:ncol(table),
         color = '#c8c8c8',
         background = '#363b40', # background colour for app is '#363b40'
@@ -580,7 +643,7 @@ server <- function(input, output, session){
                                                                           dom = 't', # simple table output (add other letters for search, filter etc)
                                                                           bSort=FALSE,
                                                                           pageLength = 30,
-                                                                          headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                                                                          headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                                                                           initComplete = JS(
                                                                             "function(settings, json) {",
                                                                             "$(this.api().table().header()).css({'color': '#c8c8c8'});",
