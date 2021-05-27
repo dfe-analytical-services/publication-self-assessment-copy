@@ -312,7 +312,7 @@ server <- function(input, output, session){
   
   output$summary_lines <- renderUI({
     
-    table <- start_data %>% #all_data$Data %>%
+    table <- all_data$Data %>%
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last)
