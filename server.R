@@ -219,8 +219,8 @@ server <- function(input, output, session){
   
     table <- all_data$Data %>%
       group_by(publication) %>% 
+      arrange(date) %>% 
       summarise_all(last)
-    
     
     #Create table container to populate
     sketch = htmltools::withTags(table(
@@ -303,6 +303,47 @@ server <- function(input, output, session){
                                                c('#454b51', '#70ad47', '#e87421'))) %>% 
       formatStyle(2:ncol(table), `text-align` = 'center') %>%
       formatStyle(1:ncol(table), border = '1px solid #4d5154')
+    
+  })
+  
+  # Summary stats ----
+  
+  
+  
+  output$summary_lines <- renderUI({
+    
+    table <- start_data %>% #all_data$Data %>%
+      group_by(publication) %>% 
+      arrange(date) %>% 
+      summarise_all(last)
+    
+    count_pubs <- table %>%  select(publication) %>% nrow()
+   
+    count_good <- table %>% filter(processing_with_code == "Yes",
+                                   sensible_folder_file_structure =="Yes",
+                                   approporiate_tools == "Yes",
+                                   single_database == "Yes",
+                                   documentation == "Yes",
+                                   files_meet_data_standards == "Yes",
+                                   basic_automated_qa =="Yes") %>% nrow()
+    count_great <- table %>% filter(recyclable_code == "Yes",
+                                   single_data_production_scripts =="Yes",
+                                   final_code_in_repo == "Yes",
+                                   automated_insight_summaries == "Yes",
+                                   peer_review_within_team == "Yes",
+                                   publication_specifc_automated_qa == "Yes") %>% nrow()
+    count_best <- table %>% filter(collab_develop_using_git == "Yes",
+                                    pub_specific_automated_insight_summaries =="Yes",
+                                    single_data_production_scripts_with_qa == "Yes",
+                                    single_publication_script == "Yes",
+                                    clean_final_code == "Yes",
+                                    peer_review_outside_team == "Yes") %>% nrow()
+    
+   HTML(paste0("<b>So far, out of all ", count_pubs, " publications: </b>","<br/> • <b>",
+           count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
+           count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
+           count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
+           ))
     
   })
   
@@ -771,7 +812,7 @@ server <- function(input, output, session){
     shinyalert(title = "Saved!", type = "success")
     
   })
-   
+
   
   # Download data ----
   

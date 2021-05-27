@@ -112,7 +112,7 @@ fluidPage(
              # Overview page ----
              
              tabPanel("Overview of latest responses",
-                      br(),
+                      wellPanel(htmlOutput("summary_lines")),
                       h4(strong("The latest status for each publication:")),
                       column(12,dataTableOutput("overview_table")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
