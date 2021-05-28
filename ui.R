@@ -85,7 +85,7 @@ fluidPage(
                                                                        label = NULL,
                                                                        choices = sort(unique(start_data$publication)),
                                                                        options = list(
-                                                                         placeholder = 'Please select an publication',
+                                                                         placeholder = 'Please select a publication',
                                                                          onInitialize = I('function() { this.setValue(""); }')
                                                                        ),
                                                                        width = "100%")))
