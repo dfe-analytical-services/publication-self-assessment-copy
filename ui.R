@@ -81,9 +81,13 @@ fluidPage(
                         column(7,
                                div(class = "row",
                                    div(class = "col-sm-3", style = "margin-top: 10px", "Choose publication:"),
-                                   div(class = "col-sm-9", selectInput("publication_choice",
+                                   div(class = "col-sm-9",   selectizeInput("publication_choice",
                                                                        label = NULL,
                                                                        choices = sort(unique(start_data$publication)),
+                                                                       options = list(
+                                                                         placeholder = 'Please select an publication',
+                                                                         onInitialize = I('function() { this.setValue(""); }')
+                                                                       ),
                                                                        width = "100%")))
                         ),
                         column(5, 
@@ -97,6 +101,8 @@ fluidPage(
                         )
                       )),
                       hr(),
+                      
+                      conditionalPanel("input.publication_choice != ''",
                       dataTableOutput("main_pub_table1"),
                       h4(strong("RAP levels - Good")),
                       dataTableOutput("main_pub_table2"),
@@ -108,7 +114,7 @@ fluidPage(
                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
                       br(),
                       fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
-             ),
+             )),
              
              # Overview page ----
              
