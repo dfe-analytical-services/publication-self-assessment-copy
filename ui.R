@@ -86,15 +86,16 @@ fluidPage(
                                                                        choices = sort(unique(start_data$publication)),
                                                                        width = "100%")))
                         ),
-                        column(4, offset = 1,
+                        column(5, 
                                fluidRow(
-                                 column(5, 
-                                        actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
-                                 column(5, 
-                                        actionButton(inputId = "Delete_row_head",label = "Delete column", width = "100%"))
-                               )
+                                 column(4, 
+                                        actionButton(inputId = "Add_row_head",label = "Add column", icon = icon("fas fa-plus"),width = "100%")),
+                                 column(4, 
+                                        actionButton(inputId = "Delete_row_head",label = "Delete column", icon = icon("fas fa-minus"),width = "100%")),
+                                 column(4, 
+                                        actionButton(inputId = "Add_publication_head",label = "New publication", icon = icon("fas fa-file-medical"),width = "100%"))
                         )
-                      ),
+                      )),
                       hr(),
                       dataTableOutput("main_pub_table1"),
                       h4(strong("RAP levels - Good")),

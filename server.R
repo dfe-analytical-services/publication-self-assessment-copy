@@ -274,6 +274,7 @@ server <- function(input, output, session){
          $(thead).closest('thead').find('th').eq(28).css({'background-color': '#363b40'});
          $(thead).closest('thead').find('th').eq(29).css({'background-color': '#363b40'});
          $(thead).closest('thead').find('th').eq(30).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(31).css({'background-color': '#363b40'});
     
 }" #this is really ugly! Must be a way to iterate this but works for now
     
@@ -809,10 +810,92 @@ server <- function(input, output, session){
     
     removeModal()
   
-    shinyalert(title = "Saved!", type = "success")
+    sendSweetAlert(
+          session = session,
+          title = "Saved!",
+          type = "success"
+        )
+
     
   })
+  
+  # Adding a new publication  ----
+  observeEvent (input$Add_publication_head,{
 
+    showModal(modalDialog(title = "Add a new publication",#"Add a new row",
+                          div(class = "row",
+                              div(class = "col-sm-4","Enter publication name:"),
+                              div(class = "col-sm-3", textInput("New_publication_add",label = NULL)),
+                              div(class = "col-sm-5", "")),
+
+                          div(class = "col-sm-5", ""),
+                          actionButton("add_publication_modal", "Add publication"),
+
+                          easyClose = TRUE, footer = NULL
+                          , size = "l"
+    ))
+  })
+
+  observeEvent (input$add_publication_modal,{
+    new_row <- data.frame(
+
+      date = "2019-09-28",
+      g6 = "TBC",
+      tl = "TBC",
+      publication = input[["New_publication_add"]],
+      published_on_ees = "No",
+      time_series_length = "No",
+      processing_with_code = "No",
+      sensible_folder_file_structure = "No",
+      approporiate_tools = "No", # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query)
+      single_database = "No",
+      documentation = "No",
+      files_meet_data_standards = "No",
+      basic_automated_qa = "No",
+      recyclable_code = "No",
+      single_data_production_scripts = "No",
+      final_code_in_repo = "No",
+      automated_insight_summaries = "No",
+      peer_review_within_team = "No",
+      publication_specifc_automated_qa = "No",
+      collab_develop_using_git = "No",
+      pub_specific_automated_insight_summaries = "No",
+      single_data_production_scripts_with_qa = "No",
+      single_publication_script = "No",
+      clean_final_code = "No",
+      peer_review_outside_team = "No",
+      content_checklist = "No",
+      content_peer_review = "No",
+      targetted_user_research = "No",
+      l_and_d_requests = "No"
+    )
+
+    # Update SQL database
+    statement <- paste0("INSERT INTO ", "publicationTracking", environment,
+                        " ([date], [g6], [tl], [publication], [published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
+                        VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
+
+    dbSendStatement(connection, statement)
+
+    # Update the main data
+    all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+
+    updated_data <- all_data$Data  %>%  rbind(new_row)
+
+    updateSelectInput(session,"publication_choice",
+                      choices = sort(unique(updated_data$publication)))
+
+    removeModal()
+
+   # send confirmation message
+    sendSweetAlert(
+      session = session,
+      title = "Saved!",
+      type = "success"
+    )
+
+
+  })
   
   # Download data ----
   
