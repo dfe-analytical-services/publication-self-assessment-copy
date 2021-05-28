@@ -97,7 +97,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -128,7 +128,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -159,7 +159,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
@@ -191,7 +191,7 @@ server <- function(input, output, session){
               selection = 'none',
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
                 bSort=FALSE,
                 pageLength = 30
               ) 
