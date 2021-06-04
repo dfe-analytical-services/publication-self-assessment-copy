@@ -340,7 +340,7 @@ server <- function(input, output, session){
                                     clean_final_code == "Yes",
                                     peer_review_outside_team == "Yes") %>% nrow()
     
-   HTML(paste0("<b>So far, out of all ", count_pubs, " publications: </b>","<br/> • <b>",
+   HTML(paste0("<b>So far, out of all ", count_pubs, " publications, against our RAP levels,: </b>","<br/> • <b>",
            count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
            count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
            count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
@@ -732,7 +732,7 @@ server <- function(input, output, session){
    #statement <- paste0("WITH CTE AS (SELECT *, ROW_NUMBER() OVER (ORDER BY date DESC) rn FROM ","publicationTracking", environment," WHERE publication = 'Test')",
     #                     " DELETE FROM CTE where rn = 6")
     # 
-    statement <- paste0("DELETE FROM publicationTracking", environment," WHERE publication = '",input$publication_choice,"' and DATE = '", input$col_choice,"'")
+    statement <- paste0("DELETE FROM publicationTracking", environment," WHERE publication = '", str_replace_all(input$publication_choice,"'","''"),"' and DATE = '", input$col_choice,"'")
     
     dbSendStatement(connection, statement)
     
@@ -842,7 +842,7 @@ server <- function(input, output, session){
       date = "2019-09-28",
       g6 = "TBC",
       tl = "TBC",
-      publication = input[["New_publication_add"]],
+      publication = str_replace_all(input$New_publication_add,"'","''"),
       published_on_ees = "No",
       time_series_length = "No",
       processing_with_code = "No",
@@ -872,7 +872,7 @@ server <- function(input, output, session){
 
     # Update SQL database
     statement <- paste0("INSERT INTO ", "publicationTracking", environment,
-                        " ([date], [g6], [tl], [publication], [published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
+                        " ([date], [g6], [tl],[publication],[published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
                         VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
 
     dbSendStatement(connection, statement)
@@ -880,7 +880,7 @@ server <- function(input, output, session){
     # Update the main data
     all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
 
-    updated_data <- all_data$Data  %>%  rbind(new_row)
+    updated_data <- all_data$Data  %>%  rbind(new_row %>% mutate(publication = str_replace_all(publication,"''","'")))
 
     updateSelectInput(session,"publication_choice",
                       choices = sort(unique(updated_data$publication)))
