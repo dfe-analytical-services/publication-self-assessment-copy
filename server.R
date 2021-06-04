@@ -289,7 +289,7 @@ server <- function(input, output, session){
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
                 scrollY = "600px",
-                scrollX = FALSE,
+                scrollX = TRUE,
                 headerCallback = JS(headjs),
                 #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
                 #fixedHeader = TRUE,
