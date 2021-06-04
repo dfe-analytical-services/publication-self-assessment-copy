@@ -95,7 +95,7 @@ fluidPage(
                                  column(4, 
                                         actionButton(inputId = "Add_row_head",label = "Add new entry", icon = icon("fas fa-plus"),width = "100%")),
                                  column(4, 
-                                        actionButton(inputId = "Delete_row_head",label = "Delete column", icon = icon("fas fa-minus"),width = "100%")),
+                                        actionButton(inputId = "Delete_row_head",label = "Delete entry", icon = icon("fas fa-minus"),width = "100%")),
                                  column(4, 
                                         actionButton(inputId = "Add_publication_head",label = "Create new publication", icon = icon("fas fa-file-medical"),width = "100%"))
                         )
