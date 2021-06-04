@@ -288,13 +288,16 @@ server <- function(input, output, session){
               colnames = NULL,
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
+                scrollY = "600px",
+                scrollX = FALSE,
                 headerCallback = JS(headjs),
                 #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
-                fixedHeader = TRUE,
+                #fixedHeader = TRUE,
                 ordering=F,
                 pageLength = 100
-              ),
-              extensions = "FixedHeader") %>% 
+              )#,
+              #extensions = "FixedHeader") 
+              )%>% 
       formatStyle(1:ncol(table),
         color = '#c8c8c8',
         background = '#363b40', # background colour for app is '#363b40'

@@ -93,9 +93,9 @@ fluidPage(
                         column(5, 
                                fluidRow(
                                  column(4, 
-                                        actionButton(inputId = "Add_row_head",label = "Add new entry", icon = icon("fas fa-plus"),width = "100%")),
+                                        actionButton(inputId = "Add_row_head",label = "Add new response", icon = icon("fas fa-plus"),width = "100%")),
                                  column(4, 
-                                        actionButton(inputId = "Delete_row_head",label = "Delete entry", icon = icon("fas fa-minus"),width = "100%")),
+                                        actionButton(inputId = "Delete_row_head",label = "Delete response", icon = icon("fas fa-minus"),width = "100%")),
                                  column(4, 
                                         actionButton(inputId = "Add_publication_head",label = "Create new publication", icon = icon("fas fa-file-medical"),width = "100%"))
                         )
@@ -121,7 +121,7 @@ fluidPage(
              tabPanel("Overview of latest responses",
                       wellPanel(htmlOutput("summary_lines")),
                       h4(strong("The latest status for each publication:")),
-                      column(12,dataTableOutput("overview_table")),
+                      column(12,dataTableOutput("overview_table",width = 1600)),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
              )
              
