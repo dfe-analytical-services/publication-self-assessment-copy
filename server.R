@@ -10,7 +10,7 @@ server <- function(input, output, session){
   
   table_data <- reactive({
     
-    y <- all_data$Data %>% mutate(date = as.Date(date)) %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
+    y <- all_data$Data %>%  mutate(date = as.Date(date)) %>% dplyr::filter(publication == input$publication_choice) %>% arrange(date) %>% t(.) %>% row_to_names(row_number = 1)
     
     x <- tibble::rownames_to_column(as.data.frame(y))
     
@@ -887,13 +887,6 @@ server <- function(input, output, session){
 
     updateSelectInput(session,"publication_choice",
                       choices = sort(unique(updated_data$publication)))
-    
-    # clear table so it reorders
-    shinyjs::reset("main_pub_table1")
-    shinyjs::reset("main_pub_table2")
-    shinyjs::reset("main_pub_table3")
-    shinyjs::reset("main_pub_table4")
-    shinyjs::reset("main_pub_table5")
 
     removeModal()
 
