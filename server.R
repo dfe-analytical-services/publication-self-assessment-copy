@@ -887,6 +887,13 @@ server <- function(input, output, session){
 
     updateSelectInput(session,"publication_choice",
                       choices = sort(unique(updated_data$publication)))
+    
+    # clear table so it reorders
+    shinyjs::reset("main_pub_table1")
+    shinyjs::reset("main_pub_table2")
+    shinyjs::reset("main_pub_table3")
+    shinyjs::reset("main_pub_table4")
+    shinyjs::reset("main_pub_table5")
 
     removeModal()
 
@@ -919,6 +926,7 @@ server <- function(input, output, session){
       write.csv(data.frame(all_data$Data), file, row.names = F)
     }
   )
+  
   
   # Stop app ----
   
