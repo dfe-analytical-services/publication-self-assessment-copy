@@ -81,22 +81,28 @@ fluidPage(
                         column(7,
                                div(class = "row",
                                    div(class = "col-sm-3", style = "margin-top: 10px", "Choose publication:"),
-                                   div(class = "col-sm-9", selectInput("publication_choice",
+                                   div(class = "col-sm-9",   selectizeInput("publication_choice",
                                                                        label = NULL,
                                                                        choices = sort(unique(start_data$publication)),
+                                                                       options = list(
+                                                                         placeholder = 'Please select a publication',
+                                                                         onInitialize = I('function() { this.setValue(""); }')
+                                                                       ),
                                                                        width = "100%")))
                         ),
-                        column(4, offset = 1,
+                        column(5, 
                                fluidRow(
-                                 column(5, 
-                                        actionButton(inputId = "Add_row_head",label = "Add column", width = "100%")),
-                                 column(5,
-                                        ''
-                                 )
-                               )
+                                 column(4, 
+                                        actionButton(inputId = "Add_row_head",label = "Add new response", icon = icon("fas fa-plus"),width = "100%")),
+                                 column(4, 
+                                        actionButton(inputId = "Delete_row_head",label = "Delete response", icon = icon("fas fa-minus"),width = "100%")),
+                                 column(4, 
+                                        actionButton(inputId = "Add_publication_head",label = "Create new publication", icon = icon("fas fa-file-medical"),width = "100%"))
                         )
-                      ),
+                      )),
                       hr(),
+                      
+                      conditionalPanel("input.publication_choice != ''",
                       dataTableOutput("main_pub_table1"),
                       h4(strong("RAP levels - Good")),
                       dataTableOutput("main_pub_table2"),
@@ -108,14 +114,14 @@ fluidPage(
                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
                       br(),
                       fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
-             ),
+             )),
              
              # Overview page ----
              
              tabPanel("Overview of latest responses",
-                      br(),
+                      wellPanel(htmlOutput("summary_lines")),
                       h4(strong("The latest status for each publication:")),
-                      column(12,dataTableOutput("overview_table")),
+                      column(12,dataTableOutput("overview_table",width = "100%")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
              )
              

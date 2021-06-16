@@ -5,12 +5,12 @@ server <- function(input, output, session){
   all_data <- reactiveValues()
   
   # Pulling from SQL ----
-  
-  all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect() %>% arrange(date)
+
+  all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect() %>% arrange(date) 
   
   table_data <- reactive({
     
-    y <- all_data$Data %>% dplyr::filter(publication == input$publication_choice) %>% t(.) %>% row_to_names(row_number = 1)
+    y <- all_data$Data %>%  mutate(date = as.Date(date)) %>% dplyr::filter(publication == input$publication_choice) %>% arrange(date) %>% t(.) %>% row_to_names(row_number = 1)
     
     x <- tibble::rownames_to_column(as.data.frame(y))
     
@@ -55,7 +55,7 @@ server <- function(input, output, session){
   
   output$main_pub_table1 <- renderDataTable({ 
     
-    x <- table_data()
+    x <- table_data() 
     
     datatable(x[4:5,],
               rownames = FALSE,
@@ -219,18 +219,85 @@ server <- function(input, output, session){
   
     table <- all_data$Data %>%
       group_by(publication) %>% 
+      arrange(date) %>% 
       summarise_all(last)
     
+    #Create table container to populate
+    sketch = htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(rowspan = 1, 'Publication'),
+          th(colspan = 2, 'EES checks'),
+          th(colspan = 7, 'Good'),
+          th(colspan = 6, 'Great'),
+          th(colspan = 6, 'Best'),
+          th(colspan = 4, 'Continuous improvement')
+        ),
+        tr(
+          lapply(rep(c(''), 26), th)
+        )
+      )
+    ))
+    
+    # Using JS for adding CSS, i.e., coloring your heading
+    # Get the corresponding table header (th) from a table cell (td) and apply color to it
+    headjs <- "function(thead, data, start, end, display) {
+  $(thead).closest('thead').find('th').eq(0).css({'background-color': '#363b40', 'color': '#c8c8c8'}); 
+   $(thead).closest('thead').find('th').eq(1).css({'background-color': '#363b40', 'color': '#c8c8c8'});
+    $(thead).closest('thead').find('th').eq(2).css({'background-color': '#4472c4', 'color': '#c8c8c8'});
+     $(thead).closest('thead').find('th').eq(3).css({'background-color': '#70ad47', 'color': '#c8c8c8'});
+      $(thead).closest('thead').find('th').eq(4).css({'background-color': '#ec7d37', 'color': '#c8c8c8'});
+       $(thead).closest('thead').find('th').eq(5).css({'background-color': '#363b40', 'color': '#c8c8c8'});
+         $(thead).closest('thead').find('th').eq(6).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(7).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(8).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(9).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(10).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(11).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(12).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(13).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(14).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(15).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(16).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(17).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(18).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(19).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(20).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(21).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(22).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(23).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(24).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(25).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(26).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(27).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(28).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(29).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(30).css({'background-color': '#363b40'});
+         $(thead).closest('thead').find('th').eq(31).css({'background-color': '#363b40'});
+    
+}" #this is really ugly! Must be a way to iterate this but works for now
+    
+    
     datatable(table[,c(1,5:29)],
+              container = sketch,
               selection = 'none',
               escape = F,
-              class = list(stripe = FALSE),
+              class = "compact cell-border",#list(stripe = FALSE),
               rownames = FALSE,
+              colnames = NULL,
               options = list(
                 dom = 't', # simple table output (add other letters for search, filter etc)
-                headerCallback = JS("function(thead, data, start, end, display){","  $(thead).remove();","}"), # removes header
+                scrollY = "600px",
+                scrollX = TRUE,
+                headerCallback = JS(headjs),
+                #headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                #fixedHeader = TRUE,
+                ordering=F,
                 pageLength = 100
-              )) %>% 
+              )#,
+              #extensions = "FixedHeader") 
+              )%>% 
       formatStyle(1:ncol(table),
         color = '#c8c8c8',
         background = '#363b40', # background colour for app is '#363b40'
@@ -240,6 +307,47 @@ server <- function(input, output, session){
                                                c('#454b51', '#70ad47', '#e87421'))) %>% 
       formatStyle(2:ncol(table), `text-align` = 'center') %>%
       formatStyle(1:ncol(table), border = '1px solid #4d5154')
+    
+  })
+  
+  # Summary stats ----
+  
+  
+  
+  output$summary_lines <- renderUI({
+    
+    table <- all_data$Data %>%
+      group_by(publication) %>% 
+      arrange(date) %>% 
+      summarise_all(last)
+    
+    count_pubs <- table %>%  select(publication) %>% nrow()
+   
+    count_good <- table %>% filter(processing_with_code == "Yes",
+                                   sensible_folder_file_structure =="Yes",
+                                   approporiate_tools == "Yes",
+                                   single_database == "Yes",
+                                   documentation == "Yes",
+                                   files_meet_data_standards == "Yes",
+                                   basic_automated_qa =="Yes") %>% nrow()
+    count_great <- table %>% filter(recyclable_code == "Yes",
+                                   single_data_production_scripts =="Yes",
+                                   final_code_in_repo == "Yes",
+                                   automated_insight_summaries == "Yes",
+                                   peer_review_within_team == "Yes",
+                                   publication_specifc_automated_qa == "Yes") %>% nrow()
+    count_best <- table %>% filter(collab_develop_using_git == "Yes",
+                                    pub_specific_automated_insight_summaries =="Yes",
+                                    single_data_production_scripts_with_qa == "Yes",
+                                    single_publication_script == "Yes",
+                                    clean_final_code == "Yes",
+                                    peer_review_outside_team == "Yes") %>% nrow()
+    
+   HTML(paste0("<b>So far, out of all ", count_pubs, " publications, against our RAP levels,: </b>","<br/> • <b>",
+           count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
+           count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
+           count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
+           ))
     
   })
   
@@ -551,13 +659,108 @@ server <- function(input, output, session){
     
   })
   
+  # Delete a column----
+  
+  observeEvent(input$Delete_row_head, {
+    
+    DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
+    
+    
+    
+    showModal(modalDialog(title = "Delete a column",#"Add a new row",
+                          div(class = "row",
+                              div(class = "col-sm-4","Select column to delete:"),
+                              div(class = "col-sm-3", selectInput("col_choice",
+                                                                  label = NULL,
+                                                                  choices = sort(unique(DT$date)),
+                                                                  width = "100%")),
+                              div(class = "col-sm-5", "")),
+
+                          div(class = "row",
+                              div(class = "col-sm-4","Preview column to delete:"),
+                              div(class = "col-sm-3", renderDataTable(datatable((DT %>% 
+                                                                        filter(date == as_datetime(input$col_choice)) %>% 
+                                                                        t()),
+                                                                        rownames = TRUE,
+                                                                        class = list(stripe = FALSE),
+                                                                        selection = 'none',
+                                                                        options = list(
+                                                                          dom = 't', # simple table output (add other letters for search, filter etc)
+                                                                          bSort=FALSE,
+                                                                          pageLength = 30,
+                                                                          headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                                                                          initComplete = JS(
+                                                                            "function(settings, json) {",
+                                                                            "$(this.api().table().header()).css({'color': '#c8c8c8'});",
+                                                                            "}")
+                                                                        ) 
+                              ) %>% 
+                                formatStyle(1:1,
+                                            color = '#c8c8c8',
+                                            background = '#363b40', # background colour for app is '#363b40'
+                                            target = 'row') %>%
+                                formatStyle(1:1,
+                                            backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
+                                                                         c('#454b51', '#70ad47', '#e87421'))) %>% 
+                                #formatStyle(2:ncol(table), `text-align` = 'center') %>%
+                                formatStyle(1:1, border = '1px solid #4d5154')
+                                                                        
+                                                                        )),
+                              div(class = "col-sm-5", "")),
+                          actionButton("go_delete", "Delete item"),
+                          
+                          easyClose = TRUE, footer = NULL
+                          , size = "l" 
+    ))
+    
+    
+  })
+  
+  ## Pop-up to get confirmation
+  observeEvent(input$go_delete,{
+    confirmSweetAlert(
+      session = session,
+      inputId = "myconfirmation",
+      type = "warning",
+      title = "Are you sure you want to permanently delete this column?",
+      btn_labels = c("No", "Yes")
+    )
+  })
+  
+  
+  observeEvent(input$myconfirmation,{
+    
+    if (isTRUE(input$myconfirmation)){
+    # Update SQL database
+   #statement <- paste0("WITH CTE AS (SELECT *, ROW_NUMBER() OVER (ORDER BY date DESC) rn FROM ","publicationTracking", environment," WHERE publication = 'Test')",
+    #                     " DELETE FROM CTE where rn = 6")
+    # 
+    statement <- paste0("DELETE FROM publicationTracking", environment," WHERE publication = '", str_replace_all(input$publication_choice,"'","''"),"' and DATE = '", input$col_choice,"'")
+    
+    dbSendStatement(connection, statement)
+    
+    # Update the main data
+    all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+    
+    removeModal()
+
+    sendSweetAlert(
+      session = session,
+      title = "Deleted!",
+      type = "success"
+    )
+    
+    }
+    
+  })
+  
   # Adding new data to main data file ----
   
   observeEvent(input$go, {
     
     new_row <- data.frame(
       
-      date = as.character(Sys.Date()), 
+      date = as.character(Sys.time()), 
       #ï..date = as.character(Sys.Date()), 
       g6 = str_replace_all(input[["T2_add"]],"'","''"),
       tl = str_replace_all(input[["T3_add"]],"'","''"),                                           
@@ -610,9 +813,92 @@ server <- function(input, output, session){
     
     removeModal()
   
-    shinyalert(title = "Saved!", type = "success")
+    sendSweetAlert(
+          session = session,
+          title = "Saved!",
+          type = "success"
+        )
+
+    
   })
-   
+  
+  # Adding a new publication  ----
+  observeEvent (input$Add_publication_head,{
+
+    showModal(modalDialog(title = "Add a new publication",#"Add a new row",
+                          div(class = "row",
+                              div(class = "col-sm-4","Enter publication name:"),
+                              div(class = "col-sm-3", textInput("New_publication_add",label = NULL)),
+                              div(class = "col-sm-5", "")),
+
+                          div(class = "col-sm-5", ""),
+                          actionButton("add_publication_modal", "Add publication"),
+
+                          easyClose = TRUE, footer = NULL
+                          , size = "l"
+    ))
+  })
+
+  observeEvent (input$add_publication_modal,{
+    new_row <- data.frame(
+
+      date = "2019-09-28",
+      g6 = "TBC",
+      tl = "TBC",
+      publication = str_replace_all(input$New_publication_add,"'","''"),
+      published_on_ees = "No",
+      time_series_length = "No",
+      processing_with_code = "No",
+      sensible_folder_file_structure = "No",
+      approporiate_tools = "No", # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query)
+      single_database = "No",
+      documentation = "No",
+      files_meet_data_standards = "No",
+      basic_automated_qa = "No",
+      recyclable_code = "No",
+      single_data_production_scripts = "No",
+      final_code_in_repo = "No",
+      automated_insight_summaries = "No",
+      peer_review_within_team = "No",
+      publication_specifc_automated_qa = "No",
+      collab_develop_using_git = "No",
+      pub_specific_automated_insight_summaries = "No",
+      single_data_production_scripts_with_qa = "No",
+      single_publication_script = "No",
+      clean_final_code = "No",
+      peer_review_outside_team = "No",
+      content_checklist = "No",
+      content_peer_review = "No",
+      targetted_user_research = "No",
+      l_and_d_requests = "No"
+    )
+
+    # Update SQL database
+    statement <- paste0("INSERT INTO ", "publicationTracking", environment,
+                        " ([date], [g6], [tl],[publication],[published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
+                        VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
+
+    dbSendStatement(connection, statement)
+
+    # Update the main data
+    all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+
+    updated_data <- all_data$Data  %>%  rbind(new_row %>% mutate(publication = str_replace_all(publication,"''","'")))
+
+    updateSelectInput(session,"publication_choice",
+                      choices = sort(unique(updated_data$publication)))
+
+    removeModal()
+
+   # send confirmation message
+    sendSweetAlert(
+      session = session,
+      title = "Saved!",
+      type = "success"
+    )
+
+
+  })
   
   # Download data ----
   
@@ -633,6 +919,7 @@ server <- function(input, output, session){
       write.csv(data.frame(all_data$Data), file, row.names = F)
     }
   )
+  
   
   # Stop app ----
   
