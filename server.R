@@ -622,8 +622,8 @@ server <- function(input, output, session){
                             26,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/cd.html#content-checklist ",
-                              "How to use the content checklist when writing a publication",
+                              href = "https://rsconnect/rsc/stats-production-guidance/resources/Content_Design_Logbook.xlsx",
+                              "Download the content checklist",
                               target = "_blank"
                             )
                           ),
@@ -634,7 +634,7 @@ server <- function(input, output, session){
                             27,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/cd.html#peer-review",
+                              href = "https://rsconnect/rsc/stats-production-guidance/cd.html#publication-scrums",
                               "Where to go to request a content peer review",
                               target = "_blank"
                             )
