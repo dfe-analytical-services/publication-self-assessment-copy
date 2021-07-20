@@ -97,7 +97,7 @@ stop("Do not source or highlight all of this script. Run lines individually.")
 
 masterPublicationOnly <- dplyr::tbl(con, "publicationMasterList") %>%
   dplyr::collect() %>%
-  dplyr::filter(!(type %in% c("Testing", "Unused", "Supplementary", "Unknown"))) %>%
+  dplyr::filter(where == "Find stats") %>%
   dplyr::distinct(publication)
 
 selfAssPublicationOnly <- dplyr::tbl(con, "publicationTrackingProduction") %>%
@@ -167,7 +167,7 @@ stop("Do not source or highlight all of this script. Run lines individually.")
 
 masterTablePublications <- dplyr::tbl(con, "publicationMasterList") %>%
   dplyr::collect() %>%
-  dplyr::filter(!(type %in% c("Testing", "Unused", "Supplementary", "Unknown"))) %>%
+  dplyr::filter(where == "Find stats") %>%
   select(publication, onEES)
 
 selfAssessmentProd <- dplyr::tbl(con, "publicationTrackingProduction") %>%
