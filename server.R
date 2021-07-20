@@ -622,7 +622,7 @@ server <- function(input, output, session){
                             26,
                             DT,
                             a(
-                              href = "https://rsconnect-pp/rsc/dev-stats-production-guidance/resources/Content_Design_Logbook.xlsx",
+                              href = "https://rsconnect/rsc/stats-production-guidance/resources/Content_Design_Logbook.xlsx",
                               "Download the content checklist",
                               target = "_blank"
                             )
