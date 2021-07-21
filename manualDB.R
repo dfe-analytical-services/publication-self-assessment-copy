@@ -9,6 +9,7 @@ library(config)
 library(stringr)
 library(data.table)
 library(rvest)
+library(dbplyr)
 
 # DB connection ====
 
@@ -27,7 +28,7 @@ con <- DBI::dbConnect(odbc::odbc(),
 
 stop("Do not source or highlight all of this script. Run lines individually.")
 
-prodData <- dplyr::tbl(con, "publicationTrackingProduction") %>%
+prodData <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
   dplyr::collect()
 
 totalPubs <- prodData %>% 
@@ -95,12 +96,12 @@ stop("Do not source or highlight all of this script. Run lines individually.")
 
 # Rudimentary QA of the publications in the SA app compared to the master list
 
-masterPublicationOnly <- dplyr::tbl(con, "publicationMasterList") %>%
+masterPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>% 
   dplyr::collect() %>%
   dplyr::filter(where == "Find stats") %>%
   dplyr::distinct(publication)
 
-selfAssPublicationOnly <- dplyr::tbl(con, "publicationTrackingProduction") %>%
+selfAssPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo", "publicationTrackingProduction")) %>%
   dplyr::collect() %>%
   dplyr::distinct(publication)
 
@@ -148,7 +149,7 @@ updatePubNameSQL <- function(replacement_row) {
   replacement <- replacement_row[2]
 
   statement <- paste0(
-    "UPDATE publicationTrackingProduction SET publication = REPLACE(publication, '",
+    "UPDATE dbo.publicationTrackingProduction SET publication = REPLACE(publication, '",
     stringr::str_replace_all(original, "'", "''"), "', '",
     stringr::str_replace_all(replacement, "'", "''"), "')"
   )
@@ -165,12 +166,12 @@ stop("Do not source or highlight all of this script. Run lines individually.")
 # Create a list of publications that are missing from the master list, and create those, pre-filling whether or not they are on EES
 # Note that if a publication changes name then it will flag as missing, when actually you should run the renaming section above
 
-masterTablePublications <- dplyr::tbl(con, "publicationMasterList") %>%
+masterTablePublications <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>%
   dplyr::collect() %>%
   dplyr::filter(where == "Find stats") %>%
   select(publication, onEES)
 
-selfAssessmentProd <- dplyr::tbl(con, "publicationTrackingProduction") %>%
+selfAssessmentProd <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
   dplyr::collect()
 
 publications_to_create <- masterTablePublications %>%
@@ -220,7 +221,7 @@ createInSQL <- function(publication_row) {
   )
 
   statement <- paste0(
-    "INSERT INTO ", "publicationTrackingProduction",
+    "INSERT INTO ", "dbo.publicationTrackingProduction",
     " ([date], [g6], [tl],[publication],[published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
                         VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')"
   )
@@ -237,7 +238,7 @@ stop("Do not source or highlight all of this script. Run lines individually.")
 publications_to_delete <- c("Destinations of key stage 4 and key stage 5 pupils", "Graduate Outcomes (LEO): all publications")
 
 deleteFromSQL <- function(publication) {
-  statement <- paste0("DELETE FROM publicationTrackingProduction WHERE publication = '", stringr::str_replace_all(publication, "'", "''"), "';")
+  statement <- paste0("DELETE FROM dbo.publicationTrackingProduction WHERE publication = '", stringr::str_replace_all(publication, "'", "''"), "';")
   DBI::dbSendStatement(con, statement)
 }
 
