@@ -803,7 +803,7 @@ server <- function(input, output, session){
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    if(any(DT$date == "2019-09-28")) {
+    if(any(as.character(DT$date) == "2019-09-28 00:00:00")) {
       clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
       dbSendStatement(connection, clean_statement)
     }
@@ -850,7 +850,7 @@ server <- function(input, output, session){
       time_series_length = "No",
       processing_with_code = "No",
       sensible_folder_file_structure = "No",
-      approporiate_tools = "No", # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query)
+      approporiate_tools = "No", # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query, and in the KPIs in manualDB.R)
       single_database = "No",
       documentation = "No",
       files_meet_data_standards = "No",
