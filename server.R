@@ -23,7 +23,7 @@ server <- function(input, output, session){
       x$rowname == "processing_with_code" ~ "Processing is done with code",
       x$rowname == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
       x$rowname == "approporiate_tools" ~ "Use approporiate tools",
-      x$rowname == "single_database" ~ "All source data stored in single database",
+      x$rowname == "single_database" ~ "All source data stored in a database",
       x$rowname == "documentation" ~ "Documentation",
       x$rowname == "files_meet_data_standards" ~ "Files meet data standards",
       x$rowname == "basic_automated_qa" ~ "Basic automated QA",
@@ -422,18 +422,18 @@ server <- function(input, output, session){
                             9,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/ud.html#appropriate-tools",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#appropriate-tools",
                               "What the appropriate tools look like",
                               target = "_blank"
                             )
                           ), #Use appropriate tools
                           rag_it(
-                            "Is all source data stored in a single database?",
+                            "Is all source data stored in a database?",
                             "T10_add",
                             10,
                             DT,
                             a(
-                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#all-source-data-stored-in-single-database",
+                              href = "https://rsconnect/rsc/stats-production-guidance/rap.html#all-source-data-stored-in-a-database",
                               "How to set up and import data into a SQL database",
                               target = "_blank"
                             )
@@ -643,7 +643,7 @@ server <- function(input, output, session){
                           div(class = "row",
                               div(class = "col-sm-4","What targetted user research activites are taking place?"),
                               div(class = "col-sm-3", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))])),
-                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/pub.html#user-engagement","What targetted user research looks like",target = "_blank" ))),
+                              div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/user_eng.html","What targetted user research looks like",target = "_blank" ))),
                           # L&D
                           div(class = "row",
                               div(class = "col-sm-4","Any L&D requests or needs"),
