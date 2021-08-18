@@ -23,7 +23,7 @@ server <- function(input, output, session){
       x$rowname == "processing_with_code" ~ "Processing is done with code",
       x$rowname == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
       x$rowname == "approporiate_tools" ~ "Use approporiate tools",
-      x$rowname == "single_database" ~ "All source data stored in single database",
+      x$rowname == "single_database" ~ "All source data stored in a database",
       x$rowname == "documentation" ~ "Documentation",
       x$rowname == "files_meet_data_standards" ~ "Files meet data standards",
       x$rowname == "basic_automated_qa" ~ "Basic automated QA",
@@ -428,7 +428,7 @@ server <- function(input, output, session){
                             )
                           ), #Use appropriate tools
                           rag_it(
-                            "Is all source data stored in a single database?",
+                            "Is all source data stored in a database?",
                             "T10_add",
                             10,
                             DT,
