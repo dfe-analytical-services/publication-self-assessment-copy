@@ -12,6 +12,7 @@ library(DBI)
 library(dbplyr)
 library(stringr)
 library(config)
+library(ggplot2)
 
 # Pulling credentials for server access from config file ----
 

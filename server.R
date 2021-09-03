@@ -283,7 +283,7 @@ server <- function(input, output, session){
               container = sketch,
               selection = 'none',
               escape = F,
-              class = "compact cell-border",#list(stripe = FALSE),
+              class = "compact row-border",#list(stripe = FALSE),
               rownames = FALSE,
               colnames = NULL,
               options = list(
@@ -311,8 +311,6 @@ server <- function(input, output, session){
   })
   
   # Summary stats ----
-  
-  
   
   output$summary_lines <- renderUI({
     
@@ -343,11 +341,150 @@ server <- function(input, output, session){
                                     clean_final_code == "Yes",
                                     peer_review_outside_team == "Yes") %>% nrow()
     
-   HTML(paste0("<b>So far, out of all ", count_pubs, " publications, against our RAP levels,: </b>","<br/> • <b>",
+   HTML(paste0("<b>So far, out of all ", count_pubs, " publications, against our RAP levels: </b>","<br/> • <b>",
            count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
            count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
            count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
            ))
+    
+  })
+  
+  output$summary_table_num <- renderTable({
+    
+    table <- all_data$Data[, 1:25] %>%
+      group_by(publication) %>% 
+      arrange(date) %>% 
+      summarise_all(last)
+    
+    table %>% 
+      pivot_longer(!c(publication, date, g6, tl),
+                   names_to = "rap_level",
+                   values_to = "done") %>% 
+      group_by(rap_level) %>%  
+      mutate(rap_practice = case_when( 
+        rap_level %in% c("processing_with_code",
+                         "sensible_folder_file_structure",
+                         "approporiate_tools",
+                         "single_database",
+                         "documentation",
+                         "files_meet_data_standards",
+                         "basic_automated_qa") ~ "Good",
+        rap_level %in% c("recyclable_code",
+                         "single_data_production_scripts",
+                         "final_code_in_repo",
+                         "automated_insight_summaries",
+                         "peer_review_within_team",
+                         "publication_specifc_automated_qa") ~ "Great",
+        rap_level %in% c("collab_develop_using_git",
+                         "pub_specific_automated_insight_summaries",
+                         "single_data_production_scripts_with_qa",
+                         "single_publication_script",
+                         "clean_final_code",
+                         "peer_review_outside_team") ~ "Best",
+        TRUE ~ "EES checks")) %>%
+      mutate(rap_practice = factor(rap_practice, levels=c('EES checks','Good','Great','Best'))) %>%
+      group_by(rap_practice) %>%
+      count(done) %>%
+      mutate(percent=round(n/sum(n)*100,0)) %>%
+      select(!percent) %>%
+      pivot_wider(names_from = rap_practice, values_from = n)
+    
+  })
+  
+  output$summary_table_perc <- renderTable({
+    
+    table <- all_data$Data[, 1:25] %>%
+      group_by(publication) %>% 
+      arrange(date) %>% 
+      summarise_all(last)
+    
+    table %>% 
+      pivot_longer(!c(publication, date, g6, tl),
+                   names_to = "rap_level",
+                   values_to = "done") %>% 
+      group_by(rap_level) %>%  
+      mutate(rap_practice = case_when( 
+        rap_level %in% c("processing_with_code",
+                         "sensible_folder_file_structure",
+                         "approporiate_tools",
+                         "single_database",
+                         "documentation",
+                         "files_meet_data_standards",
+                         "basic_automated_qa") ~ "Good",
+        rap_level %in% c("recyclable_code",
+                         "single_data_production_scripts",
+                         "final_code_in_repo",
+                         "automated_insight_summaries",
+                         "peer_review_within_team",
+                         "publication_specifc_automated_qa") ~ "Great",
+        rap_level %in% c("collab_develop_using_git",
+                         "pub_specific_automated_insight_summaries",
+                         "single_data_production_scripts_with_qa",
+                         "single_publication_script",
+                         "clean_final_code",
+                         "peer_review_outside_team") ~ "Best",
+        TRUE ~ "EES checks")) %>%
+      mutate(rap_practice = factor(rap_practice, levels=c('EES checks','Good','Great','Best'))) %>%
+      group_by(rap_practice) %>%
+      count(done) %>%
+      mutate(percent=round(n/sum(n)*100,0)) %>%
+      select(!n) %>%
+      pivot_wider(names_from = rap_practice, values_from = percent)
+    
+  })
+  
+  output$summary_plot_level <- renderPlot({
+    
+    level_data <- all_data$Data[, 1:25] %>% 
+      pivot_longer(!c(publication, date, g6, tl),
+                   names_to = "rap_level",
+                   values_to = "done") %>% 
+      group_by(rap_level)  %>%
+      count(done) %>%
+      mutate(rap_practice = case_when( 
+        rap_level %in% c("processing_with_code",
+                         "sensible_folder_file_structure",
+                         "approporiate_tools",
+                         "single_database",
+                         "documentation",
+                         "files_meet_data_standards",
+                         "basic_automated_qa") ~ "Good",
+        rap_level %in% c("recyclable_code",
+                         "single_data_production_scripts",
+                         "final_code_in_repo",
+                         "automated_insight_summaries",
+                         "peer_review_within_team",
+                         "publication_specifc_automated_qa") ~ "Great",
+        rap_level %in% c("collab_develop_using_git",
+                         "pub_specific_automated_insight_summaries",
+                         "single_data_production_scripts_with_qa",
+                         "single_publication_script",
+                         "clean_final_code",
+                         "peer_review_outside_team") ~ "Best",
+        TRUE ~ "EES")) %>%
+      arrange(rap_practice)
+    
+    
+    level_data$rap_practice = factor(level_data$rap_practice, levels=c('EES','Good','Great','Best'))
+    
+    
+    ggplot(aes(y=n, x=rap_level, fill = done), data = level_data) +
+      geom_bar(stat = 'identity') +
+      coord_flip() +
+      scale_fill_manual('Done', values = c('#454b51', '#e87421', '#70ad47')) +
+      theme(plot.background = element_rect(fill = "#363b40", color = "#363b40"),
+            legend.background = element_rect(fill = "#363b40", color = "#363b40"),
+            panel.background = element_rect(fill = "#363b40", color = "#363b40"),
+            panel.grid = element_blank(),
+            legend.key = element_rect(fill = NA),
+            legend.title = element_text(size = 14, colour="#c8c8c8"),
+            legend.text = element_text(size = 14, colour="#c8c8c8"),
+            axis.text = element_text(size = 14, colour="#c8c8c8"),
+            strip.text= element_text(size = 14)) +
+      xlab("") +
+      ylab("") +
+      facet_grid(rap_practice~., scales = "free", space = "free")
+      
     
   })
   

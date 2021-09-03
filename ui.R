@@ -120,6 +120,17 @@ fluidPage(
              
              tabPanel("Overview of latest responses",
                       wellPanel(htmlOutput("summary_lines")),
+                      fluidRow(
+                        column(4,
+                               "Number of levels by status:",
+                               tableOutput("summary_table_num"),
+                               "Percentage of levels by status:",
+                               tableOutput("summary_table_perc")
+                        ),
+                        column(8,
+                               plotOutput("summary_plot_level")
+                        )
+                      ),
                       h4(strong("The latest status for each publication:")),
                       column(12,dataTableOutput("overview_table",width = "100%")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
