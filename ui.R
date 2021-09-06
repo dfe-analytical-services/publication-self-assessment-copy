@@ -119,25 +119,23 @@ fluidPage(
              # Overview page ----
              
              tabPanel("Overview of latest responses",
-                      wellPanel(htmlOutput("summary_lines")),
-                      fluidRow(
+                     fluidRow(
                         column(4,
-                               "Number of levels by status:",
-                               tableOutput("summary_table_num"),
-                               "Percentage of levels by status:",
-                               tableOutput("summary_table_perc")
-                        ),
+                               htmlOutput("summary_lines"),
+                               br(),
+                               br(),
+                               h4("RAP practice breakdown (number):"),
+                               radioButtons("summary_choice", label=NULL, c("Number", "Percentage"), inline = TRUE),
+                               tableOutput("summary_rap_practice")),
                         column(8,
-                               plotOutput("summary_plot_level")
-                        )
+                               h4("RAP level breakdown:"),
+                               plotOutput("summary_plot_level"))
                       ),
-                      h4(strong("The latest status for each publication:")),
+                     hr(),
+                      h4("The latest status for each publication:"),
                       column(12,dataTableOutput("overview_table",width = "100%")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
              )
-             
-             
-             
   ),
   
 HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
