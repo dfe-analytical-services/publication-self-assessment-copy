@@ -53,10 +53,10 @@ server <- function(input, output, session){
   
   # Publication progress tables ---- 
   
-  output$main_pub_table1 <- renderDataTable({ 
-    
-    x <- table_data() 
-    
+  output$main_pub_table1 <- renderDataTable({
+
+    x <- table_data()
+
     datatable(x[4:5,],
               rownames = FALSE,
               class = list(stripe = FALSE),
@@ -69,24 +69,11 @@ server <- function(input, output, session){
                   "function(settings, json) {",
                   "$(this.api().table().header()).css({'color': '#c8c8c8'});",
                   "}")
-              ) 
+              )
     )  %>%
-      formatStyle(2:ncol(x),
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(2:ncol(x)-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
-      formatStyle(ncol(x):ncol(x),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(2:ncol(x), `text-align` = 'center') %>%
-      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
-      formatStyle(2:ncol(x), width='200px')
-    #             
+      format_split_table(df=x)
   })
-  
+
   output$main_pub_table2 <- renderDataTable({ 
     
     x <- table_data()
@@ -102,20 +89,7 @@ server <- function(input, output, session){
                 pageLength = 30
               ) 
     )  %>%
-      formatStyle(2:ncol(x),
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(2:ncol(x)-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
-      formatStyle(ncol(x):ncol(x),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(2:ncol(x), `text-align` = 'center') %>%
-      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
-      formatStyle(2:ncol(x), width='200px')
-    #             
+      format_split_table(df=x) 
   })
   
   output$main_pub_table3 <- renderDataTable({ 
@@ -133,20 +107,7 @@ server <- function(input, output, session){
                 pageLength = 30
               ) 
     )  %>%
-      formatStyle(2:ncol(x),
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(2:ncol(x)-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
-      formatStyle(ncol(x):ncol(x),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(2:ncol(x), `text-align` = 'center') %>%
-      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
-      formatStyle(2:ncol(x), width='200px')
-    #             
+      format_split_table(df=x)             
   })
   
   output$main_pub_table4 <- renderDataTable({ 
@@ -164,20 +125,7 @@ server <- function(input, output, session){
                 pageLength = 30
               ) 
     )  %>%
-      formatStyle(2:ncol(x),
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(2:ncol(x)-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
-      formatStyle(ncol(x):ncol(x),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(2:ncol(x), `text-align` = 'center') %>%
-      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
-      formatStyle(2:ncol(x), width='200px')
-    #             
+      format_split_table(df=x)           
   })
   
   output$main_pub_table5 <- renderDataTable({ 
@@ -195,20 +143,7 @@ server <- function(input, output, session){
                 pageLength = 30
               ) 
     )  %>%
-      formatStyle(2:ncol(x),
-                  color = '#c8c8c8',
-                  background = '#363b40', # background colour for app is '#363b40'
-                  target = 'row') %>%
-      formatStyle(2:ncol(x)-1,
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#34373b', '#5e8742', '#c96c28'))) %>% # red - b05353
-      formatStyle(ncol(x):ncol(x),
-                  backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
-                                               c('#454b51', '#70ad47', '#e87421'))) %>% # red - d45859
-      formatStyle(2:ncol(x), `text-align` = 'center') %>%
-      formatStyle(2:ncol(x), border = '1px solid #4d5154') %>%
-      formatStyle(2:ncol(x), width='200px')
-    #             
+      format_split_table(df=x)             
   })
   
   # Overview tab ----
