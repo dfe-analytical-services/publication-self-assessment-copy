@@ -349,14 +349,14 @@ server <- function(input, output, session){
     
   })
   
-  output$summary_table_num <- renderTable({
+  
+  
+  rap_level_summary_data <- reactive({
     
-    table <- all_data$Data[, 1:25] %>%
+    all_data$Data[, 1:25] %>%
       group_by(publication) %>% 
       arrange(date) %>% 
-      summarise_all(last)
-    
-    table %>% 
+      summarise_all(last) %>% 
       pivot_longer(!c(publication, date, g6, tl),
                    names_to = "rap_level",
                    values_to = "done") %>% 
@@ -381,50 +381,47 @@ server <- function(input, output, session){
                          "single_publication_script",
                          "clean_final_code",
                          "peer_review_outside_team") ~ "Best",
-        TRUE ~ "EES checks")) %>%
-      mutate(rap_practice = factor(rap_practice, levels=c('EES checks','Good','Great','Best'))) %>%
+        rap_level %in% c("published_on_ees",
+                         "time_series_length") ~ "EES",
+        TRUE ~ "Other")) %>%
+      mutate(rap_practice = factor(rap_practice, levels=c('EES','Good','Great','Best'))) %>%
+      mutate(rap_level_label = case_when(
+        rap_level == "published_on_ees" ~ "Publication is published on EES",
+        rap_level == "time_series_length" ~ "Maximum time series published",
+        rap_level == "processing_with_code" ~ "Processing is done with code",
+        rap_level == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
+        rap_level == "approporiate_tools" ~ "Use approporiate tools",
+        rap_level == "single_database" ~ "All source data stored in single database",
+        rap_level == "documentation" ~ "Documentation",
+        rap_level == "files_meet_data_standards" ~ "Files meet data standards",
+        rap_level == "basic_automated_qa" ~ "Basic automated QA",
+        rap_level == "recyclable_code" ~ "Recyclable code for future use",
+        rap_level == "single_data_production_scripts" ~ "Single production scripts",
+        rap_level == "final_code_in_repo" ~ "Version controlled final code scripts",
+        rap_level == "automated_insight_summaries" ~ "Automated summaries",
+        rap_level == "peer_review_within_team" ~ "Peer review of code within team",
+        rap_level == "publication_specifc_automated_qa" ~ "Publication specifc automated QA",
+        rap_level == "collab_develop_using_git" ~ "Collaboratively develop code using git",
+        rap_level == "pub_specific_automated_insight_summaries" ~ "Publication specific automated summaries",
+        rap_level == "single_data_production_scripts_with_qa" ~ "Single production scripts with integrated QA",
+        rap_level == "single_publication_script" ~ "Single publication production script",
+        rap_level == "clean_final_code" ~ "Clean final code",
+        rap_level == "peer_review_outside_team" ~ "Peer review of code from outside the team"
+    ))
+    
+  })
+  
+  output$summary_table_num <- renderTable({
+    
+    rap_level_summary_data() %>%
       group_by(rap_practice) %>%
-      count(done) %>%
-      mutate(percent=round(n/sum(n)*100,0)) %>%
-      select(!percent) %>%
-      pivot_wider(names_from = rap_practice, values_from = n)
+      count(done) %>%pivot_wider(names_from = rap_practice, values_from = n)
     
   })
   
   output$summary_table_perc <- renderTable({
     
-    table <- all_data$Data[, 1:25] %>%
-      group_by(publication) %>% 
-      arrange(date) %>% 
-      summarise_all(last)
-    
-    table %>% 
-      pivot_longer(!c(publication, date, g6, tl),
-                   names_to = "rap_level",
-                   values_to = "done") %>% 
-      group_by(rap_level) %>%  
-      mutate(rap_practice = case_when( 
-        rap_level %in% c("processing_with_code",
-                         "sensible_folder_file_structure",
-                         "approporiate_tools",
-                         "single_database",
-                         "documentation",
-                         "files_meet_data_standards",
-                         "basic_automated_qa") ~ "Good",
-        rap_level %in% c("recyclable_code",
-                         "single_data_production_scripts",
-                         "final_code_in_repo",
-                         "automated_insight_summaries",
-                         "peer_review_within_team",
-                         "publication_specifc_automated_qa") ~ "Great",
-        rap_level %in% c("collab_develop_using_git",
-                         "pub_specific_automated_insight_summaries",
-                         "single_data_production_scripts_with_qa",
-                         "single_publication_script",
-                         "clean_final_code",
-                         "peer_review_outside_team") ~ "Best",
-        TRUE ~ "EES checks")) %>%
-      mutate(rap_practice = factor(rap_practice, levels=c('EES checks','Good','Great','Best'))) %>%
+    rap_level_summary_data() %>%
       group_by(rap_practice) %>%
       count(done) %>%
       mutate(percent=round(n/sum(n)*100,0)) %>%
@@ -435,40 +432,13 @@ server <- function(input, output, session){
   
   output$summary_plot_level <- renderPlot({
     
-    level_data <- all_data$Data[, 1:25] %>% 
-      pivot_longer(!c(publication, date, g6, tl),
-                   names_to = "rap_level",
-                   values_to = "done") %>% 
-      group_by(rap_level)  %>%
+    plot_data <- rap_level_summary_data() %>%
+      group_by(rap_level_label, rap_practice) %>%
       count(done) %>%
-      mutate(rap_practice = case_when( 
-        rap_level %in% c("processing_with_code",
-                         "sensible_folder_file_structure",
-                         "approporiate_tools",
-                         "single_database",
-                         "documentation",
-                         "files_meet_data_standards",
-                         "basic_automated_qa") ~ "Good",
-        rap_level %in% c("recyclable_code",
-                         "single_data_production_scripts",
-                         "final_code_in_repo",
-                         "automated_insight_summaries",
-                         "peer_review_within_team",
-                         "publication_specifc_automated_qa") ~ "Great",
-        rap_level %in% c("collab_develop_using_git",
-                         "pub_specific_automated_insight_summaries",
-                         "single_data_production_scripts_with_qa",
-                         "single_publication_script",
-                         "clean_final_code",
-                         "peer_review_outside_team") ~ "Best",
-        TRUE ~ "EES")) %>%
-      arrange(rap_practice)
+      arrange(rap_practice) 
     
-    
-    level_data$rap_practice = factor(level_data$rap_practice, levels=c('EES','Good','Great','Best'))
-    
-    
-    ggplot(aes(y=n, x=rap_level, fill = done), data = level_data) +
+    plot_data %>%
+      ggplot(aes(y=n, x=rap_level_label, fill = done)) +
       geom_bar(stat = 'identity') +
       coord_flip() +
       scale_fill_manual('Done', values = c('#454b51', '#e87421', '#70ad47')) +
@@ -484,8 +454,7 @@ server <- function(input, output, session){
       xlab("") +
       ylab("") +
       facet_grid(rap_practice~., scales = "free", space = "free")
-      
-    
+  
   })
   
   # Add latest publication progress form 
