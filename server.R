@@ -1,11 +1,11 @@
 server <- function(input, output, session){
-
+  
   # Main dataset ----
   
   all_data <- reactiveValues()
   
   # Pulling from SQL ----
-
+  
   all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect() %>% arrange(date) 
   
   table_data <- reactive({
@@ -48,9 +48,9 @@ server <- function(input, output, session){
     names(x)[names(x) == 'rowname'] <- ''
     
     return(x)
-
+    
   })
-
+  
   # Publication progress tables ---- 
   
   output$main_pub_table1 <- renderDataTable({ 
@@ -180,7 +180,6 @@ server <- function(input, output, session){
     #             
   })
   
-  
   output$main_pub_table5 <- renderDataTable({ 
     
     x <- table_data()
@@ -211,7 +210,6 @@ server <- function(input, output, session){
       formatStyle(2:ncol(x), width='200px')
     #             
   })
-  
   
   # Overview tab ----
   
@@ -280,7 +278,7 @@ server <- function(input, output, session){
   ## Publication table ----
   
   output$overview_table <- renderDataTable({
-  
+    
     table <- all_data$Data %>%
       group_by(publication) %>% 
       arrange(date) %>% 
@@ -342,7 +340,6 @@ server <- function(input, output, session){
     
 }" #this is really ugly! Must be a way to iterate this but works for now
     
-    
     datatable(table[,c(1,5:29)],
               container = sketch,
               selection = 'none',
@@ -361,11 +358,11 @@ server <- function(input, output, session){
                 pageLength = 100
               )#,
               #extensions = "FixedHeader") 
-              )%>% 
+    )%>% 
       formatStyle(1:ncol(table),
-        color = '#c8c8c8',
-        background = '#363b40', # background colour for app is '#363b40'
-        target = 'row') %>%
+                  color = '#c8c8c8',
+                  background = '#363b40', # background colour for app is '#363b40'
+                  target = 'row') %>%
       formatStyle(1:ncol(table),
                   backgroundColor = styleEqual(c('No', 'Yes', 'Working on it'),
                                                c('#454b51', '#70ad47', '#e87421'))) %>% 
@@ -384,7 +381,7 @@ server <- function(input, output, session){
       summarise_all(last)
     
     count_pubs <- table %>%  select(publication) %>% nrow()
-   
+    
     count_good <- table %>% filter(processing_with_code == "Yes",
                                    sensible_folder_file_structure =="Yes",
                                    approporiate_tools == "Yes",
@@ -393,26 +390,25 @@ server <- function(input, output, session){
                                    files_meet_data_standards == "Yes",
                                    basic_automated_qa =="Yes") %>% nrow()
     count_great <- table %>% filter(recyclable_code == "Yes",
-                                   single_data_production_scripts =="Yes",
-                                   final_code_in_repo == "Yes",
-                                   automated_insight_summaries == "Yes",
-                                   peer_review_within_team == "Yes",
-                                   publication_specifc_automated_qa == "Yes") %>% nrow()
+                                    single_data_production_scripts =="Yes",
+                                    final_code_in_repo == "Yes",
+                                    automated_insight_summaries == "Yes",
+                                    peer_review_within_team == "Yes",
+                                    publication_specifc_automated_qa == "Yes") %>% nrow()
     count_best <- table %>% filter(collab_develop_using_git == "Yes",
-                                    pub_specific_automated_insight_summaries =="Yes",
-                                    single_data_production_scripts_with_qa == "Yes",
-                                    single_publication_script == "Yes",
-                                    clean_final_code == "Yes",
-                                    peer_review_outside_team == "Yes") %>% nrow()
+                                   pub_specific_automated_insight_summaries =="Yes",
+                                   single_data_production_scripts_with_qa == "Yes",
+                                   single_publication_script == "Yes",
+                                   clean_final_code == "Yes",
+                                   peer_review_outside_team == "Yes") %>% nrow()
     
-   HTML(paste0("<h4>So far, out of all ", count_pubs, " publications: </h4>","<br/> • <b>",
-           count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
-           count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
-           count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
-           ))
+    HTML(paste0("<h4>So far, out of all ", count_pubs, " publications: </h4>","<br/> • <b>",
+                count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
+                count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
+                count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
+    ))
     
   })
-  
   
   output$summary_rap_practice <- renderTable({
     if (input$summary_choice == "Number") {
@@ -432,7 +428,7 @@ server <- function(input, output, session){
       
     }
   }, width = "90%")
-
+  
   output$summary_plot_level <- renderPlot({
     
     plot_data <- rap_level_summary_data() %>%
@@ -455,14 +451,15 @@ server <- function(input, output, session){
             axis.text = element_text(size = 14, colour="#c8c8c8"),
             axis.text.x = element_blank(),
             strip.text = element_text(size = 14)
-            ) +
+      ) +
       xlab("") +
       ylab("") +
       facet_grid(rap_practice~., scales = "free", space = "free")
-  
-    ## Ideally we would ggplotly this but there is a known bug with with how 
-    ## facets are handled which leads to dodgy bar widths and spacing. Leaving 
+    
+    ## Ideally we would ggplotly this but there seems to be a known bug with with 
+    ## how facets are handled which leads to dodgy bar widths and spacing. Leaving 
     ## the code here so we can swap to it if it ever starts working...
+    ## Issue is that space = "free" is reset when using ggplotly
     
     # plot <- plot_data %>%
     #   ggplot(aes(y=n, x=rap_level_label, fill = done)) +
@@ -774,7 +771,7 @@ server <- function(input, output, session){
                               target = "_blank"
                             )
                           ), 
-                         # # Targetted user research activities
+                          # # Targetted user research activities
                           div(class = "row",
                               div(class = "col-sm-4","What targetted user research activites are taking place?"),
                               div(class = "col-sm-3", textInput("T28_add",label = NULL, value = t(DT)[28,ncol(t(DT))])),
@@ -784,12 +781,12 @@ server <- function(input, output, session){
                               div(class = "col-sm-4","Any L&D requests or needs"),
                               div(class = "col-sm-3", textInput("T29_add",label = NULL, value = t(DT)[29,ncol(t(DT))])),
                               div(class = "col-sm-5", a(href = "https://rsconnect/rsc/stats-production-guidance/l+d.html","L&D resources",target = "_blank" ))),
-
+                          
                           actionButton("go", "Add item"),
                           
                           easyClose = TRUE, footer = NULL
                           , size = "l" 
-                          ))
+    ))
     
     
   })
@@ -800,8 +797,6 @@ server <- function(input, output, session){
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    
-    
     showModal(modalDialog(title = "Delete a column",#"Add a new row",
                           div(class = "row",
                               div(class = "col-sm-4","Select column to delete:"),
@@ -810,25 +805,25 @@ server <- function(input, output, session){
                                                                   choices = sort(unique(DT$date)),
                                                                   width = "100%")),
                               div(class = "col-sm-5", "")),
-
+                          
                           div(class = "row",
                               div(class = "col-sm-4","Preview column to delete:"),
                               div(class = "col-sm-3", renderDataTable(datatable((DT %>% 
-                                                                        filter(date == as_datetime(input$col_choice)) %>% 
-                                                                        t()),
-                                                                        rownames = TRUE,
-                                                                        class = list(stripe = FALSE),
-                                                                        selection = 'none',
-                                                                        options = list(
-                                                                          dom = 't', # simple table output (add other letters for search, filter etc)
-                                                                          bSort=FALSE,
-                                                                          pageLength = 30,
-                                                                          headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
-                                                                          initComplete = JS(
-                                                                            "function(settings, json) {",
-                                                                            "$(this.api().table().header()).css({'color': '#c8c8c8'});",
-                                                                            "}")
-                                                                        ) 
+                                                                                   filter(date == as_datetime(input$col_choice)) %>% 
+                                                                                   t()),
+                                                                                rownames = TRUE,
+                                                                                class = list(stripe = FALSE),
+                                                                                selection = 'none',
+                                                                                options = list(
+                                                                                  dom = 't', # simple table output (add other letters for search, filter etc)
+                                                                                  bSort=FALSE,
+                                                                                  pageLength = 30,
+                                                                                  headerCallback = JS("function(thead, data, start, end, display){","  $(thead).css({'background-color': '#363b40'});","}"), # removes header
+                                                                                  initComplete = JS(
+                                                                                    "function(settings, json) {",
+                                                                                    "$(this.api().table().header()).css({'color': '#c8c8c8'});",
+                                                                                    "}")
+                                                                                ) 
                               ) %>% 
                                 formatStyle(1:1,
                                             color = '#c8c8c8',
@@ -839,15 +834,14 @@ server <- function(input, output, session){
                                                                          c('#454b51', '#70ad47', '#e87421'))) %>% 
                                 #formatStyle(2:ncol(table), `text-align` = 'center') %>%
                                 formatStyle(1:1, border = '1px solid #4d5154')
-                                                                        
-                                                                        )),
+                              
+                              )),
                               div(class = "col-sm-5", "")),
                           actionButton("go_delete", "Delete item"),
                           
                           easyClose = TRUE, footer = NULL
                           , size = "l" 
     ))
-    
     
   })
   
@@ -862,29 +856,28 @@ server <- function(input, output, session){
     )
   })
   
-  
   observeEvent(input$myconfirmation,{
     
     if (isTRUE(input$myconfirmation)){
-    # Update SQL database
-   #statement <- paste0("WITH CTE AS (SELECT *, ROW_NUMBER() OVER (ORDER BY date DESC) rn FROM ","publicationTracking", environment," WHERE publication = 'Test')",
-    #                     " DELETE FROM CTE where rn = 6")
-    # 
-    statement <- paste0("DELETE FROM publicationTracking", environment," WHERE publication = '", str_replace_all(input$publication_choice,"'","''"),"' and DATE = '", input$col_choice,"'")
-    
-    dbSendStatement(connection, statement)
-    
-    # Update the main data
-    all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
-    
-    removeModal()
-
-    sendSweetAlert(
-      session = session,
-      title = "Deleted!",
-      type = "success"
-    )
-    
+      # Update SQL database
+      #statement <- paste0("WITH CTE AS (SELECT *, ROW_NUMBER() OVER (ORDER BY date DESC) rn FROM ","publicationTracking", environment," WHERE publication = 'Test')",
+      #                     " DELETE FROM CTE where rn = 6")
+      # 
+      statement <- paste0("DELETE FROM publicationTracking", environment," WHERE publication = '", str_replace_all(input$publication_choice,"'","''"),"' and DATE = '", input$col_choice,"'")
+      
+      dbSendStatement(connection, statement)
+      
+      # Update the main data
+      all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
+      
+      removeModal()
+      
+      sendSweetAlert(
+        session = session,
+        title = "Deleted!",
+        type = "success"
+      )
+      
     }
     
   })
@@ -931,9 +924,9 @@ server <- function(input, output, session){
     statement <- paste0("INSERT INTO ", "publicationTracking", environment, 
                         " ([date], [g6], [tl], [publication], [published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
                         VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
-
+    
     dbSendStatement(connection, statement)
-  
+    
     # Remove any test rows
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
@@ -942,41 +935,40 @@ server <- function(input, output, session){
       clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
       dbSendStatement(connection, clean_statement)
     }
-
+    
     # Update the main data
     all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
     
     removeModal()
-  
+    
     sendSweetAlert(
-          session = session,
-          title = "Saved!",
-          type = "success"
-        )
-
+      session = session,
+      title = "Saved!",
+      type = "success"
+    )
     
   })
   
   # Adding a new publication  ----
   observeEvent (input$Add_publication_head,{
-
+    
     showModal(modalDialog(title = "Add a new publication",#"Add a new row",
                           div(class = "row",
                               div(class = "col-sm-4","Enter publication name:"),
                               div(class = "col-sm-3", textInput("New_publication_add",label = NULL)),
                               div(class = "col-sm-5", "")),
-
+                          
                           div(class = "col-sm-5", ""),
                           actionButton("add_publication_modal", "Add publication"),
-
+                          
                           easyClose = TRUE, footer = NULL
                           , size = "l"
     ))
   })
-
+  
   observeEvent (input$add_publication_modal,{
     new_row <- data.frame(
-
+      
       date = "2019-09-28",
       g6 = "TBC",
       tl = "TBC",
@@ -1007,32 +999,31 @@ server <- function(input, output, session){
       targetted_user_research = "No",
       l_and_d_requests = "No"
     )
-
+    
     # Update SQL database
     statement <- paste0("INSERT INTO ", "publicationTracking", environment,
                         " ([date], [g6], [tl],[publication],[published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
                         VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
-
+    
     dbSendStatement(connection, statement)
-
+    
     # Update the main data
     all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
-
+    
     updated_data <- all_data$Data  %>%  rbind(new_row %>% mutate(publication = str_replace_all(publication,"''","'")))
-
+    
     updateSelectInput(session,"publication_choice",
                       choices = sort(unique(updated_data$publication)))
-
+    
     removeModal()
-
-   # send confirmation message
+    
+    # send confirmation message
     sendSweetAlert(
       session = session,
       title = "Saved!",
       type = "success"
     )
-
-
+    
   })
   
   # Download data ----
@@ -1054,7 +1045,6 @@ server <- function(input, output, session){
       write.csv(data.frame(all_data$Data), file, row.names = F)
     }
   )
-  
   
   # Stop app ----
   
