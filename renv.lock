@@ -1,10 +1,6 @@
 {
   "R": {
-<<<<<<< HEAD
-    "Version": "4.0.3",
-=======
     "Version": "4.1.0",
->>>>>>> development
     "Repositories": [
       {
         "Name": "CRAN",
@@ -300,21 +296,19 @@
       "Repository": "CRAN",
       "Hash": "b9d5d39be2150cf86538b8488334b8f8"
     },
-<<<<<<< HEAD
     "isoband": {
       "Package": "isoband",
       "Version": "0.2.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "7ab57a6de7f48a8dc84910d1eca42883"
-=======
+    },
     "httr": {
       "Package": "httr",
       "Version": "1.4.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "a525aba14184fec243f9eaec62fbed43"
->>>>>>> development
     },
     "janitor": {
       "Package": "janitor",
@@ -491,21 +485,19 @@
       "Repository": "CRAN",
       "Hash": "3ef1adfe46b7b144b970d74ce33ab0d6"
     },
-<<<<<<< HEAD
     "scales": {
       "Package": "scales",
       "Version": "1.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "6f76f71042411426ec8df6c54f34e6dd"
-=======
+      },
     "selectr": {
       "Package": "selectr",
       "Version": "0.4-2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "3838071b66e0c566d55cc26bd6e27bf4"
->>>>>>> development
     },
     "shiny": {
       "Package": "shiny",
