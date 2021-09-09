@@ -82,13 +82,13 @@ fluidPage(
                                div(class = "row",
                                    div(class = "col-sm-3", style = "margin-top: 10px", "Choose publication:"),
                                    div(class = "col-sm-9",   selectizeInput("publication_choice",
-                                                                       label = NULL,
-                                                                       choices = sort(unique(start_data$publication)),
-                                                                       options = list(
-                                                                         placeholder = 'Please select a publication',
-                                                                         onInitialize = I('function() { this.setValue(""); }')
-                                                                       ),
-                                                                       width = "100%")))
+                                                                            label = NULL,
+                                                                            choices = sort(unique(start_data$publication)),
+                                                                            options = list(
+                                                                              placeholder = 'Please select a publication',
+                                                                              onInitialize = I('function() { this.setValue(""); }')
+                                                                            ),
+                                                                            width = "100%")))
                         ),
                         column(5, 
                                fluidRow(
@@ -98,39 +98,48 @@ fluidPage(
                                         actionButton(inputId = "Delete_row_head",label = "Delete response", icon = icon("fas fa-minus"),width = "100%")),
                                  column(4, 
                                         actionButton(inputId = "Add_publication_head",label = "Create new publication", icon = icon("fas fa-file-medical"),width = "100%"))
-                        )
-                      )),
+                               )
+                        )),
                       hr(),
                       
                       conditionalPanel("input.publication_choice != ''",
-                      dataTableOutput("main_pub_table1"),
-                      h4(strong("RAP levels - Good")),
-                      dataTableOutput("main_pub_table2"),
-                      h4(strong("RAP levels - Great")),
-                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table3", width = "100%")),
-                      h4(strong("RAP levels - Best")),
-                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
-                      h4(strong("Continuous improvement")),
-                      div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
-                      br(),
-                      fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
-             )),
+                                       dataTableOutput("main_pub_table1"),
+                                       h4(strong("RAP levels - Good")),
+                                       dataTableOutput("main_pub_table2"),
+                                       h4(strong("RAP levels - Great")),
+                                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table3", width = "100%")),
+                                       h4(strong("RAP levels - Best")),
+                                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table4", width = "100%")),
+                                       h4(strong("Continuous improvement")),
+                                       div(style = "margin-left: 0px", dataTableOutput("main_pub_table5", width = "100%")),
+                                       br(),
+                                       fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
+                      )),
              
              # Overview page ----
              
              tabPanel("Overview of latest responses",
-                      wellPanel(htmlOutput("summary_lines")),
-                      h4(strong("The latest status for each publication:")),
+                      fluidRow(
+                        column(4,
+                               htmlOutput("summary_lines"),
+                               br(),
+                               br(),
+                               h4("RAP practice breakdown (number):"),
+                               radioButtons("summary_choice", label=NULL, c("Number", "Percentage"), inline = TRUE),
+                               tableOutput("summary_rap_practice")),
+                        column(8,
+                               h4("RAP level breakdown:"),
+                               plotOutput("summary_plot_level"))
+                      ),
+                      hr(),
+                      h4("The latest status for each publication:"),
                       column(12,dataTableOutput("overview_table",width = "100%")),
                       fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
              )
-             
-             
-             
   ),
   
-HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
+  HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
 parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:statistics.development@education.gov.uk\">statistics.development@education.gov.uk</a></li></ul>' );</script>")
-              
-  )
+  
+)
 
