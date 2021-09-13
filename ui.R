@@ -124,7 +124,7 @@ fluidPage(
                                htmlOutput("summary_lines"),
                                br(),
                                br(),
-                               h4("RAP practice breakdown (number):"),
+                               h4("RAP practice breakdown:"),
                                radioButtons("summary_choice", label=NULL, c("Number", "Percentage"), inline = TRUE),
                                tableOutput("summary_rap_practice")),
                         column(8,
