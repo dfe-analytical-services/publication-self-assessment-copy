@@ -867,7 +867,7 @@ server <- function(input, output, session){
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
     if(any(as.character(DT$date) == "2019-09-28 00:00:00")) {
-      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
+      clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28 00:00:00';")
       dbSendStatement(connection, clean_statement)
     }
     
