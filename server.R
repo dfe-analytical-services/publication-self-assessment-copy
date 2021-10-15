@@ -206,7 +206,9 @@ server <- function(input, output, session){
         rap_level == "single_publication_script" ~ "Single publication production script",
         rap_level == "clean_final_code" ~ "Clean final code",
         rap_level == "peer_review_outside_team" ~ "Peer review of code from outside the team"
-      ))
+      )) %>% 
+      mutate(done = if_else(date==as_datetime("2019-09-28"), "No response", as.character(done)),
+             done = factor(done, levels=c("No response","No","Working on it","Yes"))) 
     
   })
   
@@ -375,7 +377,7 @@ server <- function(input, output, session){
       ggplot(aes(y=n, x=rap_level_label, fill = done)) +
       geom_bar(stat = 'identity') +
       coord_flip() +
-      scale_fill_manual('Done', values = c('#454b51', '#e87421', '#70ad47')) +
+      scale_fill_manual('Done', values = c('#000000','#454b51', '#e87421', '#70ad47')) +
       theme(plot.background = element_rect(fill = "#363b40", color = "#363b40"),
             legend.background = element_rect(fill = "#363b40", color = "#363b40"),
             panel.background = element_rect(fill = "#363b40", color = "#363b40"),
