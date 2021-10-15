@@ -190,7 +190,7 @@ server <- function(input, output, session){
         rap_level == "processing_with_code" ~ "Processing is done with code",
         rap_level == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
         rap_level == "approporiate_tools" ~ "Use appropriate tools",
-        rap_level == "single_database" ~ "All source data stored in single database",
+        rap_level == "single_database" ~ "All source data stored in a database",
         rap_level == "documentation" ~ "Documentation",
         rap_level == "files_meet_data_standards" ~ "Files meet data standards",
         rap_level == "basic_automated_qa" ~ "Basic automated QA",
@@ -207,6 +207,20 @@ server <- function(input, output, session){
         rap_level == "clean_final_code" ~ "Clean final code",
         rap_level == "peer_review_outside_team" ~ "Peer review of code from outside the team"
       )) %>% 
+      mutate(rap_level_label = factor(rap_level_label, levels = c(
+        #EES
+        "Publication is published on EES", "Maximum time series published"
+        #GOOD
+        ,"Processing is done with code","Sensible folder and file structure","Use appropriate tools","All source data stored in a database",
+        "Documentation","Files meet data standards", "Basic automated QA"
+        #GREAT
+        ,"Recyclable code for future use","Single production scripts","Version controlled final code scripts",
+        "Automated summaries","Peer review of code within team","Publication specifc automated QA"
+        #BEST
+        ,"Collaboratively develop code using git","Publication specific automated summaries","Single production scripts with integrated QA",
+        "Single publication production script","Clean final code","Peer review of code from outside the team"
+        
+      ))) %>% 
       mutate(done = if_else(date==as_datetime("2019-09-28"), "No response", as.character(done)),
              done = factor(done, levels=c("No response","No","Working on it","Yes"))) 
     
