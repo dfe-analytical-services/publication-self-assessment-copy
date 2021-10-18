@@ -190,7 +190,7 @@ server <- function(input, output, session){
         rap_level == "processing_with_code" ~ "Processing is done with code",
         rap_level == "sensible_folder_file_structure" ~ "Sensible folder and file structure",
         rap_level == "approporiate_tools" ~ "Use appropriate tools",
-        rap_level == "single_database" ~ "All source data stored in single database",
+        rap_level == "single_database" ~ "All source data stored in a database",
         rap_level == "documentation" ~ "Documentation",
         rap_level == "files_meet_data_standards" ~ "Files meet data standards",
         rap_level == "basic_automated_qa" ~ "Basic automated QA",
@@ -206,7 +206,23 @@ server <- function(input, output, session){
         rap_level == "single_publication_script" ~ "Single publication production script",
         rap_level == "clean_final_code" ~ "Clean final code",
         rap_level == "peer_review_outside_team" ~ "Peer review of code from outside the team"
-      ))
+      )) %>% 
+      mutate(rap_level_label = factor(rap_level_label, levels = c(
+        #EES
+        "Publication is published on EES", "Maximum time series published"
+        #GOOD
+        ,"Processing is done with code","Sensible folder and file structure","Use appropriate tools","All source data stored in a database",
+        "Documentation","Files meet data standards", "Basic automated QA"
+        #GREAT
+        ,"Recyclable code for future use","Single production scripts","Version controlled final code scripts",
+        "Automated summaries","Peer review of code within team","Publication specifc automated QA"
+        #BEST
+        ,"Collaboratively develop code using git","Publication specific automated summaries","Single production scripts with integrated QA",
+        "Single publication production script","Clean final code","Peer review of code from outside the team"
+        
+      ))) %>% 
+      mutate(done = if_else(date==as_datetime("2019-09-28"), "No response", as.character(done)),
+             done = factor(done, levels=c("No response","No","Working on it","Yes"))) 
     
   })
   
@@ -375,7 +391,7 @@ server <- function(input, output, session){
       ggplot(aes(y=n, x=rap_level_label, fill = done)) +
       geom_bar(stat = 'identity') +
       coord_flip() +
-      scale_fill_manual('Done', values = c('#454b51', '#e87421', '#70ad47')) +
+      scale_fill_manual('Done', values = c('#000000','#454b51', '#e87421', '#70ad47')) +
       theme(plot.background = element_rect(fill = "#363b40", color = "#363b40"),
             legend.background = element_rect(fill = "#363b40", color = "#363b40"),
             panel.background = element_rect(fill = "#363b40", color = "#363b40"),
@@ -802,6 +818,49 @@ server <- function(input, output, session){
       
       dbSendStatement(connection, statement)
       
+      if(nrow(all_data$Data %>% dplyr::filter(publication == input$publication_choice)) == 1){
+        
+        new_row <- data.frame(
+          
+          date = "2019-09-28",
+          g6 = "TBC",
+          tl = "TBC",
+          publication = str_replace_all(input$publication_choice,"'","''"),
+          published_on_ees = "No",
+          time_series_length = "No",
+          processing_with_code = "No",
+          sensible_folder_file_structure = "No",
+          approporiate_tools = "No", # Leaving this typo in as it is the column name in the database now (also referred to in line 594, the SQL query, and in the KPIs in manualDB.R)
+          single_database = "No",
+          documentation = "No",
+          files_meet_data_standards = "No",
+          basic_automated_qa = "No",
+          recyclable_code = "No",
+          single_data_production_scripts = "No",
+          final_code_in_repo = "No",
+          automated_insight_summaries = "No",
+          peer_review_within_team = "No",
+          publication_specifc_automated_qa = "No",
+          collab_develop_using_git = "No",
+          pub_specific_automated_insight_summaries = "No",
+          single_data_production_scripts_with_qa = "No",
+          single_publication_script = "No",
+          clean_final_code = "No",
+          peer_review_outside_team = "No",
+          content_checklist = "No",
+          content_peer_review = "No",
+          targetted_user_research = "No",
+          l_and_d_requests = "No"
+        )
+        
+          statement <- paste0("INSERT INTO ", "publicationTracking", environment,
+                              " ([date], [g6], [tl],[publication],[published_on_ees], [time_series_length], [processing_with_code], [sensible_folder_file_structure], [approporiate_tools], [single_database], [documentation], [files_meet_data_standards], [basic_automated_qa], [recyclable_code], [single_data_production_scripts], [final_code_in_repo], [automated_insight_summaries], [peer_review_within_team], [publication_specifc_automated_qa], [collab_develop_using_git], [pub_specific_automated_insight_summaries], [single_data_production_scripts_with_qa], [single_publication_script], [clean_final_code], [peer_review_outside_team], [content_checklist], [content_peer_review], [targetted_user_research], [l_and_d_requests])
+                        VALUES ('", paste0(as.vector(new_row), collapse = "', '"), "')")
+          
+        
+        dbSendStatement(connection, statement)
+      }
+      
       # Update the main data
       all_data$Data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
       
@@ -866,7 +925,7 @@ server <- function(input, output, session){
     
     DT <- all_data$Data %>% dplyr::filter(publication == input$publication_choice)
     
-    if(any(as.character(DT$date) == "2019-09-28 00:00:00")) {
+    if(any(DT$date == as_datetime("2019-09-28"))) {
       clean_statement <- paste0("DELETE FROM publicationTracking", environment, " WHERE [publication] = '", str_replace_all(input$publication_choice,"'","''"), "' AND [date] = '2019-09-28';")
       dbSendStatement(connection, clean_statement)
     }
