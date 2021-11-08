@@ -26,6 +26,23 @@ con <- DBI::dbConnect(odbc::odbc(),
 
 # KPIs ======================================================================================================================================
 
+stop("Do not source or highlight all of this script. Run desired lines individually.")
+
+prodData <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
+  dplyr::collect()
+
+# Discounted publications
+
+fread("cam_manual_faffing/08112021_masterList.csv") %>% 
+  filter(rap == "No") %>% 
+  pull(publication)
+
+# Count of publications
+
+totalPubs <- prodData %>% 
+  dplyr::distinct(publication) %>% 
+  nrow()
+
 # Publication responses
 
 nonResponders <- prodData %>%
@@ -36,37 +53,6 @@ nonResponders <- prodData %>%
 
 message("Out of ", totalPubs, " publications, ", nrow(nonResponders), " are yet to respond. These are: ")
 print(nonResponders)
-
-# Below here is a mess of things, I (Cam) will review and tidy to make more useful...
-
-stop("Do not source or highlight all of this script. Run lines individually.")
-
-prodData <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
-  dplyr::collect()
-
-updated_master <- read.csv("08112021_masterList.csv")
-
-upMasterPubOnly <- updated_master %>% 
-  filter(rap == "Yes") %>% 
-  distinct(publication)
-
-upMasterPubRemove <- updated_master %>% 
-  filter(rap == "No") %>% 
-  distinct(publication)
-
-
-pubsToRemove <- prodData %>% 
-  dplyr::distinct(publication) %>% 
-  dplyr::filter(publication %in% upMasterPubRemove$publication)
-
-pubsToRemove <- rbind(pubsToRemove, "Multi-academy trust performance measures at key stage 2")
-  
-
-totalPubs <- prodData %>% 
-  dplyr::distinct(publication) %>% 
-  #dplyr::filter(!publication %in% extraneousPublications$publication) %>% 
-  dplyr::filter(!publication %in% pubsToRemove$publication) %>% 
-  nrow()
 
 # On EES
 
@@ -82,155 +68,11 @@ onEESactually <- onFindStats[onFindStats %>% stringr::str_detect(".*Create your 
   stringr::str_extract(".*View statistics and data") %>% 
   stringr::str_remove("View statistics and data")
 
-# Good and great practice
-  
-goodGreatPubs <- prodData %>% 
-  group_by(publication) %>%
-  filter(date < "2021-10-31") %>% 
-  slice(which.max(date)) %>% 
-  ungroup() %>% 
-  dplyr::filter(
-    processing_with_code == "Yes",
-    sensible_folder_file_structure == "Yes",
-    approporiate_tools == "Yes",
-    single_database == "Yes",
-    documentation == "Yes",
-    files_meet_data_standards == "Yes",
-    basic_automated_qa == "Yes",
-    recyclable_code == "Yes",
-    single_data_production_scripts == "Yes",
-    final_code_in_repo == "Yes",
-    automated_insight_summaries == "Yes",
-    peer_review_within_team == "Yes",
-    publication_specifc_automated_qa == "Yes"
-    ) %>% 
-  dplyr::filter(!publication %in% pubsToRemove$publication) %>% 
-  dplyr::distinct(publication)
-
-
-goodPubs <- prodData %>% 
-  group_by(publication) %>%
-  slice(which.max(date)) %>% 
-  ungroup() %>% 
-  dplyr::filter(
-    processing_with_code == "Yes",
-    sensible_folder_file_structure == "Yes",
-    approporiate_tools == "Yes",
-    single_database == "Yes",
-    documentation == "Yes",
-    files_meet_data_standards == "Yes",
-    basic_automated_qa == "Yes"
-  ) %>% 
-  dplyr::filter(!publication %in% extraneousPublications) %>% 
-  dplyr::distinct(publication)
-
-# Overall percentage
-
-goodgreat_steps <- prodData %>% 
-  group_by(publication) %>%
-  slice(which.max(date)) %>% 
-  ungroup() %>% 
-  dplyr::filter(!publication %in% pubsToRemove$publication) %>% 
-  select(processing_with_code,
-         sensible_folder_file_structure,
-         approporiate_tools,
-         single_database,
-         documentation,
-         files_meet_data_standards,
-         basic_automated_qa,
-         recyclable_code,
-         single_data_production_scripts,
-         final_code_in_repo,
-         automated_insight_summaries,
-         peer_review_within_team,
-         publication_specifc_automated_qa) %>% 
-  unlist()
-
-yes_steps <- length(goodgreat_steps[goodgreat_steps == "Yes"])
-  
-overall_percentage <- round(100 * yes_steps / length(goodgreat_steps), 2)
-
-# Overall percentage
-
-goodgreat_steps <- prodData %>% 
-  group_by(publication) %>%
-  filter(date < "2021-09-30") %>% 
-  slice(which.max(date)) %>% 
-  ungroup() %>% 
-  dplyr::filter(!publication %in% pubsToRemove$publication) %>% 
-  select(processing_with_code,
-         sensible_folder_file_structure,
-         approporiate_tools,
-         single_database,
-         documentation,
-         files_meet_data_standards,
-         basic_automated_qa,
-         recyclable_code,
-         single_data_production_scripts,
-         final_code_in_repo,
-         automated_insight_summaries,
-         peer_review_within_team,
-         publication_specifc_automated_qa) %>% 
-  unlist()
-
-yes_steps <- length(goodgreat_steps[goodgreat_steps == "Yes"])
-
-overall_percentage <- round(100 * yes_steps / length(goodgreat_steps), 2)
-
-# CSSU KPIs -------------------------------------------------------------------------------------------------------------------------------
-
-# overall % to target
-
-message("Progress: ", overall_percentage, "% towards great practice as a whole.")
-
-# On EES
 message("Progress: ", length(onEESactually) - 1, " out of ", totalPubs, " publications are on EES.") # Using -1 for now as there's one supplementary publication that isn't really a publication - though we could include for ease?
-
-# At great practice
-message("Progress: ", nrow(goodGreatPubs), " out of ", totalPubs, " publications are meeting all of good and great practice.")
-
-# Filled in app at least once
-message("Progress: ", totalPubs - nrow(nonResponders), " out of ", totalPubs, " publications have filled in the app at least once.")
-
-# QA list ==================================================================================================================================
-
-stop("Do not source or highlight all of this script. Run lines individually.")
-
-# Rudimentary QA of the publications in the SA app compared to the master list
-
-masterPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>% 
-  dplyr::collect() %>% # write.csv("08112021_masterList.csv", row.names = FALSE)
-  dplyr::filter(where == "Find stats") %>%
-  dplyr::distinct(publication)
-
-selfAssPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo", "publicationTrackingProduction")) %>%
-  dplyr::collect() %>%
-  dplyr::distinct(publication)
-
-missingPublications <- setdiff(masterPublicationOnly, selfAssPublicationOnly)
-extraneousPublications <- setdiff(selfAssPublicationOnly, masterPublicationOnly)
-
-if(length(missingPublications) == 0 && length(extraneousPublications) == 0){
-  message("Self-assessment app is up to date with the master list. Celebrate!")
-} else if (length(missingPublications) != 0 && length(extraneousPublications) != 0){
-  message("Self-assessment app has both extraneous and missing publications when compared to the master list. Fix it.")
-  message("Missing publications are:")
-  print(missingPublications)
-  message("Extraneous publications are:")
-  print(extraneousPublications)
-} else if (length(missingPublications) != 0){
-  message("Self-assessment app has missing publications when compared to the master list. Fix it.")
-  message("Missing publications are:")
-  print(missingPublications)
-} else {
-  message("Self-assessment app has extraneous publications when compared to the master list. Fix it.")
-  message("Extraneous publications are:")
-  print(extraneousPublications)
-}
 
 # Update publication names ===================================================================================================================
 
-stop("Do not source or highlight all of this script. Run lines individually.")
+stop("Do not source or highlight all of this script. Run desired lines individually.")
 
 name_replacements <- data.table::data.table(
   original = c(
@@ -263,28 +105,13 @@ apply(name_replacements, 1, updatePubNameSQL)
 
 # Create publications ======================================================================================================================
 
-stop("Do not source or highlight all of this script. Run lines individually.")
+stop("Do not source or highlight all of this script. Run desired lines individually.")
 
-# Create a list of publications that are missing from the master list, and create those, pre-filling whether or not they are on EES
-# Note that if a publication changes name then it will flag as missing, when actually you should run the renaming section above
+# Create vector of publications to create
 
-masterTablePublications <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>%
-  dplyr::collect() %>%
-  dplyr::filter(where == "Find stats") %>%
-  select(publication, onEES)
+publications_to_create <- c("", "")
 
-selfAssessmentProd <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
-  dplyr::collect()
-
-publications_to_create <- masterTablePublications %>%
-  dplyr::full_join(selfAssessmentProd, by = c("publication" = "publication")) %>%
-  # View()
-  dplyr::distinct(publication, published_on_ees, onEES) %>%
-  dplyr::filter(is.na(published_on_ees)) %>%
-  dplyr::distinct(publication, onEES) %>% 
-  as.matrix()
-
-# Create new starter rows for those publications
+# Create new starter rows for publications
 
 createInSQL <- function(publication_row) {
   publication <- publication_row[1]
@@ -337,12 +164,7 @@ apply(publications_to_create, 1, createInSQL)
 
 stop("Do not source or highlight all of this script. Run lines individually.")
 
-
-publications_to_delete <- fread("08112021_masterlist.csv") %>% 
-  filter(rap == "No") %>% 
-  pull(publication)
-
-publications_to_delete <- c("Destinations of key stage 4 and key stage 5 pupils", "Graduate Outcomes (LEO): all publications")
+publications_to_delete <- c("", "")
 
 deleteFromSQL <- function(publication) {
   statement <- paste0("DELETE FROM dbo.publicationTrackingProduction WHERE publication = '", stringr::str_replace_all(publication, "'", "''"), "';")
