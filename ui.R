@@ -119,6 +119,7 @@ fluidPage(
              # Overview page ----
              
              tabPanel("Overview of latest responses",
+                      dateInput(inputId = "overviewDate", label = "Responses as at:"),
                       fluidRow(
                         column(4,
                                htmlOutput("summary_lines"),

@@ -148,11 +148,16 @@ server <- function(input, output, session){
   
   # Overview tab ----
   
+  ## Filtered data ----
+  
+  dataDateFiltered <- reactive({ all_data$data %>% filter(date < input$overviewDate) })
+  
   ## RAP level table ----
   
   rap_level_summary_data <- reactive({
     
     all_data$Data[, 1:25] %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last) %>% 
@@ -231,6 +236,7 @@ server <- function(input, output, session){
   output$overview_table <- renderDataTable({
     
     table <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last)
@@ -327,6 +333,7 @@ server <- function(input, output, session){
   output$summary_lines <- renderUI({
     
     table <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last)
@@ -388,6 +395,7 @@ server <- function(input, output, session){
   
   output$steps_kpi <- renderText({
     goodgreat_steps <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       slice(which.max(date)) %>% 
       ungroup() %>% 
