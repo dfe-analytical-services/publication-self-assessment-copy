@@ -148,10 +148,6 @@ server <- function(input, output, session){
   
   # Overview tab ----
   
-  ## Filtered data ----
-  
-  dataDateFiltered <- reactive({ all_data$data %>% filter(date < input$overviewDate) })
-  
   ## RAP level table ----
   
   rap_level_summary_data <- reactive({
