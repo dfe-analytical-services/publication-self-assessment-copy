@@ -119,12 +119,15 @@ fluidPage(
              # Overview page ----
              
              tabPanel("Overview of latest responses",
+                      dateInput(inputId = "overviewDate", label = "Responses as at:"),
                       fluidRow(
                         column(4,
                                htmlOutput("summary_lines"),
                                br(),
                                br(),
-                               h4("RAP practice breakdown:"),
+                               h4("RAP steps breakdown:"),
+                               textOutput("steps_kpi"),
+                               br(),
                                radioButtons("summary_choice", label=NULL, c("Number", "Percentage"), inline = TRUE),
                                tableOutput("summary_rap_practice")),
                         column(8,

@@ -153,6 +153,7 @@ server <- function(input, output, session){
   rap_level_summary_data <- reactive({
     
     all_data$Data[, 1:25] %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last) %>% 
@@ -231,6 +232,7 @@ server <- function(input, output, session){
   output$overview_table <- renderDataTable({
     
     table <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last)
@@ -327,6 +329,7 @@ server <- function(input, output, session){
   output$summary_lines <- renderUI({
     
     table <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
       group_by(publication) %>% 
       arrange(date) %>% 
       summarise_all(last)
@@ -352,8 +355,14 @@ server <- function(input, output, session){
                                    single_publication_script == "Yes",
                                    clean_final_code == "Yes",
                                    peer_review_outside_team == "Yes") %>% nrow()
+    no_response <- table %>% 
+      dplyr::mutate(date = as.character(date)) %>% 
+      dplyr::filter(date == "2019-09-28 00:00:00") %>%
+      dplyr::distinct(publication) %>% 
+      nrow()
     
     HTML(paste0("<h4>So far, out of all ", count_pubs, " publications: </h4>","<br/> • <b>",
+                no_response, "</b> publications have not completed a self-assessment.<br/> • <b>",
                 count_good , "</b> publications are meeting all elements of ","<img src = 'good.svg'>","<br/> • <b>",
                 count_great, "</b> publications are meeting all elements of ","<img src = 'great.svg'>","<br/> • <b>",
                 count_best, "</b> publications are meeting all elements of ","<img src = 'best.svg'>"
@@ -379,6 +388,34 @@ server <- function(input, output, session){
       
     }
   }, width = "90%")
+  
+  output$steps_kpi <- renderText({
+    goodgreat_steps <- all_data$Data %>%
+      filter(date < input$overviewDate) %>% 
+      group_by(publication) %>% 
+      slice(which.max(date)) %>% 
+      ungroup() %>% 
+      select(processing_with_code,
+             sensible_folder_file_structure,
+             approporiate_tools,
+             single_database,
+             documentation,
+             files_meet_data_standards,
+             basic_automated_qa,
+             recyclable_code,
+             single_data_production_scripts,
+             final_code_in_repo,
+             automated_insight_summaries,
+             peer_review_within_team,
+             publication_specifc_automated_qa) %>% 
+      unlist()
+    
+    yes_steps <- length(goodgreat_steps[goodgreat_steps == "Yes"])
+    
+    overall_step_percentage <- round(100 * yes_steps / length(goodgreat_steps), 2)
+    
+    paste0(overall_step_percentage, "% of steps to good and great practice completed.")
+    })
   
   output$summary_plot_level <- renderPlot({
     

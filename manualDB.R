@@ -26,14 +26,33 @@ con <- DBI::dbConnect(odbc::odbc(),
 
 # KPIs ======================================================================================================================================
 
-stop("Do not source or highlight all of this script. Run lines individually.")
+stop("Do not source or highlight all of this script. Run desired lines individually.")
 
 prodData <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
   dplyr::collect()
 
+# Discounted publications
+
+fread("cam_manual_faffing/08112021_masterList.csv") %>% 
+  filter(rap == "No") %>% 
+  pull(publication)
+
+# Count of publications
+
 totalPubs <- prodData %>% 
   dplyr::distinct(publication) %>% 
   nrow()
+
+# Publication responses
+
+nonResponders <- prodData %>%
+  dplyr::mutate(date = as.character(date)) %>% 
+  dplyr::filter(date == "2019-09-28 00:00:00") %>% # View()
+  dplyr::filter(!publication %in% pubsToRemove$publication) %>% 
+  dplyr::distinct(publication)
+
+message("Out of ", totalPubs, " publications, ", nrow(nonResponders), " are yet to respond. These are: ")
+print(nonResponders)
 
 # On EES
 
@@ -49,86 +68,11 @@ onEESactually <- onFindStats[onFindStats %>% stringr::str_detect(".*Create your 
   stringr::str_extract(".*View statistics and data") %>% 
   stringr::str_remove("View statistics and data")
 
-# Good and great practice
-  
-goodGreatPubs <- prodData %>% 
-  dplyr::filter(
-    processing_with_code == "Yes",
-    sensible_folder_file_structure == "Yes",
-    approporiate_tools == "Yes",
-    single_database == "Yes",
-    documentation == "Yes",
-    files_meet_data_standards == "Yes",
-    basic_automated_qa == "Yes",
-    recyclable_code == "Yes",
-    single_data_production_scripts == "Yes",
-    final_code_in_repo == "Yes",
-    automated_insight_summaries == "Yes",
-    peer_review_within_team == "Yes",
-    publication_specifc_automated_qa == "Yes"
-    ) %>% 
-  dplyr::distinct(publication)
-
-# Publication responses
-
-nonResponders <- prodData %>%
-  dplyr::mutate(date = as.character(date)) %>% 
-  dplyr::filter(date == "2019-09-28 00:00:00") %>% # View()
-  dplyr::distinct(publication)
-
-message("Out of ", totalPubs, " publications, ", nrow(nonResponders), " are yet to respond. These are: ")
-print(nonResponders)
-
-# CSSU KPIs -------------------------------------------------------------------------------------------------------------------------------
-
-# On EES
 message("Progress: ", length(onEESactually) - 1, " out of ", totalPubs, " publications are on EES.") # Using -1 for now as there's one supplementary publication that isn't really a publication - though we could include for ease?
-
-# At great practice
-message("Progress: ", nrow(goodGreatPubs), " out of ", totalPubs, " publications are meeting all of good and great practice.")
-
-# Filled in app at least once
-message("Progress: ", totalPubs - nrow(nonResponders), " out of ", totalPubs, " publications have filled in the app at least once.")
-
-# QA list ==================================================================================================================================
-
-stop("Do not source or highlight all of this script. Run lines individually.")
-
-# Rudimentary QA of the publications in the SA app compared to the master list
-
-masterPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>% 
-  dplyr::collect() %>%
-  dplyr::filter(where == "Find stats") %>%
-  dplyr::distinct(publication)
-
-selfAssPublicationOnly <- dplyr::tbl(con, dbplyr::in_schema("dbo", "publicationTrackingProduction")) %>%
-  dplyr::collect() %>%
-  dplyr::distinct(publication)
-
-missingPublications <- setdiff(masterPublicationOnly, selfAssPublicationOnly)
-extraneousPublications <- setdiff(selfAssPublicationOnly, masterPublicationOnly)
-
-if(length(missingPublications) == 0 && length(extraneousPublications) == 0){
-  message("Self-assessment app is up to date with the master list. Celebrate!")
-} else if (length(missingPublications) != 0 && length(extraneousPublications) != 0){
-  message("Self-assessment app has both extraneous and missing publications when compared to the master list. Fix it.")
-  message("Missing publications are:")
-  print(missingPublications)
-  message("Extraneous publications are:")
-  print(extraneousPublications)
-} else if (length(missingPublications) != 0){
-  message("Self-assessment app has missing publications when compared to the master list. Fix it.")
-  message("Missing publications are:")
-  print(missingPublications)
-} else {
-  message("Self-assessment app has extraneous publications when compared to the master list. Fix it.")
-  message("Extraneous publications are:")
-  print(extraneousPublications)
-}
 
 # Update publication names ===================================================================================================================
 
-stop("Do not source or highlight all of this script. Run lines individually.")
+stop("Do not source or highlight all of this script. Run desired lines individually.")
 
 name_replacements <- data.table::data.table(
   original = c(
@@ -161,28 +105,13 @@ apply(name_replacements, 1, updatePubNameSQL)
 
 # Create publications ======================================================================================================================
 
-stop("Do not source or highlight all of this script. Run lines individually.")
+stop("Do not source or highlight all of this script. Run desired lines individually.")
 
-# Create a list of publications that are missing from the master list, and create those, pre-filling whether or not they are on EES
-# Note that if a publication changes name then it will flag as missing, when actually you should run the renaming section above
+# Create vector of publications to create
 
-masterTablePublications <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationMasterList")) %>%
-  dplyr::collect() %>%
-  dplyr::filter(where == "Find stats") %>%
-  select(publication, onEES)
+publications_to_create <- c("", "")
 
-selfAssessmentProd <- dplyr::tbl(con, dbplyr::in_schema("dbo","publicationTrackingProduction")) %>%
-  dplyr::collect()
-
-publications_to_create <- masterTablePublications %>%
-  dplyr::full_join(selfAssessmentProd, by = c("publication" = "publication")) %>%
-  # View()
-  dplyr::distinct(publication, published_on_ees, onEES) %>%
-  dplyr::filter(is.na(published_on_ees)) %>%
-  dplyr::distinct(publication, onEES) %>% 
-  as.matrix()
-
-# Create new starter rows for those publications
+# Create new starter rows for publications
 
 createInSQL <- function(publication_row) {
   publication <- publication_row[1]
@@ -235,7 +164,7 @@ apply(publications_to_create, 1, createInSQL)
 
 stop("Do not source or highlight all of this script. Run lines individually.")
 
-publications_to_delete <- c("Destinations of key stage 4 and key stage 5 pupils", "Graduate Outcomes (LEO): all publications")
+publications_to_delete <- c("", "")
 
 deleteFromSQL <- function(publication) {
   statement <- paste0("DELETE FROM dbo.publicationTrackingProduction WHERE publication = '", stringr::str_replace_all(publication, "'", "''"), "';")
