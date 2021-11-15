@@ -210,16 +210,17 @@ server <- function(input, output, session){
       )) %>% 
       mutate(rap_level_label = factor(rap_level_label, levels = c(
         #EES
-        "Publication is published on EES", "Maximum time series published"
+         "Maximum time series published","Publication is published on EES"
         #GOOD
-        ,"Processing is done with code","Sensible folder and file structure","Use appropriate tools","All source data stored in a database",
-        "Documentation","Files meet data standards", "Basic automated QA"
+        ,"Basic automated QA","Files meet data standards","Documentation","All source data stored in a database",
+        "Use appropriate tools","Sensible folder and file structure","Processing is done with code"
         #GREAT
-        ,"Recyclable code for future use","Single production scripts","Version controlled final code scripts",
-        "Automated summaries","Peer review of code within team","Publication specifc automated QA"
+        ,"Publication specifc automated QA","Peer review of code within team", "Automated summaries",
+        "Version controlled final code scripts","Single production scripts","Recyclable code for future use"
         #BEST
-        ,"Collaboratively develop code using git","Publication specific automated summaries","Single production scripts with integrated QA",
-        "Single publication production script","Clean final code","Peer review of code from outside the team"
+        ,"Peer review of code from outside the team", "Clean final code", "Single publication production script", 
+        "Single production scripts with integrated QA", "Publication specific automated summaries", "Collaboratively develop code using git"
+        
         
       ))) %>% 
       mutate(done = if_else(date==as_datetime("2019-09-28"), "No response", as.character(done)),

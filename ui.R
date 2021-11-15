@@ -10,7 +10,7 @@ fluidPage(
              # Homepage ----
              
              tabPanel("Using the app",
-                      
+                      tags$head(tags$link(rel="shortcut icon", href="reflective_duck.png")),
                       fluidRow(
                         column(7,
                                h3("What is this app for?"),
