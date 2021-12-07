@@ -425,11 +425,13 @@ server <- function(input, output, session){
       count(done) %>%
       arrange(rap_practice) 
     
+    cols <- c("No response" = '#000000', "No" = '#454b51', "Working on it" = '#e87421', "Yes" = '#70ad47')
+    
     plot_data %>%
       ggplot(aes(y=n, x=rap_level_label, fill = done)) +
       geom_bar(stat = 'identity') +
       coord_flip() +
-      scale_fill_manual('Done', values = c('#000000','#454b51', '#e87421', '#70ad47')) +
+      scale_fill_manual('Done',values = cols) +
       theme(plot.background = element_rect(fill = "#363b40", color = "#363b40"),
             legend.background = element_rect(fill = "#363b40", color = "#363b40"),
             panel.background = element_rect(fill = "#363b40", color = "#363b40"),
