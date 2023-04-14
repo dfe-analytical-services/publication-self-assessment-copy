@@ -5,6 +5,7 @@ library(data.table)
 library(lubridate)
 library(shinyalert)
 library(shinyWidgets)
+library(plyr)
 library(dplyr)
 library(janitor)
 library(tidyr)
@@ -13,6 +14,8 @@ library(dbplyr)
 library(stringr)
 library(config)
 library(ggplot2)
+library(plotly)
+library(reactable)
 
 # Pulling credentials for server access from config file ----
 
@@ -27,6 +30,7 @@ connection <- dbConnect(odbc::odbc(),
                         Trusted_Connection = config$trusted)
 
 environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
+environment <- 'Production'
 
 start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
 

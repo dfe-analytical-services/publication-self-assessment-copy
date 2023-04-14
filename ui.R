@@ -1,8 +1,6 @@
 #shinyUI(
 fluidPage(
   theme = "acalat_theme.css", 
-  
-  useShinyalert(),
   useShinyjs(),
   
   navbarPage("DfE publication self-assessment tool",
@@ -54,7 +52,7 @@ fluidPage(
                                    "2. Including the maximum time series possible",
                                    "3. Being produced in line with Reproducible Analytical Pipelines (RAP):",
                                    br(),
-                                   img(src='hex-diagram.png', align = "left", width="100%"),
+                                   img(src='hex-diagram.drawio.svg', align = "left", width="100%"),
                                    br(),
                                    "4. Written content produced in line with the content guidance",
                                    "5. Written content is peer reviewed regularly and feedback acted upon",
@@ -119,9 +117,13 @@ fluidPage(
              # Overview page ----
              
              tabPanel("Overview of latest responses",
-                      dateInput(inputId = "overviewDate", label = "Responses as at:"),
+                      
                       fluidRow(
                         column(4,
+                               dateInput(inputId = "overviewDate", label = "Responses as at:"),
+                               selectInput("G6_dropdown",
+                                           "Option to filter by G6 area:",
+                                           choices = NULL),
                                htmlOutput("summary_lines"),
                                br(),
                                br(),
@@ -132,13 +134,19 @@ fluidPage(
                                tableOutput("summary_rap_practice")),
                         column(8,
                                h4("RAP level breakdown:"),
-                               plotOutput("summary_plot_level"))
+                               plotlyOutput("summary_plot_level"))
                       ),
                       hr(),
-                      h4("The latest status for each publication:"),
-                      column(12,dataTableOutput("overview_table",width = "100%")),
-                      fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%"))
-             )
+                      #h4("The latest status for each publication:"),
+                      tabsetPanel(
+                        tabPanel("The latest status for each publication",
+                                 column(12,dataTableOutput("overview_table",width = "100%"))),
+                        tabPanel("The latest status for each Grade 6",
+                                 dataTableOutput('G6_overview_table'))
+                      ),
+                      fluidRow(align = "right", downloadButton("all_data_csv", "Download data", width = "80%")),
+                      )
+             
   ),
   
   HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
