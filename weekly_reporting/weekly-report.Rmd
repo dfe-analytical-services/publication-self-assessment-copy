@@ -1,0 +1,333 @@
+---
+title: "RAP Weekly Reporting"
+output: html_document
+css: style.css
+---
+
+```{r setup, include=FALSE}
+source("collect-data.R", local = knitr::knit_global())
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+### Overview
+
+This page is designed to give a more detailed overview of RAP progress across the department. Data is correct as of `r Sys.Date()`.
+<br><br>
+**Please note:** Some values may be out of date if teams have not recently completed or updated their self assessment. We therefore encourage all publication teams to update their self assessment regularly. 
+<br>
+<br>
+
+### Summary
+
+Total number of Accredited Official Statistics and Official Statistics in Development publications: **`r no_of_publications`**  
+Number of Accredited Official Statistics and Official Statistics in Development publications meeting 100% of both good and great (baseline): **`r good_and_great`**    
+Overall percentage of all good and great RAP levels met: **`r overall_step_percentage`%**  
+Number of development plans completed and sent to us: **`r completed_dev_plans`**  
+Number of development plans with agreed extensions: **`r extended_dev_plans`**  
+Number of development plans completed and sent to G6s: **`r completed_dev_plans_g6`**  
+Number of development plans outstanding: **`r outstanding_dev_plans`**  
+Number of good and great reviews completed: **`r good_great_rev_done`**  
+Number of good and great reviews outstanding: **`r good_great_rev_left`**  
+<br>
+<br>
+
+
+### RAP progress by Grade 6
+#### Overall progress towards good and great levels (RAP baseline)
+
+The table below shows the good, great, and good and great combined percentages for each Grade 6 across all of their publications. For details of the components that make up good and great RAP levels, please see the [RAP in Practice](https://dfe-analytical-services.github.io/analysts-guide/RAP/rap-statistics.html#rap-in-practice) section of the Analysts' Guide.
+<br>
+<br>
+
+```{r g6_overall, echo=FALSE}
+
+g6_output %>%
+  kbl(col.names=c("Grade 6", "Number of publications", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey") 
+  
+```
+
+<br>
+<br>
+
+#### Progress by publication
+Publications are grouped by Grade 6. To view the status for each publication, please click on the relevant G6 name to expand the details.
+<br>
+<br>
+
+
+<details>
+<summary>Adrian Jones</summary>
+
+
+``` {r echo=FALSE}
+AdrianJones %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Alex Miller</summary>
+
+``` {r echo=FALSE}
+AlexMiller %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+  
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Ali Pareas</summary>
+
+``` {r echo=FALSE}
+AliPareas %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Alicia Heptinstall & Jonny Edwards</summary>
+
+``` {r echo=FALSE}
+`AliciaHeptinstall&JonnyEdwards` %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16)%>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Andrew Mellon</summary>
+
+``` {r echo=FALSE}
+AndrewMellon %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16)%>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Charlotte Housden-Rowe</summary>
+
+``` {r echo=FALSE}
+`CharlotteHousden-Rowe` %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16)%>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Clare Baker</summary>
+
+``` {r echo=FALSE}
+ClareBaker %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16)%>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>David Simpson</summary>
+
+``` {r echo=FALSE}
+DavidSimpson %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Eleanor Rutherford</summary>
+
+``` {r echo=FALSE}
+EleanorRutherford %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Ian Taylor</summary>
+
+``` {r echo=FALSE}
+IanTaylor %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Julian Austin</summary>
+
+``` {r echo=FALSE}
+JulianAustin %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Lisa Taylor</summary>
+
+``` {r echo=FALSE}
+LisaTaylor %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Louise Feebrey</summary>
+
+``` {r echo=FALSE}
+LouiseFeebrey %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Mark Pearson</summary>
+
+``` {r echo=FALSE}
+MarkPearson %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<details>
+<summary>Richard Garrett</summary>
+
+``` {r echo=FALSE}
+RichardGarrett %>%
+  ungroup %>%
+  select(tl, publication, good_per, great_per, good_and_great_per) %>%
+  kbl(col.names=c("Team Lead", "Publication Name", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey")
+```
+
+</details>
+
+<div><br></div>
+
+<br>
+<br>
+
+### RAP progress by Division
+
+```{r division_overall, echo=FALSE}
+
+division_levels %>%
+  select(division, pub_count, good_per_by_division, great_per_by_division, good_and_great_by_division) %>%
+  distinct() %>%
+  kbl(col.names=c("Division", "Number of Publications", "Good %", "Great %", "Good and Great %"), align="c") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 16) %>%
+  column_spec(1:5, color="lightgrey") %>%
+  row_spec(0, color="lightgrey") 
+  
+```

@@ -5,6 +5,7 @@ library(data.table)
 library(lubridate)
 library(shinyalert)
 library(shinyWidgets)
+library(plyr)
 library(dplyr)
 library(janitor)
 library(tidyr)
@@ -13,20 +14,27 @@ library(dbplyr)
 library(stringr)
 library(config)
 library(ggplot2)
+library(plotly)
+library(reactable)
+library(markdown)
+library(knitr)
+library(readr)
+library(tidyverse)
+library(kableExtra)
+library(fontawesome)
 
 # Pulling credentials for server access from config file ----
 
 config <- config::get("db_connection")
 
 connection <- dbConnect(odbc::odbc(),
-                        Driver = config$driver,
-                        Server = config$server,
-                        Database = config$database,
-                        UID = config$uid,
-                        PWD = config$pwd,
-                        Trusted_Connection = config$trusted)
+                        Driver = "SQL Server Native Client 11.0",
+                        Server = "T1PRANMSQL\\SQLPROD,60125",
+                        Database = "MA_SDT_NS_DATA",
+                        Trusted_Connection = "yes")
 
 environment <- if_else(Sys.getenv("SDT_SAT_ENV") == "", "Local", stringr::str_remove(Sys.getenv("SDT_SAT_ENV"), "\\s.*$")) # some string faff as the variables weren't quite saved as I'd intended for them to be
+environment <- 'Production'
 
 start_data <- connection %>% tbl(paste0("publicationTracking", environment)) %>% collect()
 

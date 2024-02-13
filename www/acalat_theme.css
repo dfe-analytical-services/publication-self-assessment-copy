@@ -145,6 +145,12 @@ input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+details > summary {
+  border: 1px solid;
+  border-color: lightgrey;
+  cursor: pointer;
+  padding: .5rem 1rem;
+}
 input {
   line-height: normal;
 }
