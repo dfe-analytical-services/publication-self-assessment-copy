@@ -114,6 +114,29 @@ fluidPage(
                                        fluidRow(align = "right", downloadButton("publication_data_csv", "Download data", width = "80%"))
                       )),
              
+             # Weekly Reporting page ----
+             
+             tabPanel("RAP weekly reporting",
+                      
+                      #fluidRow(
+                       # column(12,
+                      #fluidPage(
+                               uiOutput('wr_markdown')
+                        
+                      #)))
+             ),
+                              # h3("RAP Status by Grade 6, Publication, and Division"),
+                              # "Data is correct as of", Sys.Date(), "but some values may be out of date if teams have not recently updated their self assessment.",
+                              # "We would therefore strongly encourage teams to update their self assessment on a regular basis.",
+                               #br(),
+                               #br(),
+                               #h4("Summary")
+                       # )
+                        #       )
+             #),
+             
+             
+             
              # Overview page ----
              
              tabPanel("Overview of latest responses",
@@ -148,6 +171,10 @@ fluidPage(
                       )
              
   ),
+  
+ 
+           
+           
   
   HTML("<script>var parent = document.getElementsByClassName('navbar-nav');
 parent[0].insertAdjacentHTML( 'afterend', '<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"mailto:statistics.development@education.gov.uk\">statistics.development@education.gov.uk</a></li></ul>' );</script>")

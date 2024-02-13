@@ -158,6 +158,13 @@ server <- function(input, output, session){
       format_split_table(df=x)             
   })
   
+
+  # Weekly reporting tab ----
+  
+  output$wr_markdown <- renderUI({
+    HTML(mark_html(knit('weekly_reporting/weekly-report.rmd', quiet = TRUE) , output = NULL, template = FALSE))
+  })
+  
   # Overview tab ----
   
   ## RAP level table ----
@@ -320,6 +327,7 @@ server <- function(input, output, session){
     }
     
   })
+
   
   ## Publication table ----
   
@@ -348,6 +356,9 @@ server <- function(input, output, session){
       thead(
         tr(
           th(colspan = 2, 'Publication'),
+          th(colspan = 1, '% Good'),
+          th(colspan = 1, '% Great'),
+          th(colspan = 1, '% Best'),
           th(colspan = 2, 'EES checks'),
           th(colspan = 7, 'Good'),
           th(colspan = 6, 'Great'),
